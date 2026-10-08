@@ -16,5 +16,9 @@ sentence-transformers>=3.0   # Local embedding model (all-MiniLM-L6-v2) + its HF
 faiss-cpu>=1.8               # Vector index for semantic similarity search
 numpy>=1.26
 
+# --- Job-market data pipeline ---
+pandas>=2.2                  # Cleaning, feature engineering, profiling of the job-market datasets
+httpx>=0.27                  # Polite HTTP client for the Arbeitnow API and the dataset download
+
 # --- LLM provider ---
 openai>=1.40                 # Client for any OpenAI-compatible API (OpenAI, Gemini, Groq, Ollama...)

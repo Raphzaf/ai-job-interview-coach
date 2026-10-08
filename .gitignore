@@ -32,3 +32,14 @@ data/private/
 .vscode/
 .idea/
 .DS_Store
+
+# --- Job-market data (see data/README.md) ---
+# Reference CSV (231 MB) is downloaded by `python -m market.ingestion.hf_data_jobs`.
+data/raw/hf_data_jobs/*.csv
+data/raw/hf_data_jobs/*.part
+# Raw API pages contain full job descriptions (sometimes with recruiters' phone
+# numbers): kept locally, only the manifest with checksums is committed.
+data/raw/arbeitnow/*/page_*.json
+data/processed/arbeitnow/descriptions.csv.gz
+# Large regenerated tables
+data/processed/data_jobs/
