@@ -84,7 +84,7 @@ QUESTION_SCHEMA = {
     "difficulty": "easy | medium | hard",
     "focus": "the skill or topic targeted",
     "rationale": "why this question matters for THIS job and THIS candidate, citing [S#]",
-    "expected_points": ["2-4 points a strong answer should cover"],
+    "expected_points": ["2-4 short points (max 20 words each) a strong answer should cover"],
 }
 
 CATEGORY_GUIDANCE = {
@@ -103,7 +103,7 @@ CATEGORY: {category}
 FOCUS: {focus}
 GUIDANCE: {CATEGORY_GUIDANCE[category]}
 
-The question must be specific to the CONTEXT (mention concrete elements such as a project, tool or requirement from it), not a generic question that could be asked to anyone. Do not repeat or paraphrase these previous questions:
+The question must be specific to the CONTEXT (mention concrete elements such as a project, tool or requirement from it), not a generic question that could be asked to anyone. Ask ONE question (not a list of sub-questions) in at most 60 words, as a real interviewer would say it out loud. Do not repeat or paraphrase these previous questions:
 {previous}
 
 CONTEXT:

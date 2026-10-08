@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Job Interview Coach</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M8 0l8 8-8 8-8-8z%22 fill=%22%233b5bdb%22/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">◆</span>
+    <div>
+      <h1>AI Job Interview &amp; Application Coach</h1>
+      <p class="tagline">RAG-powered CV/job matching, personalised interview questions and grounded feedback</p>
+    </div>
+  </div>
+  <div id="mode-pill" class="pill pill-muted" title="LLM provider status">Checking…</div>
+</header>
+
+<main>
+  <!-- Stepper: makes the workflow obvious during the demo -->
+  <ol class="stepper" id="stepper">
+    <li data-step="1" class="active">Documents</li>
+    <li data-step="2">Match analysis</li>
+    <li data-step="3">Interview practice</li>
+  </ol>
+
+  <!-- STEP 1: documents -->
+  <section class="card" id="step-documents">
+    <div class="card-head">
+      <h2><span class="num">1</span> Provide your CV and the job description</h2>
+      <button class="btn btn-ghost" id="load-sample" type="button">Load sample documents</button>
+    </div>
+    <div class="grid-2">
+      <div class="doc-input">
+        <label class="doc-label" for="cv-text">Your CV</label>
+        <label class="dropzone" for="cv-file">
+          <input type="file" id="cv-file" accept=".pdf,.docx,.txt,.md" hidden>
+          <span><strong>Upload a file</strong> (PDF, DOCX, TXT) or paste the text below</span>
+          <span class="file-name" id="cv-file-name"></span>
+        </label>
+        <textarea id="cv-text" rows="12" placeholder="Paste your CV here…"></textarea>
+        <div class="hint" id="cv-count">0 characters</div>
+      </div>
+      <div class="doc-input">
+        <label class="doc-label" for="job-text">Job description</label>
+        <label class="dropzone" for="job-file">
+          <input type="file" id="job-file" accept=".pdf,.docx,.txt,.md" hidden>
+          <span><strong>Upload a file</strong> (PDF, DOCX, TXT) or paste the text below</span>
+          <span class="file-name" id="job-file-name"></span>
+        </label>
+        <textarea id="job-text" rows="12" placeholder="Paste the job description here…"></textarea>
+        <div class="hint" id="job-count">0 characters</div>
+      </div>
+    </div>
+    <div id="doc-error" class="alert alert-error" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="analyze-btn" type="button">Analyze match</button>
+      <span class="loading" id="analyze-loading" hidden>
+        <span class="spinner"></span>
+        <span id="analyze-stage">Cleaning and chunking documents…</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- STEP 2: analysis -->
+  <section class="card" id="step-analysis" hidden>
+    <div class="card-head">
+      <h2><span class="num">2</span> Match analysis</h2>
+      <span class="badge" id="insights-badge"></span>
+    </div>
+    <div id="analysis-warnings"></div>
+
+    <div class="score-row">
+      <div class="score-ring" id="score-ring">
+        <div class="score-inner">
+          <div class="score-value"><span id="overall-score">0</span><small>/100</small></div>
+          <div class="score-caption">Overall match</div>
+        </div>
+      </div>
+      <div class="breakdown" id="breakdown"></div>
+    </div>
+    <p class="disclaimer" id="disclaimer"></p>
+
+    <div class="grid-2">
+      <div>
+        <h3>Matching skills</h3>
+        <div class="chips" id="matching-skills"></div>
+      </div>
+      <div>
+        <h3>Missing skills</h3>
+        <div class="chips" id="missing-skills"></div>
+        <p class="hint"><span class="chip chip-missing mini">required</span> <span class="chip chip-preferred mini">nice to have</span></p>
+      </div>
+    </div>
+
+    <h3>AI insights</h3>
+    <p class="summary" id="insights-summary"></p>
+    <div class="grid-3">
+      <div><h4>Strengths</h4><ul id="insights-strengths" class="list list-good"></ul></div>
+      <div><h4>Gaps</h4><ul id="insights-gaps" class="list list-bad"></ul></div>
+      <div><h4>Recommendations</h4><ul id="insights-recs" class="list list-tip"></ul></div>
+    </div>
+
+    <details class="panel">
+      <summary>Requirement coverage <span class="muted" id="req-count"></span></summary>
+      <table class="req-table">
+        <thead><tr><th>Requirement</th><th>Status</th><th>Best CV evidence (semantic search)</th></tr></thead>
+        <tbody id="requirements"></tbody>
+      </table>
+    </details>
+    <details class="panel">
+      <summary>Sources retrieved for the AI insights</summary>
+      <div id="insights-sources" class="sources"></div>
+    </details>
+    <details class="panel">
+      <summary>Under the hood: RAG pipeline</summary>
+      <div id="pipeline-info" class="pipeline"></div>
+    </details>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="start-interview" type="button">Start interview practice →</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: interview -->
+  <section class="card" id="step-interview" hidden>
+    <div class="card-head">
+      <h2><span class="num">3</span> Interview practice</h2>
+      <div class="inline">
+        <label for="category" class="muted">Question type</label>
+        <select id="category">
+          <option value="">Auto (rotate)</option>
+          <option value="technical">Technical</option>
+          <option value="experience">Experience</option>
+          <option value="gap">Skill gap</option>
+          <option value="behavioral">Behavioral</option>
+        </select>
+        <button class="btn btn-secondary" id="next-question" type="button">New question</button>
+      </div>
+    </div>
+    <div id="interview-error" class="alert alert-error" hidden></div>
+    <div class="loading" id="question-loading" hidden><span class="spinner"></span> Retrieving context and generating a personalised question…</div>
+
+    <div id="question-card" class="question" hidden>
+      <div class="q-meta" id="q-meta"></div>
+      <p class="q-text" id="q-text"></p>
+      <details class="panel compact">
+        <summary>Why this question? &amp; sources</summary>
+        <p id="q-rationale"></p>
+        <div id="q-sources" class="sources"></div>
+      </details>
+      <label for="answer" class="doc-label">Your answer</label>
+      <textarea id="answer" rows="7" placeholder="Answer as you would in the interview. Tip: Situation, Task, Action, Result."></textarea>
+      <div class="actions">
+        <button class="btn btn-primary" id="submit-answer" type="button">Submit answer</button>
+        <span class="loading" id="answer-loading" hidden><span class="spinner"></span> Evaluating against the rubric and retrieved context…</span>
+      </div>
+    </div>
+
+    <div id="feedback" class="feedback" hidden>
+      <div class="card-head">
+        <h3>Feedback</h3>
+        <span class="badge" id="feedback-badge"></span>
+      </div>
+      <div id="feedback-warnings"></div>
+      <div class="score-row">
+        <div class="score-ring small" id="answer-ring">
+          <div class="score-inner">
+            <div class="score-value"><span id="answer-score">0</span><small>/10</small></div>
+            <div class="score-caption">Answer score</div>
+          </div>
+        </div>
+        <div class="breakdown" id="criteria"></div>
+      </div>
+      <div class="grid-2">
+        <div><h4>Strengths</h4><ul id="fb-strengths" class="list list-good"></ul></div>
+        <div><h4>Weaknesses</h4><ul id="fb-weaknesses" class="list list-bad"></ul></div>
+        <div><h4>Missing points</h4><ul id="fb-missing" class="list list-bad"></ul></div>
+        <div><h4>How to improve</h4><ul id="fb-suggestions" class="list list-tip"></ul></div>
+      </div>
+      <h4>A stronger answer</h4>
+      <blockquote id="fb-improved"></blockquote>
+      <p class="muted small" id="fb-grounding"></p>
+      <details class="panel compact">
+        <summary>Sources used for the evaluation</summary>
+        <div id="fb-sources" class="sources"></div>
+      </details>
+      <div class="actions">
+        <button class="btn btn-primary" id="continue-btn" type="button">Next question →</button>
+      </div>
+    </div>
+
+    <div id="history-wrap" hidden>
+      <h3>Session history</h3>
+      <ol id="history" class="history"></ol>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  Scores are estimates computed from the documents, not hiring predictions. Documents stay in server memory only for the session.
+  · <a href="/docs" target="_blank" rel="noopener">API docs</a>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

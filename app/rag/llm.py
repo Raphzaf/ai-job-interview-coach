@@ -74,6 +74,8 @@ class OpenAICompatibleProvider:
             raise LLMError("The language model rejected the request.") from exc
         except openai.APITimeoutError as exc:
             raise LLMError("The language model timed out. Please try again.") from exc
+        except openai.NotFoundError as exc:
+            raise LLMError(f"Model '{self.model}' was not found by the provider (check LLM_MODEL / LLM_BASE_URL).") from exc
         except openai.AuthenticationError as exc:
             raise LLMError("The language model API key is invalid or missing (check LLM_API_KEY).") from exc
         except openai.APIError as exc:

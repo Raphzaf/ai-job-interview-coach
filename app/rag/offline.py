@@ -99,7 +99,7 @@ class OfflineGenerator:
             )
         partial = [r for r in match.requirements if r.status == "partial"][:2]
         for r in partial:
-            recommendations.append(f"Make your CV more explicit about: “{r.text}”.")
+            recommendations.append(f"Make your CV more explicit about: “{r.text.rstrip('.')}”.")
         recommendations.append(
             "General advice: quantify achievements (numbers, scale, impact) for the experience most related to this role."
         )
