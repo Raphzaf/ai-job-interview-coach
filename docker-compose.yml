@@ -1,0 +1,12 @@
+services:
+  coach:
+    build: .
+    image: ai-job-interview-coach
+    ports:
+      - "8000:8000"
+    # LLM settings (provider, model, API key) are read from your local .env file,
+    # which is never copied into the image.
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped

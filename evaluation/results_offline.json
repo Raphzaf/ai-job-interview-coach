@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-08 09:10",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "generator": "offline mode (no LLM configured)",
+  "retrieval": {
+    "hit@1": 0.6666666666666666,
+    "hit@3": 0.9166666666666666,
+    "mrr": 0.8083333333333332,
+    "cases": [
+      {
+        "query": "Experience building a retrieval-augmented generation assistant",
+        "doc": "cv",
+        "expected": "RAG",
+        "rank": 1
+      },
+      {
+        "query": "Fine-tuning transformer classifiers",
+        "doc": "cv",
+        "expected": "BERT",
+        "rank": 1
+      },
+      {
+        "query": "Deploying APIs with containers on the cloud",
+        "doc": "cv",
+        "expected": "Docker",
+        "rank": 1
+      },
+      {
+        "query": "Demand forecasting for retail stores",
+        "doc": "cv",
+        "expected": "forecasting",
+        "rank": 1
+      },
+      {
+        "query": "University degree in data science",
+        "doc": "cv",
+        "expected": "M.Sc.",
+        "rank": 1
+      },
+      {
+        "query": "Professional certifications",
+        "doc": "cv",
+        "expected": "Google Cloud Professional",
+        "rank": 1
+      },
+      {
+        "query": "Which languages does the candidate speak?",
+        "doc": "cv",
+        "expected": "French (native)",
+        "rank": 1
+      },
+      {
+        "query": "Mentoring junior colleagues",
+        "doc": "cv",
+        "expected": "Mentored",
+        "rank": 2
+      },
+      {
+        "query": "Required years of experience",
+        "doc": "job",
+        "expected": "3+ years",
+        "rank": 1
+      },
+      {
+        "query": "Cloud platform used for deployment",
+        "doc": "job",
+        "expected": "AWS",
+        "rank": 2
+      },
+      {
+        "query": "Optional skills that are a plus",
+        "doc": "job",
+        "expected": "Kubernetes",
+        "rank": 2
+      },
+      {
+        "query": "Main responsibilities of the role",
+        "doc": "job",
+        "expected": "Design and implement retrieval-augmented",
+        "rank": 5
+      }
+    ]
+  },
+  "matching": {
+    "matrix": {
+      "cv_ml_engineer": {
+        "job_ml_engineer": 87.5,
+        "job_backend_developer": 61.7,
+        "job_marketing_manager": 41.7
+      },
+      "cv_backend_developer": {
+        "job_ml_engineer": 52.0,
+        "job_backend_developer": 98.8,
+        "job_marketing_manager": 23.5
+      },
+      "cv_marketing_coordinator": {
+        "job_ml_engineer": 25.5,
+        "job_backend_developer": 16.5,
+        "job_marketing_manager": 99.0
+      }
+    },
+    "matching_pair_best_in_every_row": true,
+    "matching_pair_best_in_every_column": true,
+    "mean_matching": 95.1,
+    "mean_mismatched": 36.81666666666667,
+    "deterministic": true
+  },
+  "questions": {
+    "category_ok": 1.0,
+    "mentions_job": 0.8333333333333334,
+    "mentions_cv_or_gap": 0.8333333333333334,
+    "all_unique": true,
+    "questions": [
+      {
+        "requested": "technical",
+        "category": "technical",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "offline",
+        "question": "Your CV mentions: \u201cOpen-source CV parser: Python library that extracts skills from resumes with spaCy (300 GitHub stars).\u201d. Can you walk me through how you used Python there: the technical choices you made, the trade-offs, and what you would do differently today?"
+      },
+      {
+        "requested": "experience",
+        "category": "experience",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "offline",
+        "question": "The role asks for: \u201c3+ years of professional experience in machine learning or data science\u201d. Which experience from your background best demonstrates this? Describe the context, your personal role, and the outcome."
+      },
+      {
+        "requested": "gap",
+        "category": "gap",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "offline",
+        "question": "The job mentions AWS, which does not clearly appear in your CV. What related experience do you have, and how would you get up to speed in your first months?"
+      },
+      {
+        "requested": "behavioral",
+        "category": "behavioral",
+        "category_ok": true,
+        "mentions_job": false,
+        "mentions_cv": false,
+        "generated_by": "offline",
+        "question": "Tell me about a time you were collaborating with cross-functional stakeholders (product, business, design). What was the situation, what did you do, and what was the result?"
+      },
+      {
+        "requested": "auto",
+        "category": "technical",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "offline",
+        "question": "Your CV mentions: \u201cMachine Learning Engineer - Brightleaf Analytics, Lyon Mar 2023 - Present\u201d. Can you walk me through how you used Machine Learning there: the technical choices you made, the trade-offs, and what you would do differently today?"
+      },
+      {
+        "requested": "auto",
+        "category": "experience",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "offline",
+        "question": "The role asks for: \u201cStrong Python skills and experience with PyTorch or TensorFlow\u201d. Which experience from your background best demonstrates this? Describe the context, your personal role, and the outcome."
+      }
+    ]
+  },
+  "answers": {
+    "scores": {
+      "strong": [
+        9.5
+      ],
+      "average": [
+        8.0
+      ],
+      "off_topic": [
+        0.8
+      ]
+    },
+    "means": {
+      "strong": 9.5,
+      "average": 8.0,
+      "off_topic": 0.8
+    },
+    "ordering_ok": true,
+    "max_spread_between_repeats": 0.0
+  },
+  "structure": {
+    "total": 0,
+    "first_try": 0,
+    "repaired": 0,
+    "failed": 0,
+    "by_schema": {}
+  }
+}

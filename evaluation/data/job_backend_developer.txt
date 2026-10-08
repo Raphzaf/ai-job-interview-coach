@@ -1,0 +1,23 @@
+Senior Python Backend Developer
+Cargoline (fictional company) - Remote
+
+ABOUT THE ROLE
+Cargoline is hiring a backend developer to scale the APIs behind our freight platform.
+
+RESPONSIBILITIES
+- Design, build and operate high-traffic REST APIs in Python.
+- Own services end-to-end: design, testing, deployment and monitoring.
+- Improve database performance and caching strategies.
+
+REQUIREMENTS
+- 4+ years of experience as a backend developer.
+- Expert Python skills with Django or FastAPI.
+- Solid knowledge of PostgreSQL and Redis.
+- Experience with Docker, Kubernetes and CI/CD pipelines.
+- Experience with AWS.
+- Strong testing culture (pytest, TDD).
+
+NICE TO HAVE
+- Terraform or other infrastructure as code tools.
+- Experience with Elasticsearch.
+- Experience working in Agile teams.

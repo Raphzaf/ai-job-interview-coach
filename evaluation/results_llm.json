@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-08 09:10",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "generator": "gemini-flash-latest (OpenAI-compatible API)",
+  "retrieval": {
+    "hit@1": 0.6666666666666666,
+    "hit@3": 0.9166666666666666,
+    "mrr": 0.8083333333333332,
+    "cases": [
+      {
+        "query": "Experience building a retrieval-augmented generation assistant",
+        "doc": "cv",
+        "expected": "RAG",
+        "rank": 1
+      },
+      {
+        "query": "Fine-tuning transformer classifiers",
+        "doc": "cv",
+        "expected": "BERT",
+        "rank": 1
+      },
+      {
+        "query": "Deploying APIs with containers on the cloud",
+        "doc": "cv",
+        "expected": "Docker",
+        "rank": 1
+      },
+      {
+        "query": "Demand forecasting for retail stores",
+        "doc": "cv",
+        "expected": "forecasting",
+        "rank": 1
+      },
+      {
+        "query": "University degree in data science",
+        "doc": "cv",
+        "expected": "M.Sc.",
+        "rank": 1
+      },
+      {
+        "query": "Professional certifications",
+        "doc": "cv",
+        "expected": "Google Cloud Professional",
+        "rank": 1
+      },
+      {
+        "query": "Which languages does the candidate speak?",
+        "doc": "cv",
+        "expected": "French (native)",
+        "rank": 1
+      },
+      {
+        "query": "Mentoring junior colleagues",
+        "doc": "cv",
+        "expected": "Mentored",
+        "rank": 2
+      },
+      {
+        "query": "Required years of experience",
+        "doc": "job",
+        "expected": "3+ years",
+        "rank": 1
+      },
+      {
+        "query": "Cloud platform used for deployment",
+        "doc": "job",
+        "expected": "AWS",
+        "rank": 2
+      },
+      {
+        "query": "Optional skills that are a plus",
+        "doc": "job",
+        "expected": "Kubernetes",
+        "rank": 2
+      },
+      {
+        "query": "Main responsibilities of the role",
+        "doc": "job",
+        "expected": "Design and implement retrieval-augmented",
+        "rank": 5
+      }
+    ]
+  },
+  "matching": {
+    "matrix": {
+      "cv_ml_engineer": {
+        "job_ml_engineer": 87.5,
+        "job_backend_developer": 61.7,
+        "job_marketing_manager": 41.7
+      },
+      "cv_backend_developer": {
+        "job_ml_engineer": 52.0,
+        "job_backend_developer": 98.8,
+        "job_marketing_manager": 23.5
+      },
+      "cv_marketing_coordinator": {
+        "job_ml_engineer": 25.5,
+        "job_backend_developer": 16.5,
+        "job_marketing_manager": 99.0
+      }
+    },
+    "matching_pair_best_in_every_row": true,
+    "matching_pair_best_in_every_column": true,
+    "mean_matching": 95.1,
+    "mean_mismatched": 36.81666666666667,
+    "deterministic": true
+  },
+  "questions": {
+    "category_ok": 1.0,
+    "mentions_job": 0.8333333333333334,
+    "mentions_cv_or_gap": 1.0,
+    "all_unique": true,
+    "questions": [
+      {
+        "requested": "technical",
+        "category": "technical",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "In your open-source Python CV parser using spaCy, how did you manage memory overhead and throughput when processing large batches of documents, and what trade-offs did you consider between Python's multiprocessing and streaming generators?"
+      },
+      {
+        "requested": "experience",
+        "category": "experience",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "At Brightleaf Analytics, you fine-tuned BERT classifiers using PyTorch and Transformers to route 40,000 monthly tickets. Drawing on your machine learning experience, could you walk me through your end-to-end process for training, evaluating offline performance, and monitoring that system for drift in production?"
+      },
+      {
+        "requested": "gap",
+        "category": "gap",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "At Brightleaf Analytics, you deployed containerised FastAPI services on Google Cloud Run. Since this role requires deploying ML services on AWS using tools like ECS, Lambda, or SageMaker, how would you translate your GCP container deployment experience to AWS, and which AWS service would you choose to host a RAG API?"
+      },
+      {
+        "requested": "behavioral",
+        "category": "behavioral",
+        "category_ok": true,
+        "mentions_job": false,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "At Orbis Retail, you partnered with marketing and finance teams on pricing experiments and presented to category managers. Could you describe a time when non-technical stakeholders disagreed with your model's findings or requirements, and how you navigated that pushback to reach an aligned decision?"
+      },
+      {
+        "requested": "auto",
+        "category": "technical",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "At Brightleaf Analytics, you built a RAG assistant using sentence embeddings and FAISS. When designing that retrieval pipeline, what specific FAISS index type did you choose, and how did you navigate the trade-offs between search latency, memory footprint, and retrieval recall?"
+      },
+      {
+        "requested": "auto",
+        "category": "experience",
+        "category_ok": true,
+        "mentions_job": true,
+        "mentions_cv": true,
+        "generated_by": "llm",
+        "question": "In your experience as a Machine Learning Engineer building NLP products in Python, could you describe a specific project where you implemented a model using PyTorch, explaining how you structured your PyTorch data loaders, training logic, or custom layers?"
+      }
+    ]
+  },
+  "answers": {
+    "scores": {
+      "strong": [
+        8.2,
+        8.0
+      ],
+      "average": [
+        2.2,
+        2.2
+      ],
+      "off_topic": [
+        0.2,
+        0.2
+      ]
+    },
+    "means": {
+      "strong": 8.1,
+      "average": 2.2,
+      "off_topic": 0.2
+    },
+    "ordering_ok": true,
+    "max_spread_between_repeats": 0.1999999999999993
+  },
+  "structure": {
+    "total": 13,
+    "first_try": 13,
+    "repaired": 0,
+    "failed": 0,
+    "by_schema": {
+      "MatchInsights": 1,
+      "InterviewQuestion": 6,
+      "AnswerEvaluation": 6
+    }
+  }
+}

@@ -1,0 +1,30 @@
+SAM RIVERA
+Backend Developer
+(Fictional candidate created for evaluation purposes.)
+
+SUMMARY
+Backend developer with 7 years of experience designing Python web services and data-heavy APIs. Strong focus on testing, clean architecture and cloud deployment.
+
+EXPERIENCE
+Senior Backend Developer - Parcelio (logistics start-up)
+Jan 2022 - Present
+- Designed REST APIs with Django and FastAPI serving 2 million requests per day.
+- Migrated monolith to microservices running on Kubernetes (AWS EKS), provisioned with Terraform.
+- Introduced CI/CD with GitHub Actions and raised test coverage from 40% to 85% with pytest.
+- Optimised PostgreSQL queries and added Redis caching, cutting p95 latency by 35%.
+
+Backend Developer - Webhive Agency
+Jun 2019 - Dec 2021
+- Built e-commerce backends in Python (Flask) and Node.js for 15 client projects.
+- Implemented search features with Elasticsearch.
+- Worked in Scrum teams with designers and project managers.
+
+EDUCATION
+B.Sc. Computer Science - University of Manchester
+2016 - 2019
+
+SKILLS
+Python, Django, FastAPI, Flask, Node.js, PostgreSQL, Redis, Elasticsearch, Docker, Kubernetes, Terraform, AWS, CI/CD, Git, Linux, pytest, Agile
+
+LANGUAGES
+English (native), Spanish (intermediate)
