@@ -42,6 +42,12 @@ The user uploads (or pastes) a **CV** and a **job description**. The application
 4. computes a **transparent match score** (skills, requirement coverage, semantic similarity, experience),
 5. uses **semantic retrieval + an LLM** to explain the match, generate **personalised interview questions** and **evaluate answers**, always citing the CV/job passages it relied on.
 
+| Match analysis | Interview practice & feedback |
+|---|---|
+| ![Match analysis](docs/screenshots/analysis.png) | ![Interview feedback](docs/screenshots/interview-feedback.png) |
+
+*Screenshots taken with the fictional sample documents and Gemini (`gemini-flash-latest`) as LLM.*
+
 It is **not** a chatbot that receives the whole CV and job ad in one prompt: every LLM call receives only the chunks retrieved by FAISS for that specific task, plus deterministic facts computed in code.
 
 ## Problem
@@ -318,8 +324,10 @@ ai-job-interview-coach/
 │   └── results_llm.md / results_offline.md
 ├── tests/                         # 102 unit + integration tests
 ├── scripts/make_sample_documents.py
-├── docs/demo-script.md            # 2-3 minute Demo Day script
-├── docs/presentation-outline.md   # Slide-by-slide outline
+├── docs/
+│   ├── demo-script.md             # 2-3 minute Demo Day script
+│   ├── presentation-outline.md    # Slide-by-slide outline
+│   └── screenshots/
 ├── Dockerfile, docker-compose.yml
 ├── requirements.txt, requirements-dev.txt
 └── .env.example
