@@ -1,0 +1,47 @@
+ALEX MORGAN
+Machine Learning Engineer
+Lyon, France | alex.morgan@example.com | github.com/alex-morgan-demo
+(Fictional candidate created for demonstration purposes.)
+
+PROFESSIONAL SUMMARY
+Machine learning engineer with 6 years of experience building NLP and data products in Python. Hands-on with transformer models, semantic search and deploying models behind REST APIs. Comfortable working with product teams and explaining model results to non-technical stakeholders.
+
+WORK EXPERIENCE
+
+Machine Learning Engineer - Brightleaf Analytics, Lyon
+Mar 2023 - Present
+- Built a retrieval-augmented generation (RAG) assistant for customer-support agents using sentence embeddings, FAISS and an LLM API; reduced average ticket handling time by 18%.
+- Fine-tuned BERT-based classifiers with PyTorch and Hugging Face Transformers to route 40,000 support tickets per month (macro F1 0.87).
+- Exposed models through FastAPI services packaged with Docker and deployed on Google Cloud (Cloud Run).
+- Set up offline evaluation datasets and weekly quality reports to monitor model drift.
+- Mentored two junior data scientists and ran internal workshops on prompt engineering.
+
+Data Scientist - Orbis Retail, Grenoble
+Sep 2020 - Feb 2023
+- Developed demand forecasting models (XGBoost, time series features) for 300 stores, improving forecast accuracy by 12%.
+- Wrote ETL pipelines in Python and SQL on PostgreSQL; scheduled with Airflow.
+- Built Tableau dashboards and presented insights to category managers every month.
+- Ran A/B tests for pricing experiments in collaboration with marketing and finance teams.
+
+EDUCATION
+M.Sc. in Data Science - Université Grenoble Alpes
+2018 - 2020
+B.Sc. in Mathematics - Université de Lyon
+2015 - 2018
+
+SKILLS
+Languages: Python, SQL, Bash
+Machine learning: scikit-learn, PyTorch, Hugging Face Transformers, XGBoost, NLP, embeddings, RAG
+Data: Pandas, NumPy, Airflow, PostgreSQL, Tableau
+Engineering: FastAPI, Docker, Git, GitHub Actions, pytest, Linux
+Cloud: Google Cloud Platform (Cloud Run, BigQuery)
+
+CERTIFICATIONS
+- Google Cloud Professional Machine Learning Engineer (2024)
+- DeepLearning.AI - Natural Language Processing Specialization (2021)
+
+LANGUAGES
+French (native), English (fluent, C1)
+
+PROJECTS
+- Open-source CV parser: Python library that extracts skills from resumes with spaCy (300 GitHub stars).

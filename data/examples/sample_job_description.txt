@@ -1,0 +1,30 @@
+Machine Learning Engineer - NLP & Generative AI
+Nimbus Talent Labs (fictional company) - Paris, hybrid
+
+ABOUT THE ROLE
+Nimbus Talent Labs builds AI tools that help recruiters and candidates. We are looking for a Machine Learning Engineer to design, build and run our LLM-powered features, from retrieval pipelines to production APIs.
+
+RESPONSIBILITIES
+- Design and implement retrieval-augmented generation (RAG) pipelines over large document collections.
+- Build and maintain embedding models and vector search infrastructure.
+- Deploy ML services to production on AWS and monitor their quality, latency and cost.
+- Evaluate LLM outputs with offline test sets and human feedback.
+- Collaborate with product managers and designers to turn user needs into ML features.
+
+REQUIREMENTS
+- 3+ years of professional experience in machine learning or data science.
+- Strong Python skills and experience with PyTorch or TensorFlow.
+- Hands-on experience with LLMs, prompt engineering and Hugging Face Transformers.
+- Experience with vector databases or similarity search (FAISS, Pinecone, pgvector...).
+- Experience building REST APIs (FastAPI or Flask) and containerising services with Docker.
+- Experience deploying models on AWS (SageMaker, Lambda or ECS).
+- Good communication skills in English.
+
+NICE TO HAVE
+- Kubernetes and Terraform.
+- MLOps tooling such as MLflow.
+- Experience mentoring junior engineers.
+- French is a plus.
+
+WHAT WE OFFER
+Hybrid work, learning budget, and a friendly team of 25 people.
