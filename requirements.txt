@@ -1,0 +1,20 @@
+# --- Web/API layer ---
+fastapi>=0.115,<1.0          # REST API + automatic OpenAPI docs (/docs)
+uvicorn[standard]>=0.30      # ASGI server that runs the FastAPI app
+python-multipart>=0.0.9      # Required by FastAPI for file uploads (multipart/form-data)
+pydantic>=2.7,<3             # Request/response + LLM output validation
+pydantic-settings>=2.3,<3    # Typed configuration loaded from environment variables / .env
+
+# --- Document extraction ---
+pypdf>=4.2                   # PDF text extraction (pure Python, no system deps)
+python-docx>=1.1             # DOCX text extraction
+
+# --- Embeddings, tokenization & vector search ---
+# torch is pulled in by sentence-transformers. For a smaller CPU-only install use:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers>=3.0   # Local embedding model (all-MiniLM-L6-v2) + its HF tokenizer
+faiss-cpu>=1.8               # Vector index for semantic similarity search
+numpy>=1.26
+
+# --- LLM provider ---
+openai>=1.40                 # Client for any OpenAI-compatible API (OpenAI, Gemini, Groq, Ollama...)
