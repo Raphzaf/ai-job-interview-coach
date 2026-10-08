@@ -166,8 +166,9 @@ CASE_SENSITIVE_ALIASES = {"R", "Go", "REST", "Rust", "Swift", "Spring", "Excel",
 def _alias_pattern(alias: str) -> str:
     # Custom boundaries instead of \b: \b fails around "+", "#" and "." so
     # "C++", "C#" and "Node.js" would never match. The trailing look-ahead also
-    # accepts a sentence-ending period ("...and Python.").
-    return rf"(?<![\w+#/.-]){re.escape(alias)}(?![\w+#/&]|-\w|\.\w)"
+    # accepts a sentence-ending period ("...and Python.") and "/" separators
+    # ("FastAPI/Flask"), but rejects "R&D".
+    return rf"(?<![\w+#.-]){re.escape(alias)}(?![\w+#&]|-\w|\.\w)"
 
 
 @lru_cache

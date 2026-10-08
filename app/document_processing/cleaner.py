@@ -17,9 +17,10 @@ from app.core.errors import DocumentError
 # Bullet glyphs produced by Word/PDF exports. They are normalised to "- " so
 # the chunker can recognise list items as natural chunk boundaries.
 _BULLETS = "•●▪■◦‣∙○◆►✓✔➢➤*·"
-_BULLET_RE = re.compile(rf"^\s*[{re.escape(_BULLETS)}]\s*", re.MULTILINE)
-# A dash/en-dash used as a bullet at the start of a line.
-_DASH_BULLET_RE = re.compile(r"^\s*[-–—]\s+", re.MULTILINE)
+_BULLET_RE = re.compile(rf"^[ \t]*[{re.escape(_BULLETS)}][ \t]*", re.MULTILINE)
+# A dash/en-dash used as a bullet at the start of a line. [ \t] rather than \s:
+# \s would also match newlines and silently delete the blank line before a list.
+_DASH_BULLET_RE = re.compile(r"^[ \t]*[-–—][ \t]+", re.MULTILINE)
 # "develop-\nment" -> "development" (hyphenation inserted by PDF line wrapping).
 # Restricted to lowercase letters on both sides so "Front-\nEnd" style compound
 # names and ranges like "2019-\n2021" are left alone.

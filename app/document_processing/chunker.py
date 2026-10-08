@@ -112,11 +112,12 @@ class Chunker:
     def chunk(self, text: str, doc_type: DocType, doc_name: str) -> list[Chunk]:
         chunks: list[Chunk] = []
         for section in split_sections(text):
-            # Budget for the content: the section title is prepended when
-            # embedding (see Chunk.embedding_text), so reserve tokens for it.
-            budget = self.max_tokens - (self.counter.count(section.title + ": ") if section.title else 0)
+            # The section title is prepended when embedding (Chunk.embedding_text),
+            # so the budget applies to "Title: body", exactly what the model sees.
+            prefix = f"{section.title}: " if section.title else ""
+            budget = self.max_tokens - self.counter.count(prefix)
             units = [piece for unit in section.units for piece in self._split_oversized(unit, budget)]
-            for chunk_units in self._pack(units, budget):
+            for chunk_units in self._pack(units, prefix):
                 body = "\n".join(chunk_units)
                 chunks.append(
                     Chunk(
@@ -131,13 +132,16 @@ class Chunker:
                 )
         return chunks
 
-    def _pack(self, units: list[str], budget: int) -> list[list[str]]:
+    def _fits(self, prefix: str, units: list[str]) -> bool:
+        # Measure the real joined text: token counts are not exactly additive
+        # (word-pieces can merge or split differently at the boundaries).
+        return self.counter.count(prefix + "\n".join(units)) <= self.max_tokens
+
+    def _pack(self, units: list[str], prefix: str = "") -> list[list[str]]:
         """Greedy packing of units into chunks with unit-level overlap."""
         groups: list[list[str]] = []
         current: list[str] = []
-        current_tokens = 0
         for unit in units:
-            unit_tokens = self.counter.count(unit)
             # A plain paragraph right after a bullet list usually starts a new
             # entry ("Data Scientist - Orbis, 2020-2023" after the previous
             # job's bullets). Breaking here keeps each job/degree with its own
@@ -145,21 +149,21 @@ class Chunker:
             starts_new_entry = bool(current) and current[-1].startswith("- ") and not unit.startswith("- ")
             if starts_new_entry:
                 groups.append(current)
-                current, current_tokens = [], 0
-            elif current and current_tokens + unit_tokens > budget:
+                current = []
+            elif current and not self._fits(prefix, current + [unit]):
                 groups.append(current)
                 # Carry the trailing units (up to the overlap budget) into the next chunk.
                 overlap: list[str] = []
-                overlap_tokens = 0
                 for previous in reversed(current):
-                    t = self.counter.count(previous)
-                    if overlap_tokens + t > self.overlap_tokens or overlap_tokens + t + unit_tokens > budget:
+                    candidate = [previous] + overlap
+                    if self.counter.count("\n".join(candidate)) > self.overlap_tokens or not self._fits(prefix, candidate + [unit]):
                         break
-                    overlap.insert(0, previous)
-                    overlap_tokens += t
-                current, current_tokens = overlap, overlap_tokens
+                    overlap = candidate
+                current = overlap
+            if current and not self._fits(prefix, current + [unit]):
+                groups.append(current)  # only possible right after an overlap was carried
+                current = []
             current.append(unit)
-            current_tokens += unit_tokens
         if current:
             groups.append(current)
         return groups
@@ -168,6 +172,8 @@ class Chunker:
         """Split a single unit that alone exceeds the budget: sentences first, then words."""
         if self.counter.count(unit) <= budget:
             return [unit]
+        # Small safety margin so a piece still fits once joined with the prefix.
+        budget = max(8, budget - 2)
         pieces: list[str] = []
         for sentence in _SENTENCE_RE.split(unit):
             if self.counter.count(sentence) <= budget:

@@ -300,7 +300,7 @@ class Matcher:
             out.append("Has required skills: " + ", ".join(skills.matched_required[:8]) + ".")
         covered = [c for c in coverages if c.status == "covered" and c.kind == "required"]
         for c in covered[:3]:
-            out.append(f"Covers requirement: “{c.text}”.")
+            out.append(f"Covers requirement: “{c.text.rstrip('.')}”.")
         if req_years and cand_years and cand_years >= req_years:
             out.append(f"Meets the experience level ({cand_years} years vs {req_years}+ requested).")
         if skills.matched_preferred:
@@ -313,7 +313,7 @@ class Matcher:
         if skills.missing_required:
             out.append("Required skills not found in the CV: " + ", ".join(skills.missing_required) + ".")
         for c in [c for c in coverages if c.status == "missing" and c.kind == "required"][:3]:
-            out.append(f"No clear CV evidence for: “{c.text}”.")
+            out.append(f"No clear CV evidence for: “{c.text.rstrip('.')}”.")
         if req_years and cand_years is not None and cand_years < req_years:
             out.append(f"Experience below the requested level ({cand_years} vs {req_years}+ years).")
         if skills.missing_preferred:
