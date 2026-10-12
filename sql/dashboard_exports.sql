@@ -90,7 +90,10 @@ ORDER BY 1, 3, 4;
 
 -- name: live_jobs_2026
 -- grain: one row per posting of the Arbeitnow API snapshot (no free text; url kept for attribution)
-SELECT j.job_id, j.title, c.name AS company, j.city, j.remote, j.job_family, j.is_tech,
+-- remote uses the same labels as the other extracts so that one Tableau filter
+-- ("Remote") applies to both 2026 data sources.
+SELECT j.job_id, j.title, c.name AS company, j.city,
+       CASE WHEN j.remote THEN 'Remote' ELSE 'On-site / hybrid' END AS remote, j.job_family, j.is_tech,
        COALESCE(j.experience_level, 'not stated') AS experience_level,
        j.seniority_from_title, COALESCE(j.schedule, 'not stated') AS schedule,
        COALESCE(j.contract_type, 'not stated') AS contract_type, j.description_language,

@@ -6,8 +6,13 @@ This is about 1.5–2 hours of clicking: Dashboards 1–3 are the core, and Dash
 
 ## 0. Prerequisites
 
-1. Create a free account at <https://public.tableau.com> and install **Tableau Public (desktop app)** for Windows or macOS. The browser editor ("Create a Viz") also works, but dashboard actions are more limited there.
+1. Create a free account at <https://public.tableau.com> and install **Tableau Public (desktop app)** for Windows or macOS. This guide assumes the desktop app: it combines several data sources in one dashboard and supports the URL action. The browser editor ("Create a Viz") is more limited.
 2. Download the folder `dashboard/tableau/data/` from the GitHub repository: clone it, or use *Code → Download ZIP*.
+
+**Files to import:**
+- *Dashboards 1–3 (required):* `ref_overview_2023.csv`, `ref_skill_demand_2023.csv`, `ref_skill_trend_2023.csv`, `ref_salary_by_role_2023.csv`, `insights_senior_skill_odds_ratios.csv`, `live_jobs_2026.csv`, `live_skill_demand_2026.csv`.
+- *Dashboard 4 (optional):* the four other `insights_*.csv` files.
+- *Not to import:* `data_dictionary.json` (column descriptions) and `validation.json` (25 checks run against PostgreSQL when the files were exported; all pass).
 
 ## 1. Connect the data (one data source per file)
 
@@ -19,12 +24,14 @@ For each file: **Connect → To a File → Text file** → choose the CSV → in
 | `ref_skill_demand_2023.csv` | **2023 Skill demand** | counts = Number (whole) |
 | `ref_skill_trend_2023.csv` | **2023 Skill trend** | `month` = Date |
 | `ref_salary_by_role_2023.csv` | **2023 Salary** | n/a |
-| `live_jobs_2026.csv` | **2026 Live jobs** | `remote`, `is_tech` = Boolean; `url` = String |
+| `live_jobs_2026.csv` | **2026 Live jobs** | `remote` = String ("Remote" / "On-site / hybrid", like the other files); `is_tech` = Boolean; `posted_date` = Date; `url` = String |
 | `live_skill_demand_2026.csv` | **2026 Live skill demand** | n/a |
 | `insights_senior_skill_odds_ratios.csv` | **Insights: senior odds ratios** | n/a |
 | `insights_ml_model_comparison.csv`, `insights_ml_confusion_matrix.csv`, `insights_ml_feature_importance.csv`, `insights_salary_model.csv` | **Insights: …** (Dashboard 4 only) | n/a |
 
-**Do not join or relate the files.** Each data source is self-contained by design: dense skill tables with their own denominators.
+**Do not join or relate the files** in the data source tab. Each data source is self-contained by design: dense skill tables carry their own denominators.
+
+The dashboard filters still work across sources through Tableau's *blend relationships*, which match fields by name. They link fields, not rows, and are not joins. Fields with the same name (`Role Family`, `Seniority`, `Country Group`, `Remote`, `Job Family`, `Experience Level`, `Description Language`, `Skill`) have identical values in the files that share them; the export checks this. To see the links, open *Data → Edit Blend Relationships*: they should be set to *Automatic*.
 
 ## 2. Calculated fields
 
@@ -38,7 +45,7 @@ Create these with *Analysis → Create Calculated Field*, in the data source nam
 | 2023 Overview | `Avg skills per posting` | `SUM([Total Skills Listed]) / SUM([Postings With Skill Data])` | Number, 2 decimals |
 | 2023 Skill demand | `Share of postings` | `SUM([Postings With Skill]) / SUM([Postings In Group])` | Percentage, 1 decimal |
 | 2023 Skill trend | `Share of postings` | `SUM([Postings With Skill]) / SUM([Postings In Group])` | Percentage, 1 decimal |
-| 2026 Live jobs | `Remote share` | `AVG(INT([Remote]))` | Percentage, 1 decimal |
+| 2026 Live jobs | `Remote share` | `AVG(IF [Remote] = "Remote" THEN 1 ELSE 0 END)` | Percentage, 1 decimal |
 | 2026 Live jobs | `Tech share` | `AVG(INT([Is Tech]))` | Percentage, 1 decimal |
 | 2026 Live jobs | `English share` | `AVG(IF [Description Language] = "en" THEN 1 ELSE 0 END)` | Percentage, 1 decimal |
 | 2026 Live skill demand | `Share of postings` | `SUM([Postings With Skill]) / SUM([Postings In Group])` | Percentage, 1 decimal |
@@ -67,9 +74,9 @@ Create each sheet (*Worksheet → New Worksheet*), name the tab as shown, and us
 
 | Sheet | Source | Build |
 |---|---|---|
-| **Skill by role** | 2023 Skill demand | Rows: `Role Family`; Columns: `Share of postings`; Colour: `Seniority` (same two colours). Filter `Skill` → *Show Filter* → single value (dropdown); default value **AWS** |
+| **Skill by role** | 2023 Skill demand | Rows: `Role Family`; Columns: `Share of postings`; Colour: `Seniority` (same two colours). Filter `Skill` → *Show Filter* → single value (dropdown); default value **AWS**. The dataset has senior titles only for Data Analyst, Data Engineer and Data Scientist, so the other roles show one (Non-senior) bar. That is expected |
 | **Skill trend** | 2023 Skill trend | Columns: `MONTH(Month)`; Rows: `Share of postings`; Colour: `Role Family`; Filter `Skill` → single value (dropdown), default **AWS** |
-| **Senior skills (odds ratio)** | Insights: senior odds ratios | Rows: `Skill` sorted by `Odds Ratio`; Columns: `AVG(Odds Ratio)`, Marks = Circle. Add *Reference line* at constant 1. Filter `Significant Fdr 5Pct` = True. Use `Or Low`/`Or High` as a *Reference band* per cell if you want CIs (optional). Colour: `Odds Ratio > 1` → orange, else blue |
+| **Senior skills (odds ratio)** | Insights: senior odds ratios | Rows: `Skill` sorted by `Odds Ratio`; Columns: `AVG(Odds Ratio)`, Marks = Circle. Add *Reference line* at constant 1. Filter `Significant Fdr 5Pct` = True (64 skills remain). Use `Or Low`/`Or High` as a *Reference band* per cell if you want CIs (optional). Colour: calculated field `[Odds Ratio] > 1` → True orange `#eb6834`, False blue `#2a78d6`. Leave this sheet out of the Skill filter: it is meant to show all significant skills at once, and filtering it to one skill would leave a single dot |
 | **Salary by role** | 2023 Salary | Rows: `Role Family`; Columns: `SUM(Salary Median)`; Colour: `Seniority`; Tooltip: P25, P75, `Postings With Salary` |
 
 ### Dashboard 3 sheets (2026)
@@ -105,8 +112,8 @@ For each: *Dashboard → New Dashboard*, Size = **Fixed 1366 × 900**.
    | Dashboard | Filters (control type) |
    |---|---|
    | D1 | Role Family (multi-value dropdown), Seniority (single value list), Country Group (multi-value dropdown), Remote (single value list), Month (range of dates: **apply to *2023 Overview* only** and add the caption "Month applies to volume charts") |
-   | D2 | Skill (single value dropdown, **apply to Skill by role + Skill trend**), Role Family, Country Group, Remote |
-   | D3 | Job Family, Experience Level, Remote, Description Language (all *All Using Related Data Sources*), City (apply to Live KPIs + Live postings only) |
+   | D2 | Skill (single value dropdown, **apply to Skill by role + Skill trend**), Role Family (*All Using Related Data Sources*: skill, trend and salary sheets), Country Group and Remote (**apply to Skill by role only**: the trend and salary files have no country or remote field) |
+   | D3 | Job Family, Experience Level, Remote, Description Language (all *All Using Related Data Sources*), City (apply to Live KPIs + Live postings only; 61 postings have no city and appear as *Null*) |
 
 4. **Actions:**
    - D1: *Dashboard → Actions → Add Action → Filter*. Source sheet *Roles by seniority*, run on **Select**, target all sheets, clearing the selection shows all values.
@@ -115,11 +122,26 @@ For each: *Dashboard → New Dashboard*, Size = **Fixed 1366 × 900**.
 
 ## 5. Check your build
 
-Compare with [`tableau/EXPECTED_VALUES.md`](tableau/EXPECTED_VALUES.md). For example:
+Compare every view with [`tableau/EXPECTED_VALUES.md`](tableau/EXPECTED_VALUES.md). Tick each line:
 
-- **D1, no filters:** Postings 784,897 · Remote 8.9 % · Senior 14.1 % · Avg salary 123,292 (n = 21,997) · top skill SQL 57.7 %.
-- **D1, Role = Data Engineer, Country = Germany:** top skills Python 66.1 %, SQL 57.6 %, Azure 35.8 %, AWS 33.3 %, Spark 30.4 %.
-- **D3, no filters:** 3,026 postings · remote 9.6 % · tech 27.4 %.
+**Numbers**
+- [ ] D1, no filters: Postings 784,897 · Remote 8.9 % · Senior 14.1 % · Avg salary 123,292 (n = 21,997) · Avg skills 5.47 · top skill SQL 57.7 %.
+- [ ] D1, Role = Data Engineer: Postings 230,532 · Remote 12.0 % · Senior 19.3 % · top skills SQL 67.5 %, Python 64.9 %, AWS 38.6 %.
+- [ ] D1, Role = Data Engineer + Country = Germany: Python 66.1 %, SQL 57.6 %, Azure 35.8 %, AWS 33.3 %, Spark 30.4 %.
+- [ ] D1 line chart: highest month January 2023 (91,738 postings).
+- [ ] D2, Skill = AWS: Data Engineer Non-senior 36.6 % / Senior 46.4 %; Data Scientist 18.0 % / 23.2 %.
+- [ ] D2 salary: Data Scientist Senior median 155,500; Business Analyst Non-senior 85,000.
+- [ ] D2 odds ratios: 64 dots; AWS at 1.465; highest looker 1.844.
+- [ ] D3, no filters: 3,026 postings · Remote 9.6 % · Tech 27.4 % · English 39.6 % · top skill English 62.6 %.
+- [ ] D3, Job Family = Data & AI: top skills English 70.6 %, Python 43.1 %.
+
+**Filters and interactions**
+- [ ] Every D1 filter changes both the KPI tiles and the Top skills chart. Month is the exception: it changes the KPI tiles and the volume charts but not Top skills, because the skill table has no month (say so in the caption).
+- [ ] Clicking a bar in *Roles by seniority* filters D1; clicking it again clears the filter.
+- [ ] D2: changing Skill updates *Skill by role* and *Skill trend* together; the odds-ratio chart does not change.
+- [ ] D3: setting Remote = Remote gives 292 postings in the KPI tile and changes the top skills.
+- [ ] D3: right-clicking a posting in *Live postings* offers the link, and it opens the Arbeitnow page.
+- [ ] No sheet shows "Null" bars except City (61 postings without a city).
 
 If a number differs:
 - check that the ratio is `SUM(...)/SUM(...)`, not `AVG` of a percentage;
@@ -130,7 +152,13 @@ If a number differs:
 
 1. *File → Save to Tableau Public As…* → name **"AI Job Market & Interview Coach: Market Dashboards"**. Sign in when asked; the workbook is published publicly.
 2. On public.tableau.com: open the viz → *Settings* → turn on **"Show Viz on Profile"** and **"Allow access"** (download) if you want reviewers to open the workbook.
-3. Copy the link and send it to me. I will add it to the README, the deck and the portfolio entry.
+3. **Check the published version**, not only the desktop file:
+   - [ ] the link opens in a private/incognito browser window without signing in;
+   - [ ] the four dashboards appear as tabs;
+   - [ ] two filters and the D1 click action work online;
+   - [ ] the D3 URL action opens a posting;
+   - [ ] titles, subtitles and footers are readable at 1366 × 900.
+4. Copy the link and send it to me. I will add it to the README, the deck and the portfolio entry.
 4. Take screenshots: D1 unfiltered; D1 with Data Engineer + Germany; D2 with AWS; D3. Save them as PNG in `demo_day/screenshots/` with these names:
    - `dashboard_overview.png`
    - `dashboard_filtered_de_germany.png`

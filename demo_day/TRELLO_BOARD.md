@@ -25,7 +25,7 @@ The template asks for a screenshot of a Trello board showing the feature list. T
 | 15 analytical SQL queries | SQL |
 | Statistical tests with effect sizes (SciPy, statsmodels) | Stats/ML |
 | Role-family classifier (scikit-learn, macro-F1 0.393) | Stats/ML |
-| Tableau data extracts + 16 validation checks | Data |
+| Tableau data extracts + 25 validation checks | Data |
 | CV/job extraction, cleaning, token-aware chunking | GenAI |
 | Embeddings (MiniLM) + FAISS semantic search | GenAI |
 | RAG pipeline with sources + validated JSON outputs | GenAI |
@@ -33,7 +33,7 @@ The template asks for a screenshot of a Trello board showing the feature list. T
 | Market demand for missing skills in the coach | App |
 | Interview questions + answer feedback | GenAI |
 | Web UI + REST API | App |
-| 191 automated tests + GenAI evaluation | Delivery |
+| 195 automated tests + GenAI evaluation | Delivery |
 | Docker image | Delivery |
 | README + documentation | Delivery |
 

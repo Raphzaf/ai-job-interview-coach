@@ -89,6 +89,6 @@ When the coach finds a gap, it detects the job's role family from the title and 
 2. **Report effect sizes, not p-values,** whenever your dataset is large.
 3. **Split by group** (company, user, patient) whenever rows are not independent.
 4. **Carry denominators with your aggregates.** Most dashboard errors are averaged percentages.
-5. **Write the test before trusting the number.** The project has 191 automated tests, including one that checks that the figures shown in the coach equal the figures in the dashboard.
+5. **Write the test before trusting the number.** The project has 195 automated tests, including one that checks that the figures shown in the coach equal the figures in the dashboard.
 
 The code, the notebooks and the full documentation are on GitHub: <https://github.com/Raphzaf/ai-job-interview-coach>.

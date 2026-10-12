@@ -124,6 +124,19 @@ def validate(conn, f: dict[str, pd.DataFrame]) -> list[dict]:
     check("live skills: all skill mentions", int(ls["postings_with_skill"].sum()), q("SELECT COUNT(*) FROM market.job_skills_live"))
     check("live skills: denominators sum to all postings (per skill)",
           int(ls[ls["skill"] == ls["skill"].iloc[0]]["postings_in_group"].sum()), len(lj))
+    check("live jobs: remote postings", int((lj["remote"] == "Remote").sum()),
+          q("SELECT COUNT(*) FROM market.jobs_live WHERE remote"))
+
+    # Fields used as dashboard filters across two data sources must carry the
+    # same values in both, otherwise a shared Tableau filter silently drops rows.
+    shared = {
+        ("ref_overview_2023", "ref_skill_demand_2023"): ["role_family", "seniority", "country_group", "remote"],
+        ("live_jobs_2026", "live_skill_demand_2026"): ["job_family", "experience_level", "remote", "description_language"],
+    }
+    for (a, b), cols in shared.items():
+        for col in cols:
+            check(f"shared filter values: {a} / {b} / {col}",
+                  sorted(f[a][col].dropna().astype(str).unique()), sorted(f[b][col].dropna().astype(str).unique()))
 
     sal = f["ref_salary_by_role_2023"].set_index(["role_family", "seniority"])
     sql05 = pd.read_csv(PROCESSED_DIR / "sql_results" / "05_reference_salary_by_role_seniority.csv").set_index(["role_family", "seniority"])
@@ -133,9 +146,39 @@ def validate(conn, f: dict[str, pd.DataFrame]) -> list[dict]:
     return checks
 
 
-def expected_values(f: dict[str, pd.DataFrame]) -> str:
+def share_by(d: pd.DataFrame, keys: list[str]) -> str:
+    g = d.groupby(keys)[["postings_with_skill", "postings_in_group"]].sum()
+    g = g[g.postings_in_group > 0]
+    return ", ".join(f"{' / '.join(k)} {100 * r.postings_with_skill / r.postings_in_group:.1f} %" for k, r in g.iterrows())
+
+
+def trend_extreme(tr: pd.DataFrame, skill: str, pick) -> str:
+    g = tr[tr.skill == skill].groupby("month")[["postings_with_skill", "postings_in_group"]].sum()
+    share = 100 * g.postings_with_skill / g.postings_in_group
+    month = pick(share.index, key=lambda m: share[m])
+    return f"{month} ({share[month]:.1f} %)"
+
+
+def salary_medians(sal: pd.DataFrame) -> str:
+    return ", ".join(f"{r.role_family} / {r.seniority} {r.salary_median:,} (n = {r.postings_with_salary:,})"
+                     for r in sal.itertuples())
+
+
+def odds_lines(insights: dict[str, pd.DataFrame] | None) -> list[str]:
+    if not insights:
+        return []
+    o = insights["insights_senior_skill_odds_ratios"]
+    aws = o[o.skill == "AWS"].iloc[0]
+    hi, lo = o.loc[o.odds_ratio.idxmax()], o.loc[o.odds_ratio.idxmin()]
+    return [f"- Odds ratios (senior vs non-senior, within role): {int(o.significant_fdr_5pct.sum())} of {len(o)} skills "
+            f"significant (filter Significant = True); AWS {aws.odds_ratio:.3f} (95 % CI {aws.or_low:.3f}-{aws.or_high:.3f}); "
+            f"highest {hi.skill} {hi.odds_ratio:.3f}, lowest {lo.skill} {lo.odds_ratio:.3f}"]
+
+
+def expected_values(f: dict[str, pd.DataFrame], insights: dict[str, pd.DataFrame] | None = None) -> str:
     """Numbers the Tableau views must show (to verify the manual build), computed from the extracts."""
     ov, sd, lj, ls = f["ref_overview_2023"], f["ref_skill_demand_2023"], f["live_jobs_2026"], f["live_skill_demand_2026"]
+    tr, sal = f["ref_skill_trend_2023"], f["ref_salary_by_role_2023"]
 
     def kpis(o: pd.DataFrame) -> str:
         return (f"Postings **{int(o.postings.sum()):,}** · Remote **{100 * o[o.remote == 'Remote'].postings.sum() / o.postings.sum():.1f} %** · "
@@ -166,11 +209,23 @@ def expected_values(f: dict[str, pd.DataFrame]) -> str:
         f"- Busiest month: {ov.groupby('month').postings.sum().idxmax()} "
         f"({int(ov.groupby('month').postings.sum().max()):,} postings)",
         "",
+        "## Dashboard 2: Skills, seniority and salary 2023",
+        "",
+        "- Seniority: the source dataset has senior titles only for Data Analyst, Data Engineer and Data Scientist, "
+        "so the other roles show a Non-senior bar only.",
+        f"- Skill = AWS, share by role and seniority: {share_by(sd[sd.skill == 'AWS'], ['role_family', 'seniority'])}",
+        f"- Skill = AWS, monthly share (all roles): lowest {trend_extreme(tr, 'AWS', min)}, highest {trend_extreme(tr, 'AWS', max)}",
+        f"- Median advertised salary: {salary_medians(sal)}",
+        *odds_lines(insights),
+        "",
         "## Dashboard 3: Live snapshot (Oct 2026)",
         "",
-        f"- No filters: postings **{len(lj):,}**, remote **{100 * lj.remote.mean():.1f} %**, tech **{100 * lj.is_tech.mean():.1f} %**",
+        f"- No filters: postings **{len(lj):,}**, remote **{100 * (lj.remote == 'Remote').mean():.1f} %**, "
+        f"tech **{100 * lj.is_tech.mean():.1f} %**, English descriptions **{100 * (lj.description_language == 'en').mean():.1f} %**",
         f"- Top 5 skills, no filters: {top(ls)}",
         f"- Top 5 skills, job family = Data & AI: {top(ls[ls.job_family == 'Data & AI'])}",
+        "- Postings by job family (top 5): " + ", ".join(f"{k} {v:,}" for k, v in lj.job_family.value_counts().head(5).items()),
+        "- Postings by experience level: " + ", ".join(f"{k} {v:,}" for k, v in lj.experience_level.value_counts().items()),
     ]
     return "\n".join(lines) + "\n"
 
@@ -200,7 +255,7 @@ def main() -> None:
         frames = run_exports(conn)
         checks = validate(conn, frames)
     insights = insight_tables()
-    (OUT_DIR.parent / "EXPECTED_VALUES.md").write_text(expected_values(frames), encoding="utf-8")
+    (OUT_DIR.parent / "EXPECTED_VALUES.md").write_text(expected_values(frames, insights), encoding="utf-8")
     files = {p.name: {"rows": int(len(pd.read_csv(p))), "bytes": p.stat().st_size, "description": DICTIONARY[p.stem]}
              for p in sorted(OUT_DIR.glob("*.csv"))}
     (OUT_DIR / "data_dictionary.json").write_text(json.dumps(files, indent=2), encoding="utf-8")
