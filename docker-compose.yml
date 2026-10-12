@@ -11,15 +11,19 @@ services:
         required: false
     restart: unless-stopped
 
-  # PostgreSQL for the job-market layer. Start it alone with:
+  # PostgreSQL for the job-market layer (optional: the coach does not need it).
+  # It is in the "db" profile, so `docker compose up` starts the coach only.
+  # Start it with:
   #   docker compose up -d db
   # then, from the host: python -m market.db.setup && python -m market.db.load
   db:
     image: postgres:16
+    profiles: ["db"]
     environment:
       POSTGRES_USER: postgres
       # Superuser password from your .env (PG_ADMIN_PASSWORD); never hard-coded.
-      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD:?Set PG_ADMIN_PASSWORD in .env}
+      # The postgres image refuses to initialise with an empty password.
+      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD:-}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --encoding=UTF8"
     ports:
       - "127.0.0.1:5432:5432"   # reachable from this machine only
