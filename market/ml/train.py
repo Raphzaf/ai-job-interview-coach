@@ -229,12 +229,30 @@ def predict_roles(model_bundle: dict, skills: list[str], top: int = 3) -> list[d
     return [{"role_family": model_bundle["classes"][i], "probability": round(float(proba[i]), 4)} for i in order]
 
 
+def topk_accuracy(model, X, y, ks=(1, 2, 3)) -> dict:
+    """Share of postings whose true role is among the model's k most probable roles."""
+    proba = model.predict_proba(X)
+    order = np.argsort(proba, axis=1)[:, ::-1]
+    classes = np.asarray(model.classes_)
+    truth = y.to_numpy()
+    return {f"top_{k}": round(float(np.mean([t in classes[o[:k]] for t, o in zip(truth, order)])), 4) for k in ks}
+
+
+def evaluate_saved_model(ds: Dataset | None = None) -> dict:
+    """Top-k accuracy of the saved model on the same (deterministic) company-grouped test split."""
+    ds = ds or load_dataset()
+    _, test_idx = grouped_split(ds)
+    bundle = joblib.load(MODEL_DIR / "role_classifier.joblib")
+    return topk_accuracy(bundle["model"], ds.X.iloc[test_idx], ds.y_role.iloc[test_idx])
+
+
 def run_all() -> dict:
     started = time.time()
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     ds = load_dataset()
     print(f"Dataset: {ds.X.shape[0]:,} postings x {ds.X.shape[1]} features ({time.time() - started:.0f}s)")
-    role, _, _ = run_role_model(ds)
+    role, final, (X_test, y_test) = run_role_model(ds)
+    role["selected_model_topk_accuracy"] = topk_accuracy(final, X_test, y_test)
     (RESULTS_DIR / "role_model.json").write_text(json.dumps(role, indent=2, default=str), encoding="utf-8")
     seniority = run_seniority_experiment(ds)
     (RESULTS_DIR / "seniority_experiment.json").write_text(json.dumps(seniority, indent=2, default=str), encoding="utf-8")

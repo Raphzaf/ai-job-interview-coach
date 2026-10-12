@@ -1,0 +1,1518 @@
+{
+  "task": "role_family (7 classes) from coach-taxonomy skills",
+  "rows": 641060,
+  "features": 59,
+  "train_rows": 508332,
+  "test_rows": 132728,
+  "train_companies": 93083,
+  "test_companies": 23271,
+  "tuning_rows": 119999,
+  "class_distribution_train": {
+    "Data Engineer": 163153,
+    "Data Analyst": 137484,
+    "Data Scientist": 136637,
+    "Software Engineer": 28678,
+    "Business Analyst": 26291,
+    "Machine Learning Engineer": 9550,
+    "Cloud Engineer": 6539
+  },
+  "class_distribution_test": {
+    "Data Engineer": 43455,
+    "Data Scientist": 36260,
+    "Data Analyst": 35955,
+    "Business Analyst": 6791,
+    "Software Engineer": 6451,
+    "Machine Learning Engineer": 2264,
+    "Cloud Engineer": 1552
+  },
+  "baselines": {
+    "most_frequent": {
+      "accuracy": 0.3274,
+      "balanced_accuracy": 0.1429,
+      "macro_f1": 0.0705,
+      "weighted_f1": 0.1615,
+      "per_class": {
+        "Business Analyst": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6791.0
+        },
+        "Cloud Engineer": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1552.0
+        },
+        "Data Analyst": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 35955.0
+        },
+        "Data Engineer": {
+          "precision": 0.3274,
+          "recall": 1.0,
+          "f1-score": 0.4933,
+          "support": 43455.0
+        },
+        "Data Scientist": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 36260.0
+        },
+        "Machine Learning Engineer": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2264.0
+        },
+        "Software Engineer": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6451.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          6791,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1552,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          35955,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          43455,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          36260,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2264,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6451,
+          0,
+          0,
+          0
+        ]
+      ],
+      "labels": [
+        "Business Analyst",
+        "Cloud Engineer",
+        "Data Analyst",
+        "Data Engineer",
+        "Data Scientist",
+        "Machine Learning Engineer",
+        "Software Engineer"
+      ]
+    },
+    "stratified": {
+      "accuracy": 0.2565,
+      "balanced_accuracy": 0.1422,
+      "macro_f1": 0.1421,
+      "weighted_f1": 0.2579,
+      "per_class": {
+        "Business Analyst": {
+          "precision": 0.0515,
+          "recall": 0.052,
+          "f1-score": 0.0517,
+          "support": 6791.0
+        },
+        "Cloud Engineer": {
+          "precision": 0.0095,
+          "recall": 0.0103,
+          "f1-score": 0.0099,
+          "support": 1552.0
+        },
+        "Data Analyst": {
+          "precision": 0.2695,
+          "recall": 0.2687,
+          "f1-score": 0.2691,
+          "support": 35955.0
+        },
+        "Data Engineer": {
+          "precision": 0.3273,
+          "recall": 0.3222,
+          "f1-score": 0.3247,
+          "support": 43455.0
+        },
+        "Data Scientist": {
+          "precision": 0.2696,
+          "recall": 0.2648,
+          "f1-score": 0.2672,
+          "support": 36260.0
+        },
+        "Machine Learning Engineer": {
+          "precision": 0.0188,
+          "recall": 0.0212,
+          "f1-score": 0.02,
+          "support": 2264.0
+        },
+        "Software Engineer": {
+          "precision": 0.0491,
+          "recall": 0.0563,
+          "f1-score": 0.0524,
+          "support": 6451.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          353,
+          97,
+          1864,
+          2141,
+          1832,
+          130,
+          374
+        ],
+        [
+          87,
+          16,
+          433,
+          485,
+          417,
+          30,
+          84
+        ],
+        [
+          1873,
+          451,
+          9661,
+          11587,
+          9685,
+          680,
+          2018
+        ],
+        [
+          2273,
+          495,
+          11768,
+          14001,
+          11666,
+          818,
+          2434
+        ],
+        [
+          1820,
+          523,
+          9804,
+          11808,
+          9602,
+          712,
+          1991
+        ],
+        [
+          104,
+          19,
+          598,
+          729,
+          637,
+          48,
+          129
+        ],
+        [
+          346,
+          87,
+          1718,
+          2024,
+          1783,
+          130,
+          363
+        ]
+      ],
+      "labels": [
+        "Business Analyst",
+        "Cloud Engineer",
+        "Data Analyst",
+        "Data Engineer",
+        "Data Scientist",
+        "Machine Learning Engineer",
+        "Software Engineer"
+      ]
+    }
+  },
+  "candidates": {
+    "logistic_regression": {
+      "best_params": {
+        "logisticregression__C": 0.01,
+        "logisticregression__class_weight": "balanced"
+      },
+      "cv_macro_f1_mean": 0.3529,
+      "cv_macro_f1_std": 0.0048,
+      "cv_grid": [
+        {
+          "params": {
+            "logisticregression__C": 0.01,
+            "logisticregression__class_weight": null
+          },
+          "macro_f1": 0.3471
+        },
+        {
+          "params": {
+            "logisticregression__C": 0.01,
+            "logisticregression__class_weight": "balanced"
+          },
+          "macro_f1": 0.3529
+        },
+        {
+          "params": {
+            "logisticregression__C": 0.1,
+            "logisticregression__class_weight": null
+          },
+          "macro_f1": 0.3479
+        },
+        {
+          "params": {
+            "logisticregression__C": 0.1,
+            "logisticregression__class_weight": "balanced"
+          },
+          "macro_f1": 0.3526
+        },
+        {
+          "params": {
+            "logisticregression__C": 1.0,
+            "logisticregression__class_weight": null
+          },
+          "macro_f1": 0.3486
+        },
+        {
+          "params": {
+            "logisticregression__C": 1.0,
+            "logisticregression__class_weight": "balanced"
+          },
+          "macro_f1": 0.3526
+        }
+      ],
+      "test": {
+        "accuracy": 0.4386,
+        "balanced_accuracy": 0.4687,
+        "macro_f1": 0.3399,
+        "weighted_f1": 0.4773,
+        "per_class": {
+          "Business Analyst": {
+            "precision": 0.1648,
+            "recall": 0.5431,
+            "f1-score": 0.2528,
+            "support": 6791.0
+          },
+          "Cloud Engineer": {
+            "precision": 0.0772,
+            "recall": 0.4981,
+            "f1-score": 0.1337,
+            "support": 1552.0
+          },
+          "Data Analyst": {
+            "precision": 0.526,
+            "recall": 0.2734,
+            "f1-score": 0.3598,
+            "support": 35955.0
+          },
+          "Data Engineer": {
+            "precision": 0.7547,
+            "recall": 0.5507,
+            "f1-score": 0.6368,
+            "support": 43455.0
+          },
+          "Data Scientist": {
+            "precision": 0.5941,
+            "recall": 0.4421,
+            "f1-score": 0.507,
+            "support": 36260.0
+          },
+          "Machine Learning Engineer": {
+            "precision": 0.1013,
+            "recall": 0.5543,
+            "f1-score": 0.1713,
+            "support": 2264.0
+          },
+          "Software Engineer": {
+            "precision": 0.2561,
+            "recall": 0.4193,
+            "f1-score": 0.318,
+            "support": 6451.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            3688,
+            281,
+            1509,
+            336,
+            592,
+            80,
+            305
+          ],
+          [
+            91,
+            773,
+            82,
+            169,
+            60,
+            92,
+            285
+          ],
+          [
+            14127,
+            1151,
+            9830,
+            2422,
+            6262,
+            741,
+            1422
+          ],
+          [
+            1758,
+            5002,
+            2774,
+            23931,
+            3478,
+            3031,
+            3481
+          ],
+          [
+            2219,
+            1327,
+            4035,
+            3874,
+            16031,
+            6621,
+            2153
+          ],
+          [
+            67,
+            203,
+            43,
+            216,
+            268,
+            1255,
+            212
+          ],
+          [
+            434,
+            1273,
+            416,
+            760,
+            293,
+            570,
+            2705
+          ]
+        ],
+        "labels": [
+          "Business Analyst",
+          "Cloud Engineer",
+          "Data Analyst",
+          "Data Engineer",
+          "Data Scientist",
+          "Machine Learning Engineer",
+          "Software Engineer"
+        ]
+      },
+      "seconds": 38.7
+    },
+    "decision_tree": {
+      "best_params": {
+        "class_weight": null,
+        "max_depth": 20,
+        "min_samples_leaf": 20
+      },
+      "cv_macro_f1_mean": 0.3438,
+      "cv_macro_f1_std": 0.002,
+      "cv_grid": [
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 8,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.2906
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 8,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.2827
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 14,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.3306
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 14,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.3189
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 20,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.3438
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "max_depth": 20,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.3242
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 8,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.3288
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 8,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.3238
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 14,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.3291
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 14,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.331
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 20,
+            "min_samples_leaf": 20
+          },
+          "macro_f1": 0.3258
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "max_depth": 20,
+            "min_samples_leaf": 100
+          },
+          "macro_f1": 0.3284
+        }
+      ],
+      "test": {
+        "accuracy": 0.6208,
+        "balanced_accuracy": 0.3527,
+        "macro_f1": 0.3575,
+        "weighted_f1": 0.5937,
+        "per_class": {
+          "Business Analyst": {
+            "precision": 0.2031,
+            "recall": 0.0019,
+            "f1-score": 0.0038,
+            "support": 6791.0
+          },
+          "Cloud Engineer": {
+            "precision": 0.3313,
+            "recall": 0.0348,
+            "f1-score": 0.063,
+            "support": 1552.0
+          },
+          "Data Analyst": {
+            "precision": 0.5863,
+            "recall": 0.6943,
+            "f1-score": 0.6358,
+            "support": 35955.0
+          },
+          "Data Engineer": {
+            "precision": 0.6682,
+            "recall": 0.7751,
+            "f1-score": 0.7177,
+            "support": 43455.0
+          },
+          "Data Scientist": {
+            "precision": 0.6204,
+            "recall": 0.5958,
+            "f1-score": 0.6079,
+            "support": 36260.0
+          },
+          "Machine Learning Engineer": {
+            "precision": 0.3,
+            "recall": 0.0702,
+            "f1-score": 0.1138,
+            "support": 2264.0
+          },
+          "Software Engineer": {
+            "precision": 0.4597,
+            "recall": 0.2967,
+            "f1-score": 0.3606,
+            "support": 6451.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            13,
+            6,
+            5273,
+            807,
+            582,
+            1,
+            109
+          ],
+          [
+            3,
+            54,
+            234,
+            849,
+            134,
+            1,
+            277
+          ],
+          [
+            35,
+            13,
+            24965,
+            4478,
+            6233,
+            22,
+            209
+          ],
+          [
+            3,
+            37,
+            4110,
+            33683,
+            4437,
+            100,
+            1085
+          ],
+          [
+            8,
+            19,
+            6926,
+            7056,
+            21603,
+            211,
+            437
+          ],
+          [
+            1,
+            2,
+            126,
+            732,
+            1111,
+            159,
+            133
+          ],
+          [
+            1,
+            32,
+            948,
+            2800,
+            720,
+            36,
+            1914
+          ]
+        ],
+        "labels": [
+          "Business Analyst",
+          "Cloud Engineer",
+          "Data Analyst",
+          "Data Engineer",
+          "Data Scientist",
+          "Machine Learning Engineer",
+          "Software Engineer"
+        ]
+      },
+      "seconds": 35.0
+    },
+    "hist_gradient_boosting": {
+      "best_params": {
+        "class_weight": null,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 63
+      },
+      "cv_macro_f1_mean": 0.3875,
+      "cv_macro_f1_std": 0.0027,
+      "cv_grid": [
+        {
+          "params": {
+            "class_weight": null,
+            "learning_rate": 0.1,
+            "max_leaf_nodes": 31
+          },
+          "macro_f1": 0.3779
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "learning_rate": 0.1,
+            "max_leaf_nodes": 63
+          },
+          "macro_f1": 0.3875
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "learning_rate": 0.2,
+            "max_leaf_nodes": 31
+          },
+          "macro_f1": 0.3854
+        },
+        {
+          "params": {
+            "class_weight": null,
+            "learning_rate": 0.2,
+            "max_leaf_nodes": 63
+          },
+          "macro_f1": 0.3707
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "learning_rate": 0.1,
+            "max_leaf_nodes": 31
+          },
+          "macro_f1": 0.3816
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "learning_rate": 0.1,
+            "max_leaf_nodes": 63
+          },
+          "macro_f1": 0.3827
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "learning_rate": 0.2,
+            "max_leaf_nodes": 31
+          },
+          "macro_f1": 0.3793
+        },
+        {
+          "params": {
+            "class_weight": "balanced",
+            "learning_rate": 0.2,
+            "max_leaf_nodes": 63
+          },
+          "macro_f1": 0.3814
+        }
+      ],
+      "test": {
+        "accuracy": 0.6387,
+        "balanced_accuracy": 0.3805,
+        "macro_f1": 0.3929,
+        "weighted_f1": 0.6141,
+        "per_class": {
+          "Business Analyst": {
+            "precision": 0.4744,
+            "recall": 0.0054,
+            "f1-score": 0.0108,
+            "support": 6791.0
+          },
+          "Cloud Engineer": {
+            "precision": 0.3672,
+            "recall": 0.0909,
+            "f1-score": 0.1457,
+            "support": 1552.0
+          },
+          "Data Analyst": {
+            "precision": 0.5895,
+            "recall": 0.7072,
+            "f1-score": 0.643,
+            "support": 35955.0
+          },
+          "Data Engineer": {
+            "precision": 0.7049,
+            "recall": 0.774,
+            "f1-score": 0.7378,
+            "support": 43455.0
+          },
+          "Data Scientist": {
+            "precision": 0.6331,
+            "recall": 0.636,
+            "f1-score": 0.6346,
+            "support": 36260.0
+          },
+          "Machine Learning Engineer": {
+            "precision": 0.4663,
+            "recall": 0.1038,
+            "f1-score": 0.1698,
+            "support": 2264.0
+          },
+          "Software Engineer": {
+            "precision": 0.4978,
+            "recall": 0.3465,
+            "f1-score": 0.4086,
+            "support": 6451.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            37,
+            12,
+            5358,
+            695,
+            562,
+            0,
+            127
+          ],
+          [
+            0,
+            141,
+            246,
+            719,
+            136,
+            9,
+            301
+          ],
+          [
+            7,
+            9,
+            25428,
+            4012,
+            6267,
+            6,
+            226
+          ],
+          [
+            13,
+            96,
+            4165,
+            33633,
+            4418,
+            88,
+            1042
+          ],
+          [
+            12,
+            14,
+            6808,
+            5795,
+            23063,
+            143,
+            425
+          ],
+          [
+            0,
+            7,
+            120,
+            576,
+            1192,
+            235,
+            134
+          ],
+          [
+            9,
+            105,
+            1009,
+            2280,
+            790,
+            23,
+            2235
+          ]
+        ],
+        "labels": [
+          "Business Analyst",
+          "Cloud Engineer",
+          "Data Analyst",
+          "Data Engineer",
+          "Data Scientist",
+          "Machine Learning Engineer",
+          "Software Engineer"
+        ]
+      },
+      "seconds": 391.1
+    }
+  },
+  "selected_model": "hist_gradient_boosting",
+  "selection_rule": "highest cross-validated macro-F1 on the training data (test set not used for selection)",
+  "permutation_importance": [
+    {
+      "feature": "n_skills",
+      "mean": 0.03113,
+      "std": 0.00176
+    },
+    {
+      "feature": "R",
+      "mean": 0.03078,
+      "std": 0.00189
+    },
+    {
+      "feature": "Python",
+      "mean": 0.02654,
+      "std": 0.0015
+    },
+    {
+      "feature": "Tableau",
+      "mean": 0.02538,
+      "std": 0.00242
+    },
+    {
+      "feature": "SQL",
+      "mean": 0.0219,
+      "std": 0.00249
+    },
+    {
+      "feature": "Azure",
+      "mean": 0.02025,
+      "std": 0.00199
+    },
+    {
+      "feature": "TensorFlow",
+      "mean": 0.01894,
+      "std": 0.0011
+    },
+    {
+      "feature": "PyTorch",
+      "mean": 0.01764,
+      "std": 0.00088
+    },
+    {
+      "feature": "Power BI",
+      "mean": 0.01443,
+      "std": 0.00178
+    },
+    {
+      "feature": "Terraform",
+      "mean": 0.01301,
+      "std": 0.00171
+    },
+    {
+      "feature": "AWS",
+      "mean": 0.01285,
+      "std": 0.0013
+    },
+    {
+      "feature": "Excel",
+      "mean": 0.01264,
+      "std": 0.00082
+    },
+    {
+      "feature": "Spark",
+      "mean": 0.01109,
+      "std": 0.00164
+    },
+    {
+      "feature": "Linux",
+      "mean": 0.01003,
+      "std": 0.00137
+    },
+    {
+      "feature": "Docker",
+      "mean": 0.00923,
+      "std": 0.00126
+    },
+    {
+      "feature": "Airflow",
+      "mean": 0.00736,
+      "std": 0.00165
+    },
+    {
+      "feature": "Kafka",
+      "mean": 0.0073,
+      "std": 0.00082
+    },
+    {
+      "feature": "scikit-learn",
+      "mean": 0.00684,
+      "std": 0.00151
+    },
+    {
+      "feature": "Snowflake",
+      "mean": 0.00593,
+      "std": 0.00148
+    },
+    {
+      "feature": "C#",
+      "mean": 0.00568,
+      "std": 0.00109
+    },
+    {
+      "feature": "C++",
+      "mean": 0.00564,
+      "std": 0.00087
+    },
+    {
+      "feature": "JavaScript",
+      "mean": 0.00556,
+      "std": 0.0006
+    },
+    {
+      "feature": "Scala",
+      "mean": 0.00497,
+      "std": 0.00105
+    },
+    {
+      "feature": "Git",
+      "mean": 0.00444,
+      "std": 0.00059
+    },
+    {
+      "feature": "GCP",
+      "mean": 0.00432,
+      "std": 0.0009
+    },
+    {
+      "feature": "Data Visualization",
+      "mean": 0.00363,
+      "std": 0.00131
+    },
+    {
+      "feature": "HTML/CSS",
+      "mean": 0.00349,
+      "std": 0.00017
+    },
+    {
+      "feature": "Java",
+      "mean": 0.0033,
+      "std": 0.00204
+    },
+    {
+      "feature": "Bash",
+      "mean": 0.00322,
+      "std": 0.00052
+    },
+    {
+      "feature": "CI/CD",
+      "mean": 0.00311,
+      "std": 0.00169
+    },
+    {
+      "feature": "TypeScript",
+      "mean": 0.003,
+      "std": 0.00042
+    },
+    {
+      "feature": "Databricks",
+      "mean": 0.00283,
+      "std": 0.00097
+    },
+    {
+      "feature": "NumPy",
+      "mean": 0.00278,
+      "std": 0.00069
+    },
+    {
+      "feature": "BigQuery",
+      "mean": 0.00267,
+      "std": 0.00074
+    },
+    {
+      "feature": "React",
+      "mean": 0.00225,
+      "std": 0.00057
+    },
+    {
+      "feature": "NoSQL",
+      "mean": 0.00209,
+      "std": 0.00108
+    },
+    {
+      "feature": "Pandas",
+      "mean": 0.00209,
+      "std": 0.00097
+    },
+    {
+      "feature": "Go",
+      "mean": 0.00193,
+      "std": 0.00052
+    },
+    {
+      "feature": "PostgreSQL",
+      "mean": 0.00189,
+      "std": 0.00056
+    },
+    {
+      "feature": "Ruby",
+      "mean": 0.00167,
+      "std": 0.00033
+    },
+    {
+      "feature": "MySQL",
+      "mean": 0.00159,
+      "std": 0.00099
+    },
+    {
+      "feature": "Kubernetes",
+      "mean": 0.00125,
+      "std": 0.00109
+    },
+    {
+      "feature": "Angular",
+      "mean": 0.0012,
+      "std": 0.00063
+    },
+    {
+      "feature": "Spring",
+      "mean": 0.00113,
+      "std": 0.0013
+    },
+    {
+      "feature": "MongoDB",
+      "mean": 0.00109,
+      "std": 0.00047
+    },
+    {
+      "feature": "Django",
+      "mean": 0.00104,
+      "std": 0.00016
+    },
+    {
+      "feature": "Elasticsearch",
+      "mean": 0.00102,
+      "std": 0.00036
+    },
+    {
+      "feature": "PHP",
+      "mean": 0.00098,
+      "std": 0.00034
+    },
+    {
+      "feature": "Swift",
+      "mean": 0.00062,
+      "std": 0.00048
+    },
+    {
+      "feature": "Node.js",
+      "mean": 0.0006,
+      "std": 0.00036
+    },
+    {
+      "feature": "Rust",
+      "mean": 0.00058,
+      "std": 0.00019
+    },
+    {
+      "feature": "Flask",
+      "mean": 0.00045,
+      "std": 0.00052
+    },
+    {
+      "feature": "GraphQL",
+      "mean": 0.00041,
+      "std": 0.00011
+    },
+    {
+      "feature": "Vue.js",
+      "mean": 0.00033,
+      "std": 0.0003
+    },
+    {
+      "feature": "FastAPI",
+      "mean": 0.00017,
+      "std": 0.00016
+    },
+    {
+      "feature": "Kotlin",
+      "mean": 0.00011,
+      "std": 0.00074
+    },
+    {
+      "feature": "Redis",
+      "mean": -0.0001,
+      "std": 0.00033
+    },
+    {
+      "feature": "Transformers",
+      "mean": -0.00044,
+      "std": 0.00015
+    },
+    {
+      "feature": "Computer Vision",
+      "mean": -0.00047,
+      "std": 0.00011
+    }
+  ],
+  "logistic_top_features": {
+    "Business Analyst": {
+      "positive": [
+        [
+          "Excel",
+          0.502
+        ],
+        [
+          "Tableau",
+          0.325
+        ],
+        [
+          "Power BI",
+          0.303
+        ],
+        [
+          "SQL",
+          0.194
+        ],
+        [
+          "R",
+          0.138
+        ],
+        [
+          "CI/CD",
+          0.048
+        ]
+      ],
+      "negative": [
+        [
+          "Python",
+          -0.344
+        ],
+        [
+          "Spark",
+          -0.23
+        ],
+        [
+          "AWS",
+          -0.21
+        ],
+        [
+          "Azure",
+          -0.187
+        ]
+      ]
+    },
+    "Cloud Engineer": {
+      "positive": [
+        [
+          "Azure",
+          0.311
+        ],
+        [
+          "Terraform",
+          0.238
+        ],
+        [
+          "Linux",
+          0.216
+        ],
+        [
+          "AWS",
+          0.209
+        ],
+        [
+          "Kubernetes",
+          0.13
+        ],
+        [
+          "JavaScript",
+          0.116
+        ]
+      ],
+      "negative": [
+        [
+          "SQL",
+          -0.308
+        ],
+        [
+          "Python",
+          -0.287
+        ],
+        [
+          "R",
+          -0.183
+        ],
+        [
+          "Data Visualization",
+          -0.138
+        ]
+      ]
+    },
+    "Data Analyst": {
+      "positive": [
+        [
+          "Excel",
+          0.415
+        ],
+        [
+          "SQL",
+          0.33
+        ],
+        [
+          "Tableau",
+          0.328
+        ],
+        [
+          "Power BI",
+          0.245
+        ],
+        [
+          "R",
+          0.229
+        ],
+        [
+          "Vue.js",
+          0.048
+        ]
+      ],
+      "negative": [
+        [
+          "Azure",
+          -0.243
+        ],
+        [
+          "AWS",
+          -0.224
+        ],
+        [
+          "Java",
+          -0.212
+        ],
+        [
+          "Kubernetes",
+          -0.2
+        ]
+      ]
+    },
+    "Data Engineer": {
+      "positive": [
+        [
+          "Spark",
+          0.27
+        ],
+        [
+          "SQL",
+          0.259
+        ],
+        [
+          "Azure",
+          0.196
+        ],
+        [
+          "Airflow",
+          0.178
+        ],
+        [
+          "Snowflake",
+          0.178
+        ],
+        [
+          "Kafka",
+          0.163
+        ]
+      ],
+      "negative": [
+        [
+          "Excel",
+          -0.338
+        ],
+        [
+          "R",
+          -0.309
+        ],
+        [
+          "TensorFlow",
+          -0.157
+        ],
+        [
+          "Tableau",
+          -0.114
+        ]
+      ]
+    },
+    "Data Scientist": {
+      "positive": [
+        [
+          "R",
+          0.488
+        ],
+        [
+          "Python",
+          0.43
+        ],
+        [
+          "TensorFlow",
+          0.208
+        ],
+        [
+          "Spark",
+          0.157
+        ],
+        [
+          "PyTorch",
+          0.138
+        ],
+        [
+          "Data Visualization",
+          0.11
+        ]
+      ],
+      "negative": [
+        [
+          "Terraform",
+          -0.193
+        ],
+        [
+          "Kafka",
+          -0.145
+        ],
+        [
+          "Java",
+          -0.134
+        ],
+        [
+          "Linux",
+          -0.105
+        ]
+      ]
+    },
+    "Machine Learning Engineer": {
+      "positive": [
+        [
+          "Python",
+          0.475
+        ],
+        [
+          "PyTorch",
+          0.317
+        ],
+        [
+          "TensorFlow",
+          0.303
+        ],
+        [
+          "Docker",
+          0.169
+        ],
+        [
+          "Spark",
+          0.132
+        ],
+        [
+          "Airflow",
+          0.124
+        ]
+      ],
+      "negative": [
+        [
+          "Tableau",
+          -0.352
+        ],
+        [
+          "SQL",
+          -0.326
+        ],
+        [
+          "Power BI",
+          -0.27
+        ],
+        [
+          "Excel",
+          -0.199
+        ]
+      ]
+    },
+    "Software Engineer": {
+      "positive": [
+        [
+          "Java",
+          0.216
+        ],
+        [
+          "Linux",
+          0.161
+        ],
+        [
+          "Kubernetes",
+          0.138
+        ],
+        [
+          "Kafka",
+          0.132
+        ],
+        [
+          "C#",
+          0.129
+        ],
+        [
+          "C++",
+          0.111
+        ]
+      ],
+      "negative": [
+        [
+          "R",
+          -0.357
+        ],
+        [
+          "Excel",
+          -0.223
+        ],
+        [
+          "Python",
+          -0.222
+        ],
+        [
+          "SQL",
+          -0.159
+        ]
+      ]
+    }
+  },
+  "model_file": "models/role_classifier.joblib",
+  "selected_model_topk_accuracy": {
+    "top_1": 0.6387,
+    "top_2": 0.84,
+    "top_3": 0.9288
+  }
+}

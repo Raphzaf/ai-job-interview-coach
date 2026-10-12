@@ -26,9 +26,9 @@ MODEL_LABELS = {"most_frequent": "Baseline: most frequent", "stratified": "Basel
                 "hist_gradient_boosting": "Gradient boosting (HGB)"}
 
 
-def _save(fig, name: str, note: str) -> None:
+def _save(fig, name: str, note: str, note_y: float = -0.03) -> None:
     FIG_DIR.mkdir(parents=True, exist_ok=True)
-    fig.text(0.01, -0.03, note, fontsize=8.5, color=MUTED, ha="left", va="top")
+    fig.text(0.01, note_y, note, fontsize=8.5, color=MUTED, ha="left", va="top")
     fig.savefig(FIG_DIR / f"{name}.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
@@ -78,7 +78,7 @@ def confusion(role: dict) -> None:
     cb.set_label("% of the true class (row)", color=INK_2)
     ax.set_title(f"Confusion matrix, {MODEL_LABELS[role['selected_model']]} (row-normalised %)")
     pd.DataFrame(pct.round(2), index=labels, columns=labels).to_csv(RESULTS_DIR / "fig_confusion_matrix_pct.csv")
-    _save(fig, "ML_confusion_matrix", "Diagonal = recall per class. Test set, company-grouped split.")
+    _save(fig, "ML_confusion_matrix", "Diagonal = recall per class. Test set, company-grouped split.", note_y=-0.1)
 
 
 def importance(role: dict, top: int = 15) -> None:

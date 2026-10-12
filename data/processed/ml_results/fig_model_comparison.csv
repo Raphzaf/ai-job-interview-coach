@@ -1,0 +1,6 @@
+model,macro_f1,accuracy
+Baseline: most frequent,0.0705,0.3274
+Baseline: random (stratified),0.1421,0.2565
+Logistic regression,0.3399,0.4386
+Decision tree,0.3575,0.6208
+Gradient boosting (HGB),0.3929,0.6387

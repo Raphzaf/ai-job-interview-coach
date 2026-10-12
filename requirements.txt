@@ -26,5 +26,9 @@ scipy>=1.11                  # Hypothesis tests (Mann-Whitney, chi-square, Krusk
 statsmodels>=0.14            # OLS with robust SE, Cochran-Mantel-Haenszel, multiple-testing correction
 matplotlib>=3.8              # Figures generated from the data (reports/figures)
 
+# --- Machine learning ---
+scikit-learn>=1.4            # Role-family classifier: pipelines, grouped CV, grid search, metrics
+joblib>=1.3                  # Save/load the trained model (models/role_classifier.joblib)
+
 # --- LLM provider ---
 openai>=1.40                 # Client for any OpenAI-compatible API (OpenAI, Gemini, Groq, Ollama...)
