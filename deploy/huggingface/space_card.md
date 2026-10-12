@@ -6,7 +6,7 @@ colorTo: indigo
 sdk: docker
 app_port: 8000
 pinned: false
-short_description: CV/job match, market demand for skills, mock interview (RAG)
+short_description: CV/job match, skill demand and mock interviews
 ---
 
 # AI Job Market & Interview Coach

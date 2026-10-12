@@ -38,9 +38,9 @@ def create_app(settings: Settings | None = None, container: Container | None = N
         yield
 
     app = FastAPI(
-        title="AI Job Interview & Application Coach",
+        title="AI Job Market & Interview Coach",
         version=__version__,
-        description="RAG-based CV/job matching, personalised interview questions and grounded answer feedback.",
+        description="RAG-based CV/job matching with job-market context, personalised interview questions and grounded answer feedback.",
         lifespan=lifespan,
     )
     app.state.container = container

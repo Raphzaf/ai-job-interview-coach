@@ -9,7 +9,7 @@ def test_health(client):
 
 
 def test_ui_and_docs_are_served(client):
-    assert "AI Job Interview" in client.get("/").text
+    assert "AI Job Market &amp; Interview Coach" in client.get("/").text
     assert client.get("/docs").status_code == 200
     assert "/api/analyze" in client.get("/openapi.json").json()["paths"]
 
