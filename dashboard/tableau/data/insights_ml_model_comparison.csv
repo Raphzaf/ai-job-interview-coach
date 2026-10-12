@@ -1,0 +1,6 @@
+model,kind,macro_f1,accuracy,balanced_accuracy
+most_frequent,baseline,0.0705,0.3274,0.1429
+stratified,baseline,0.1421,0.2565,0.1422
+logistic_regression,candidate,0.3399,0.4386,0.4687
+decision_tree,candidate,0.3575,0.6208,0.3527
+hist_gradient_boosting,selected,0.3929,0.6387,0.3805

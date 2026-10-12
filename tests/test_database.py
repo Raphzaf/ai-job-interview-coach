@@ -224,3 +224,22 @@ def test_all_analysis_queries_run(loaded, tmp_path):
     assert counts["jobs_live"] == 3 and counts["jobs_reference"] == 3
     checks = pd.read_csv(tmp_path / "15_data_quality_checks.csv").set_index("check_name")["value"]
     assert checks["live postings whose skill_count differs from job_skills rows"] == 0
+
+
+def test_dashboard_exports_are_dense_and_additive(loaded, tmp_path):
+    """Tableau extracts: totals add up and each skill table has one denominator per group."""
+    from market.dashboard import export
+
+    with reader() as conn:
+        frames = export.run_exports(conn, out_dir=tmp_path)
+    ov = frames["ref_overview_2023"]
+    assert ov["postings"].sum() == 3 and ov["postings_with_skill_data"].sum() == 2
+    sd = frames["ref_skill_demand_2023"]
+    keys = ["role_family", "seniority", "country_group", "remote"]
+    assert len(sd) == len(sd[keys].drop_duplicates()) * sd["skill"].nunique()      # dense
+    assert sd.groupby(keys)["postings_in_group"].nunique().max() == 1             # one denominator per group
+    python = sd[sd["skill"] == "Python"]
+    assert python["postings_with_skill"].sum() / python["postings_in_group"].sum() == 1.0  # 2 of 2 postings
+    ls = frames["live_skill_demand_2026"]
+    assert ls[ls["skill"] == ls["skill"].iloc[0]]["postings_in_group"].sum() == len(frames["live_jobs_2026"])
+    assert not {"description", "description_text", "body"} & set(frames["live_jobs_2026"].columns)  # no free text
