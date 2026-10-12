@@ -47,6 +47,9 @@ class Settings(BaseSettings):
     match_weight_semantic_similarity: float = Field(0.15, ge=0)
     match_weight_experience: float = Field(0.10, ge=0)
 
+    # --- Market context (data-analytics layer, see app/market_context) -------
+    market_context_enabled: bool = True
+
     # --- Misc ----------------------------------------------------------------
     log_level: str = "INFO"
     max_upload_mb: float = Field(5.0, gt=0)

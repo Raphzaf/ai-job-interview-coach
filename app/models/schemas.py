@@ -191,6 +191,28 @@ class PipelineInfo(BaseModel):
     llm: str
 
 
+class SkillDemand(BaseModel):
+    skill: str
+    share: float = Field(ge=0, le=100, description="% of postings of the role family that list the skill")
+    postings_with_skill: int
+    in_cv: bool
+    in_job: bool
+
+
+class MarketContext(BaseModel):
+    """Job-market demand for the job's skills (reference data; never changes the score)."""
+
+    available: bool
+    role_family: str | None = None
+    job_title: str
+    source: str
+    postings: int | None = None
+    missing_skill_demand: list[SkillDemand] = Field(default_factory=list)
+    untracked_missing_skills: list[str] = Field(default_factory=list)
+    top_skills: list[SkillDemand] = Field(default_factory=list)
+    note: str
+
+
 class AnalyzeResponse(BaseModel):
     session_id: str
     documents: list[DocumentStats]
@@ -199,6 +221,7 @@ class AnalyzeResponse(BaseModel):
     insights_generated_by: GeneratedBy
     insights_sources: list[SourceChunk]
     pipeline: PipelineInfo
+    market: MarketContext | None = None
     warnings: list[str] = Field(default_factory=list)
 
 
