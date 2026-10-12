@@ -36,6 +36,24 @@ class LLMProvider(Protocol):
     def complete(self, messages: list[Message], json_mode: bool = True) -> str: ...
 
 
+CONNECT_TIMEOUT_SECONDS = 5.0
+INVALID_KEY_MESSAGE = "The language model API key is invalid or missing (check LLM_API_KEY)."
+
+
+def _error_detail(exc: Exception) -> str:
+    """Lower-cased provider error text (message + body), used only for classification, never logged."""
+    body = getattr(exc, "body", None)
+    return f"{exc} {json.dumps(body) if body is not None else ''}".lower()
+
+
+def _is_json_mode_rejection(detail: str) -> bool:
+    return "response_format" in detail or "json_object" in detail or "json mode" in detail
+
+
+def _is_api_key_error(detail: str) -> bool:
+    return "api key" in detail or "api_key" in detail or "unauthenticated" in detail
+
+
 class OpenAICompatibleProvider:
     def __init__(self, settings: Settings):
         from openai import OpenAI
@@ -43,10 +61,16 @@ class OpenAICompatibleProvider:
         self.model = settings.llm_model
         self.temperature = settings.llm_temperature
         self.name = f"{settings.llm_model} (OpenAI-compatible API)"
+        import httpx
+
         self._client = OpenAI(
             api_key=settings.llm_api_key.get_secret_value() or "not-needed-for-local-servers",
             base_url=settings.llm_base_url or None,
-            timeout=settings.llm_timeout_seconds,
+            # LLM_TIMEOUT_SECONDS bounds a whole generation (Gemini answers in
+            # ~8-18 s). Connecting gets at most CONNECT_TIMEOUT_SECONDS, so an
+            # unreachable provider falls back to offline mode within seconds.
+            timeout=httpx.Timeout(settings.llm_timeout_seconds,
+                                  connect=min(CONNECT_TIMEOUT_SECONDS, settings.llm_timeout_seconds)),
             # One SDK-level retry handles transient 429/5xx; more would make the
             # UI hang for minutes before the offline fallback can kick in.
             max_retries=1,
@@ -65,19 +89,28 @@ class OpenAICompatibleProvider:
         try:
             response = self._client.chat.completions.create(**kwargs)
         except openai.BadRequestError as exc:
-            if "response_format" in kwargs:
+            detail = _error_detail(exc)
+            if "response_format" in kwargs and _is_json_mode_rejection(detail):
                 # Some OpenAI-compatible servers reject response_format; retry
                 # without it and rely on the prompt + JSON extraction instead.
                 logger.warning("Provider rejected JSON mode, retrying without it")
                 self._json_mode_supported = False
                 return self.complete(messages, json_mode=False)
+            if _is_api_key_error(detail):
+                # Gemini answers an invalid key with HTTP 400, not 401.
+                raise LLMError(INVALID_KEY_MESSAGE) from exc
+            logger.error("LLM request rejected (status=400)")
             raise LLMError("The language model rejected the request.") from exc
         except openai.APITimeoutError as exc:
             raise LLMError("The language model timed out. Please try again.") from exc
+        except openai.APIConnectionError as exc:
+            raise LLMError("The language model service could not be reached (network error).") from exc
         except openai.NotFoundError as exc:
             raise LLMError(f"Model '{self.model}' was not found by the provider (check LLM_MODEL / LLM_BASE_URL).") from exc
-        except openai.AuthenticationError as exc:
-            raise LLMError("The language model API key is invalid or missing (check LLM_API_KEY).") from exc
+        except (openai.AuthenticationError, openai.PermissionDeniedError) as exc:
+            raise LLMError(INVALID_KEY_MESSAGE) from exc
+        except openai.RateLimitError as exc:
+            raise LLMError("The language model quota or rate limit was reached. Please try again later.") from exc
         except openai.APIError as exc:
             # Log the class and status only: the message may echo request content.
             logger.error("LLM provider error: %s (status=%s)", type(exc).__name__, getattr(exc, "status_code", "?"))

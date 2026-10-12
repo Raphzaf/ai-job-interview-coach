@@ -9,9 +9,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # CPU-only torch first: the default wheel bundles CUDA and is several GB larger.
-RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Versions are pinned to the image verified end to end (see constraints.txt), so a
+# rebuild weeks later (e.g. on Hugging Face Spaces) installs the same packages.
+ARG TORCH_VERSION=2.14.1
+RUN pip install torch==${TORCH_VERSION} --index-url https://download.pytorch.org/whl/cpu
+COPY requirements.txt constraints.txt ./
+RUN pip install -r requirements.txt -c constraints.txt
 
 # Download the embedding model + tokenizer at build time so the container
 # starts fast and works without internet access at runtime.

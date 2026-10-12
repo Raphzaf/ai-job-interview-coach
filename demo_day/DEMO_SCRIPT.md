@@ -36,7 +36,7 @@ All numbers below come from the project's saved results:
 | 0:00–0:15 | Title slide or the app's home page | "Job seekers prepare for interviews blindly: they don't know what the market wants, or how their CV compares to a specific job. I built the **AI Job Market & Interview Coach**, which goes from job-market data to personalised interview practice." |
 | 0:15–0:40 | Tableau Dashboard 1 → set **Role = Data Engineer**, then **Country = Germany** | "First, the market. I collected about 788,000 job postings from a public API and a public dataset, cleaned them with pandas, and loaded them into PostgreSQL. For Data Engineers, SQL appears in 67.5 % of postings, Python in 65 %, and AWS in 39 %. In Germany, Azure overtakes AWS." |
 | 0:40–0:55 | Coach → **Load sample documents** → **Analyze match** | "Now a real candidate. The coach reads the CV and the job, splits them into chunks, embeds them, and indexes them with FAISS for semantic search." |
-| 0:55–1:20 | Score ring, skills, **Job market context** panel | "The match is 88 out of 100, and every part of the score is explained. The candidate is missing AWS, and the coach connects this to the market: AWS appears in 31 % of Machine Learning Engineer postings. So this gap is worth preparing." |
+| 0:55–1:20 | Score ring, skills, **Job market context** panel | "The match is 85 out of 100, and every part of the score is explained. The candidate is missing AWS, and the coach connects this to the market: AWS appears in 31 % of Machine Learning Engineer postings. So this gap is worth preparing." |
 | 1:20–1:45 | **Start interview practice** → choose **Skill gap** → **New question** → paste the answer → **Submit** | "The interview: the coach retrieves the relevant parts of the CV and the job, and the LLM asks a question about the gap, without pretending the CV mentions AWS. I answer…" |
 | 1:45–2:00 | Feedback: score, rubric, stronger answer | "…and get a rubric score, what was missing, and a stronger answer with placeholders instead of invented facts. Data tells you what the market wants; the AI coach helps you prepare for it." |
 
@@ -53,7 +53,7 @@ Insert them after 0:40 (data) or after 2:00 (behind the scenes).
 |---|---|---|
 | +25 s | Dashboard 2, skill = **AWS** | "Is AWS a senior skill? Statistically, yes: a Cochran-Mantel-Haenszel test within each role gives an odds ratio of 1.47 for senior postings. The effect is real but moderate, and I report effect sizes, not just p-values." |
 | +25 s | Figure `reports/figures/ml/ML_confusion_matrix.png` | "Can skills predict a role? A gradient-boosting classifier reaches a macro-F1 of 0.39 against 0.14 for a random baseline. Skills carry real information, but Data Analyst, Engineer and Scientist overlap heavily, which is itself an insight." |
-| +20 s | Coach → **Under the hood** and **Sources** panels | "Everything the AI says is grounded: sources are numbered, outputs are validated JSON, and if the LLM fails the app falls back to a labelled offline mode. The project has 165 automated tests." |
+| +20 s | Coach → **Under the hood** and **Sources** panels | "Everything the AI says is grounded: sources are numbered, outputs are validated JSON, and if the LLM fails the app falls back to a labelled offline mode. The project has 191 automated tests." |
 
 ---
 

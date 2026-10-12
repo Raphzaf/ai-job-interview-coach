@@ -150,3 +150,91 @@ def test_matching_pair_scores_higher_than_mismatched_pair(processor, embedder):
 
     assert score("cv_ml_engineer.txt", "job_ml_engineer.txt") > score("cv_marketing_coordinator.txt", "job_ml_engineer.txt") + 20
     assert score("cv_marketing_coordinator.txt", "job_marketing_manager.txt") > score("cv_ml_engineer.txt", "job_marketing_manager.txt")
+
+
+# --- out-of-domain jobs (final audit: ML CV scored 58.8% against a nurse job) ------------
+
+NURSE_JOB = ("Registered Nurse - Intensive Care Unit\nCity Hospital\n\nRequirements\n- State nursing licence\n"
+             "- 3+ years of ICU experience\n- Patient assessment and medication administration\n"
+             "- Calm communication with families\n")
+CHEF_JOB = ("Head Chef\nBistro Lumiere\n\nRequirements\n- 5+ years running a professional kitchen\n"
+            "- Menu design and food cost control\n- Leadership of a team of 8 cooks\n- Strong communication skills\n")
+FEW_SKILLS_JOB = "Data Engineer\nAcme\n\nRequirements\n- Strong Python\n- 3+ years building data pipelines\n"
+INCOMPLETE_JOB = "Data Engineer at Acme. We need someone good with data pipelines and Python. Apply now!"
+
+
+@pytest.fixture
+def analyze(processor, embedder, sample_cv_text):
+    def run(job_text, cv_text=None):
+        cv = processor.prepare(cv_text or sample_cv_text, "cv", "cv.txt")
+        job = processor.prepare(job_text, "job", "job.txt")
+        retriever = Retriever.from_chunks(embedder, processor.chunk(cv) + processor.chunk(job))
+        report = Matcher().analyze(cv, job, retriever)
+        return report, {c.key: c for c in report.breakdown}
+    return run
+
+
+def test_soft_skills_count_half_in_the_skill_signal():
+    from app.models.domain import SkillMatch
+
+    skills = SkillMatch(required=["Python", "Communication"], matched_required=["Communication"])
+    assert Matcher.skill_overlap_score(skills) == pytest.approx(0.5 / 1.5)
+    # Spoken languages are concrete requirements and keep their full weight.
+    assert Matcher.skill_weight("English") == 1.0 and Matcher.skill_weight("Leadership") == 0.5
+
+
+def test_skill_signal_weight_shrinks_when_the_job_lists_few_skills():
+    from app.models.domain import SkillMatch
+
+    assert Matcher.skill_reliability(SkillMatch(required=["Communication"])) == pytest.approx(0.5 / 3)
+    assert Matcher.skill_reliability(SkillMatch(required=["Python"])) == pytest.approx(1 / 3)
+    assert Matcher.skill_reliability(SkillMatch(required=["Python", "SQL", "Docker"])) == 1.0
+    overall, weights = Matcher().combine(
+        {"skill_overlap": 1.0, "requirement_coverage": 0.2, "semantic_similarity": 0.0, "experience": None},
+        {"skill_overlap": 1 / 3},
+    )
+    assert weights["skill_overlap"] == pytest.approx(0.40 / 3 / (0.40 / 3 + 0.35 + 0.15))
+    assert sum(weights.values()) == pytest.approx(1.0)
+
+
+def test_experience_is_credited_in_proportion_to_requirement_coverage():
+    assert Matcher.experience_score(3, 6.0, coverage=0.9) == 1.0   # relevant CV: no penalty
+    assert Matcher.experience_score(3, 6.0, coverage=0.35) == pytest.approx(0.5)
+    assert Matcher.experience_score(3, 6.0, coverage=None) == 1.0  # nothing to judge relevance against
+
+
+def test_relevant_cv_keeps_full_weights_and_a_high_score(analyze, sample_job_text):
+    report, parts = analyze(sample_job_text)
+    assert parts["skill_overlap"].weight == pytest.approx(DEFAULT_WEIGHTS["skill_overlap"])
+    assert parts["experience"].score == 100.0
+    assert "reduced" not in parts["skill_overlap"].explanation
+
+
+def test_ml_cv_vs_nurse_job_is_not_inflated_by_one_soft_skill(analyze, sample_job_text):
+    relevant, _ = analyze(sample_job_text)
+    report, parts = analyze(NURSE_JOB)
+    assert [s.name for s in report.matching_skills] == ["Communication"]
+    assert parts["skill_overlap"].weight < 0.15 and "reduced" in parts["skill_overlap"].explanation
+    assert parts["experience"].score < 50 and "Credited at" in parts["experience"].explanation
+    assert report.overall_score < relevant.overall_score - 40
+
+
+def test_jobs_sharing_only_soft_skills_are_not_covered_by_them(analyze):
+    report, parts = analyze(CHEF_JOB)
+    by_text = {c.text: c for c in report.requirements}
+    leadership = by_text["Leadership of a team of 8 cooks"]
+    assert leadership.matched_skills == ["Leadership"] and leadership.status != "covered"
+    assert parts["skill_overlap"].weight < DEFAULT_WEIGHTS["skill_overlap"]
+
+
+def test_job_with_very_few_skills_still_scores_a_relevant_cv(analyze):
+    report, parts = analyze(FEW_SKILLS_JOB)
+    assert parts["skill_overlap"].score == 100.0 and parts["skill_overlap"].weight < DEFAULT_WEIGHTS["skill_overlap"]
+    assert 0 <= report.overall_score <= 100
+
+
+def test_incomplete_job_ad_degrades_gracefully(analyze):
+    report, parts = analyze(INCOMPLETE_JOB)
+    assert not parts["experience"].applicable  # no "N+ years" stated
+    assert sum(c.weight for c in report.breakdown) == pytest.approx(1.0, abs=0.01)
+    assert 0 <= report.overall_score <= 100

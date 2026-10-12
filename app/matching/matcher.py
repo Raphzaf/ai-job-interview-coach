@@ -15,6 +15,17 @@ Signals that cannot be computed (e.g. the job states no years of experience)
 are marked "not applicable" and the remaining weights are re-normalised, so a
 missing signal neither helps nor hurts the candidate.
 
+Two safeguards keep generic evidence from inflating the score of an unrelated
+CV (found in the final audit: an ML engineer CV scored 58.8% against a nurse
+job because "Communication" was the only skill the job listed):
+- Soft skills (communication, leadership...) count half as much as
+  job-specific skills, and the skill signal's weight shrinks when the job lists
+  too few skills for a ratio to mean anything (full weight from
+  MIN_SKILL_EVIDENCE weighted skills; one skill out of one is not "100% fit").
+- Years of experience are credited in proportion to how well the CV covers the
+  job's requirements (fully once coverage reaches the "covered" level): six
+  years as an ML engineer are not six years of nursing.
+
 Calibration: all-MiniLM-L6-v2 cosine similarities are not percentages
 (unrelated professional texts still score ~0.2-0.4). The anchors below were
 chosen from the evaluation set in evaluation/data (3 CVs x 3 jobs): matching
@@ -48,6 +59,15 @@ DEFAULT_WEIGHTS = {
 }
 # A preferred ("nice to have") skill/requirement counts half as much as a required one.
 PREFERRED_WEIGHT = 0.5
+# Soft skills are real requirements but not specific to a job, so they count
+# half as much as job-specific skills. Spoken languages keep full weight: "fluent
+# English" is a concrete, verifiable requirement.
+TRANSFERABLE_CATEGORIES = {"Soft skills"}
+TRANSFERABLE_WEIGHT = 0.5
+# Below this many weighted job skills, the skill ratio rests on one or two items
+# (one match moves it by 33+ points), so its weight is reduced proportionally.
+# Every job of the evaluation set lists 11+ skills and keeps its full weight.
+MIN_SKILL_EVIDENCE = 3.0
 # Document-level cosine similarity -> [0, 1] (see calibration note above).
 DOC_SIM_LOW, DOC_SIM_HIGH = 0.45, 0.85
 # Requirement-to-best-CV-chunk cosine similarity -> [0, 1].
@@ -134,18 +154,42 @@ class Matcher:
     # --- individual signals ---------------------------------------------------
 
     @staticmethod
-    def skill_overlap_score(skills: SkillMatch) -> float | None:
-        total = len(skills.required) + PREFERRED_WEIGHT * len(skills.preferred)
+    def skill_weight(skill: str, preferred: bool = False) -> float:
+        weight = PREFERRED_WEIGHT if preferred else 1.0
+        return weight * (TRANSFERABLE_WEIGHT if skill_category(skill) in TRANSFERABLE_CATEGORIES else 1.0)
+
+    @classmethod
+    def skill_evidence(cls, skills: SkillMatch) -> float:
+        """Weighted number of skills the job lists (the denominator of the skill signal)."""
+        return sum(cls.skill_weight(s) for s in skills.required) + sum(cls.skill_weight(s, True) for s in skills.preferred)
+
+    @classmethod
+    def skill_overlap_score(cls, skills: SkillMatch) -> float | None:
+        total = cls.skill_evidence(skills)
         if total == 0:
             return None
-        matched = len(skills.matched_required) + PREFERRED_WEIGHT * len(skills.matched_preferred)
+        matched = sum(cls.skill_weight(s) for s in skills.matched_required) + sum(
+            cls.skill_weight(s, True) for s in skills.matched_preferred
+        )
         return matched / total
 
+    @classmethod
+    def skill_reliability(cls, skills: SkillMatch) -> float:
+        """Share of its weight the skill signal keeps: 1 from MIN_SKILL_EVIDENCE weighted skills."""
+        return min(1.0, cls.skill_evidence(skills) / MIN_SKILL_EVIDENCE)
+
     @staticmethod
-    def experience_score(required: int | None, candidate: float | None) -> float | None:
+    def experience_score(required: int | None, candidate: float | None, coverage: float | None = None) -> float | None:
+        """Years ratio, credited in proportion to requirement coverage (fully from the "covered" level).
+
+        Without a coverage value (the job has no extractable requirements) the
+        years ratio is used as is: there is nothing to judge relevance against.
+        """
         if required is None or candidate is None:
             return None
-        return min(1.0, candidate / required) if required > 0 else 1.0
+        ratio = min(1.0, candidate / required) if required > 0 else 1.0
+        relevance = 1.0 if coverage is None else min(1.0, coverage / COVERED_AT)
+        return ratio * relevance
 
     def requirement_coverage(
         self, requirements: list[Requirement], retriever: Retriever, cv_skills: set[str]
@@ -168,7 +212,13 @@ class Matcher:
             # chooses which chunk is displayed as evidence.
             similarity = hits[0].score if hits else 0.0
             semantic_credit = rescale(similarity, REQ_SIM_LOW, REQ_SIM_HIGH)
-            skill_credit = len(matched) / len(req_skills) if req_skills else 0.0
+            # A soft skill (e.g. "Leadership" in "Leadership of a team of
+            # 8 cooks") earns half credit: it supports the requirement without
+            # proving the job-specific part of it.
+            skill_credit = (
+                sum(TRANSFERABLE_WEIGHT if skill_category(s) in TRANSFERABLE_CATEGORIES else 1.0 for s in matched)
+                / len(req_skills) if req_skills else 0.0
+            )
             coverage = max(semantic_credit, skill_credit)
             status = "covered" if coverage >= COVERED_AT else "partial" if coverage >= PARTIAL_AT else "missing"
             results.append(
@@ -200,13 +250,21 @@ class Matcher:
         cosine = float(cv_centroid @ job_centroid) / denom
         return cosine, rescale(cosine, DOC_SIM_LOW, DOC_SIM_HIGH)
 
-    def combine(self, signals: dict[str, float | None]) -> tuple[float, dict[str, float]]:
-        """Weighted average over applicable signals; weights re-normalised to sum to 1."""
-        applicable = {k: v for k, v in signals.items() if v is not None and self.weights[k] > 0}
-        total_weight = sum(self.weights[k] for k in applicable)
+    def combine(
+        self, signals: dict[str, float | None], reliability: dict[str, float] | None = None
+    ) -> tuple[float, dict[str, float]]:
+        """Weighted average over applicable signals; weights re-normalised to sum to 1.
+
+        `reliability` (0-1 per signal, default 1) scales a signal's weight down
+        when it rests on too little evidence; the others absorb the difference.
+        """
+        reliability = reliability or {}
+        weights = {k: self.weights[k] * reliability.get(k, 1.0) for k in self.weights}
+        applicable = {k: v for k, v in signals.items() if v is not None and weights[k] > 0}
+        total_weight = sum(weights[k] for k in applicable)
         if total_weight == 0:
             return 0.0, {k: 0.0 for k in signals}
-        effective = {k: (self.weights[k] / total_weight if k in applicable else 0.0) for k in signals}
+        effective = {k: (weights[k] / total_weight if k in applicable else 0.0) for k in signals}
         overall = sum(effective[k] * applicable[k] for k in applicable)
         return overall, effective
 
@@ -219,20 +277,33 @@ class Matcher:
         doc_cosine, doc_score = self.document_similarity(retriever)
         req_years, cand_years = required_years(job.text), candidate_years(cv.text)
 
+        coverage = self.coverage_score(coverages)
+        skill_reliability = self.skill_reliability(skills)
         signals = {
             "skill_overlap": self.skill_overlap_score(skills),
-            "requirement_coverage": self.coverage_score(coverages),
+            "requirement_coverage": coverage,
             "semantic_similarity": doc_score,
-            "experience": self.experience_score(req_years, cand_years),
+            "experience": self.experience_score(req_years, cand_years, coverage),
         }
-        overall, effective = self.combine(signals)
+        overall, effective = self.combine(signals, {"skill_overlap": skill_reliability})
         n_covered = sum(c.status == "covered" for c in coverages)
         n_partial = sum(c.status == "partial" for c in coverages)
+        skill_note = (
+            f" Only {self.skill_evidence(skills):g} weighted skill(s) identified in the job, so this signal's "
+            f"weight is reduced (full weight from {MIN_SKILL_EVIDENCE:g})."
+            if signals["skill_overlap"] is not None and skill_reliability < 1 else ""
+        )
+        experience_note = (
+            f" Credited at {min(1.0, coverage / COVERED_AT):.0%} because the CV covers "
+            f"{coverage:.0%} of the job's requirements (full credit from {COVERED_AT:.0%})."
+            if signals["experience"] is not None and coverage is not None and coverage < COVERED_AT else ""
+        )
         explanations = {
             "skill_overlap": (
                 f"{len(skills.matched_required)}/{len(skills.required)} required and "
                 f"{len(skills.matched_preferred)}/{len(skills.preferred)} preferred job skills found in the CV "
-                f"(preferred skills count x{PREFERRED_WEIGHT})."
+                f"(preferred skills count x{PREFERRED_WEIGHT}, soft skills x{TRANSFERABLE_WEIGHT})."
+                + skill_note
             ),
             "requirement_coverage": (
                 f"{n_covered} covered, {n_partial} partially covered out of {len(coverages)} requirements, "
@@ -245,6 +316,7 @@ class Matcher:
             ),
             "experience": (
                 f"Job asks for {req_years}+ years; about {cand_years} years computed from the CV's dates."
+                + experience_note
                 if signals["experience"] is not None
                 else "Not applicable: " + ("the job states no minimum years." if req_years is None
                                            else "no employment date ranges were found in the CV.")

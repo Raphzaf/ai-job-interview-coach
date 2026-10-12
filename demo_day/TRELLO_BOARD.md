@@ -33,7 +33,7 @@ The template asks for a screenshot of a Trello board showing the feature list. T
 | Market demand for missing skills in the coach | App |
 | Interview questions + answer feedback | GenAI |
 | Web UI + REST API | App |
-| 165 automated tests + GenAI evaluation | Delivery |
+| 191 automated tests + GenAI evaluation | Delivery |
 | Docker image | Delivery |
 | README + documentation | Delivery |
 

@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     llm_api_key: SecretStr = SecretStr("")
     llm_base_url: str = ""
     llm_temperature: float = Field(0.3, ge=0.0, le=2.0)
-    llm_timeout_seconds: float = Field(60.0, gt=0)
+    llm_timeout_seconds: float = Field(30.0, gt=0)  # per LLM call; observed Gemini calls take 8-18 s
     llm_fallback_to_offline: bool = True
 
     # --- Embeddings ----------------------------------------------------------

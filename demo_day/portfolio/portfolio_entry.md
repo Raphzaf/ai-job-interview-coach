@@ -25,8 +25,8 @@ Candidates prepare blindly. They don't know which skills the market asks for, ho
 
 - Role classifier: macro-F1 **0.393** vs **0.142** for a stratified baseline (accuracy 0.639, top-3 accuracy 0.929), with a company-grouped split.
 - Statistics: senior status associated with **+17.2 %** advertised salary (OLS, R² 0.26). Effect sizes are reported for every test.
-- Coach: retrieval hit@3 **92 %**; matching CV/job pairs score **95.1** vs **36.8** for mismatched pairs; **13/13** LLM outputs valid on first try.
-- **165** automated tests, including a real temporary PostgreSQL server.
+- Coach: retrieval hit@3 **92 %**; matching CV/job pairs score **94.3** vs **31.8** for mismatched pairs; **13/13** LLM outputs valid on first try.
+- **191** automated tests, including a real temporary PostgreSQL server.
 
 ## Technologies
 
