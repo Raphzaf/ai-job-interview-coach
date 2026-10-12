@@ -1,0 +1,6 @@
+check_name,value
+reference rows with repaired country,21775
+reference rows with unknown skills,116908
+reference postings without any job_skills row but skills_missing = false,0
+live postings flagged as probable re-posts,65
+live postings whose skill_count differs from job_skills rows,0

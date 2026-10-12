@@ -10,3 +10,27 @@ services:
       - path: .env
         required: false
     restart: unless-stopped
+
+  # PostgreSQL for the job-market layer. Start it alone with:
+  #   docker compose up -d db
+  # then, from the host: python -m market.db.setup && python -m market.db.load
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      # Superuser password from your .env (PG_ADMIN_PASSWORD); never hard-coded.
+      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD:?Set PG_ADMIN_PASSWORD in .env}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --encoding=UTF8"
+    ports:
+      - "127.0.0.1:5432:5432"   # reachable from this machine only
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,0 +1,12 @@
+job_family,postings,remote_pct,median_skill_count,postings_with_level,english_description_pct
+Software & IT,522,12.26,4.0,307,42.72
+Management & Consulting,465,9.68,2.0,242,36.56
+Sales & Business Development,338,6.21,3.0,143,39.64
+Engineering & Technical,323,5.57,3.0,143,51.39
+Marketing & Communication,313,20.13,2.0,195,21.73
+Data & AI,306,10.46,7.0,170,69.28
+Other,280,6.79,2.0,184,36.43
+Finance & Accounting,244,4.51,1.0,101,15.16
+Operations & Logistics,98,8.16,2.0,55,45.92
+HR & Recruiting,91,7.69,1.0,55,32.97
+Customer Service,46,8.70,1.0,21,26.09
