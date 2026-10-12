@@ -2,6 +2,7 @@
 
     analyze():   documents -> clean -> chunk -> embed -> FAISS index
                  -> deterministic match scoring (uses FAISS for requirement evidence)
+                 -> job-market context (demand for the job's skills, from the data layer)
                  -> multi-query retrieval -> LLM insights (grounded, validated JSON)
     next_question(): plan (category + focus) -> query embedding -> FAISS top-k from
                  CV and job -> context -> LLM -> validated InterviewQuestion
@@ -24,6 +25,7 @@ from app.core.logging import get_logger
 from app.core.sessions import AskedQuestion, Session, SessionStore
 from app.document_processing.processor import DocumentProcessor
 from app.embeddings.service import EmbeddingService
+from app.market_context import MarketContextService
 from app.matching.matcher import Matcher, to_source
 from app.matching.requirements import extract_requirements
 from app.models.domain import RetrievedChunk
@@ -34,6 +36,7 @@ from app.models.schemas import (
     DocumentStats,
     EvaluationResponse,
     InterviewQuestion,
+    MarketContext,
     MatchInsights,
     MatchReport,
     PipelineInfo,
@@ -70,8 +73,10 @@ class CoachPipeline:
         embedder: EmbeddingService,
         llm: LLMProvider | None,
         sessions: SessionStore,
+        market: MarketContextService | None = None,
     ):
         self.settings = settings
+        self.market = market
         self.processor = processor
         self.embedder = embedder
         self.llm = llm
@@ -113,8 +118,10 @@ class CoachPipeline:
         retriever = Retriever.from_chunks(self.embedder, cv_chunks + job_chunks, self.settings.retrieval_top_k)
         # 6. Deterministic, explainable match scoring.
         match = self.matcher.analyze(cv, job, retriever)
-        # 7. RAG: retrieve context for the analysis and let the LLM explain it.
-        insights, generated_by, warnings, used = self._insights(match, retriever, job.text)
+        # 7. Job-market context from the data-analytics layer (informational, no effect on the score).
+        market = self.market.build(job.text, request.job_name, match) if self.market else None
+        # 8. RAG: retrieve context for the analysis and let the LLM explain it.
+        insights, generated_by, warnings, used = self._insights(match, retriever, job.text, market)
 
         session = self.sessions.create(cv=cv, job=job, retriever=retriever, match=match, planner=InterviewPlanner(match))
         logger.info("Analysis %s done in %.2fs (score=%.1f, insights=%s)",
@@ -138,10 +145,11 @@ class CoachPipeline:
                 index_size=len(retriever.store),
                 llm=self.llm_label,
             ),
+            market=market,
             warnings=warnings,
         )
 
-    def _insights(self, match: MatchReport, retriever: Retriever, job_text: str):
+    def _insights(self, match: MatchReport, retriever: Retriever, job_text: str, market: MarketContext | None = None):
         # Multi-query retrieval: one query per job requirement. A single query
         # made of the whole job description would exceed the embedding model's
         # 256-token window and average away the individual requirements.
@@ -161,6 +169,12 @@ class CoachPipeline:
             "years_required": match.experience.required_years,
             "years_in_cv": match.experience.candidate_years,
         }
+        if market and market.available and market.missing_skill_demand:
+            facts["job_market_demand_for_missing_skills"] = {
+                "source": market.source,
+                "role_family": market.role_family,
+                "share_of_postings_listing_skill": {d.skill: f"{d.share}%" for d in market.missing_skill_demand},
+            }
         insights, generated_by, warnings = self._generate(
             lambda llm: generate_structured(llm, prompts.GROUNDING_RULES, prompts.insights_prompt(facts, context), MatchInsights),
             lambda: self.offline.insights(match),

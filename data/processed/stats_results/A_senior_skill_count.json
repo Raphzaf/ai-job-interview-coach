@@ -1,0 +1,77 @@
+{
+  "question": "Do senior postings list more skills than non-senior postings of the same role family?",
+  "data": "data_jobs 2023, postings with extracted skills, role families with a Senior variant",
+  "h0": "Within each role family, the distribution of skill counts is the same for senior and non-senior postings.",
+  "h1": "The distributions differ (two-sided).",
+  "test": "Mann-Whitney U per role family, Holm correction across the 3 tests",
+  "assumptions": "Independent observations; ordinal/continuous outcome. Skill counts are skewed (see skewness columns), so a rank test is used instead of a t-test. Mean differences with 95% CI (Welch/normal approximation, valid at these sample sizes) are reported for readability.",
+  "effect_size": "Cliff's delta (= rank-biserial r): P(senior > non-senior) - P(senior < non-senior); |d| < 0.147 negligible, < 0.33 small, < 0.474 medium, else large",
+  "results": [
+    {
+      "role_family": "Data Analyst",
+      "n_senior": 24852,
+      "n_non_senior": 159228,
+      "mean_senior": 4.702,
+      "mean_non_senior": 3.989,
+      "median_senior": 4.0,
+      "median_non_senior": 3.0,
+      "skew_senior": 1.31,
+      "skew_non_senior": 1.53,
+      "mean_difference": 0.713,
+      "mean_difference_ci95": [
+        0.674,
+        0.752
+      ],
+      "U": 2280454400.0,
+      "p_value": 0.0,
+      "prob_senior_lists_more": 0.5763,
+      "cliffs_delta": 0.1526,
+      "effect": "small",
+      "p_holm": 0.0
+    },
+    {
+      "role_family": "Data Engineer",
+      "n_senior": 41594,
+      "n_non_senior": 169150,
+      "mean_senior": 7.554,
+      "mean_non_senior": 6.696,
+      "median_senior": 7.0,
+      "median_non_senior": 6.0,
+      "skew_senior": 0.91,
+      "skew_non_senior": 1.21,
+      "mean_difference": 0.857,
+      "mean_difference_ci95": [
+        0.811,
+        0.904
+      ],
+      "U": 3958139325.0,
+      "p_value": 0.0,
+      "prob_senior_lists_more": 0.5626,
+      "cliffs_delta": 0.1252,
+      "effect": "negligible",
+      "p_holm": 0.0
+    },
+    {
+      "role_family": "Data Scientist",
+      "n_senior": 32060,
+      "n_non_senior": 145669,
+      "mean_senior": 5.735,
+      "mean_non_senior": 5.485,
+      "median_senior": 5.0,
+      "median_non_senior": 5.0,
+      "skew_senior": 1.51,
+      "skew_non_senior": 1.44,
+      "mean_difference": 0.25,
+      "mean_difference_ci95": [
+        0.205,
+        0.295
+      ],
+      "U": 2447016036.0,
+      "p_value": 1.0726036784418547e-41,
+      "prob_senior_lists_more": 0.524,
+      "cliffs_delta": 0.0479,
+      "effect": "negligible",
+      "p_holm": 1.0726036784418547e-41
+    }
+  ]
+}

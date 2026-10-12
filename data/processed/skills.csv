@@ -1,0 +1,276 @@
+skill,arbeitnow_postings,arbeitnow_share_pct,data_jobs_postings,data_jobs_share_pct,in_coach_taxonomy,category
+English,1895.0,62.624,0.0,0.0,True,Languages
+Leadership,699.0,23.1,0.0,0.0,True,Soft skills
+Teamwork,642.0,21.216,0.0,0.0,True,Soft skills
+Communication,633.0,20.919,0.0,0.0,True,Soft skills
+Stakeholder Management,572.0,18.903,0.0,0.0,True,Soft skills
+German,553.0,18.275,0.0,0.0,True,Languages
+Social Media,357.0,11.798,0.0,0.0,True,Marketing
+Python,347.0,11.467,380495.0,56.961,True,Programming
+Testing,345.0,11.401,0.0,0.0,True,Engineering
+CRM,286.0,9.451,0.0,0.0,True,Marketing
+Excel,209.0,6.907,126894.0,18.996,True,Data
+Problem Solving,193.0,6.378,0.0,0.0,True,Soft skills
+LLMs,191.0,6.312,0.0,0.0,True,AI/ML
+Machine Learning,186.0,6.147,0.0,0.0,True,AI/ML
+Git,185.0,6.114,71442.0,10.695,True,DevOps
+CI/CD,181.0,5.981,19780.0,2.961,True,DevOps
+Agile,166.0,5.486,0.0,0.0,True,Methods
+SQL,150.0,4.957,385638.0,57.731,True,Data
+AWS,149.0,4.924,145229.0,21.741,True,Cloud
+TypeScript,135.0,4.461,5126.0,0.767,True,Programming
+Kubernetes,133.0,4.395,37300.0,5.584,True,DevOps
+Go,126.0,4.164,42201.0,6.318,True,Programming
+Time Series,124.0,4.098,0.0,0.0,True,Data
+Azure,119.0,3.933,132400.0,19.821,True,Cloud
+Project Management,116.0,3.833,0.0,0.0,True,Methods
+Terraform,110.0,3.635,20384.0,3.052,True,DevOps
+Docker,109.0,3.602,41658.0,6.236,True,DevOps
+React,104.0,3.437,9711.0,1.454,True,Frontend
+Java,101.0,3.338,85490.0,12.798,True,Programming
+Linux,87.0,2.875,39273.0,5.879,True,DevOps
+ETL,82.0,2.71,0.0,0.0,True,Data
+GCP,73.0,2.412,50669.0,7.585,True,Cloud
+JavaScript,70.0,2.313,25176.0,3.769,True,Programming
+SEO,68.0,2.247,0.0,0.0,True,Marketing
+C++,67.0,2.214,21378.0,3.2,True,Programming
+PostgreSQL,66.0,2.181,20675.0,3.095,True,Databases
+French,64.0,2.115,0.0,0.0,True,Languages
+Node.js,62.0,2.049,4971.0,0.744,True,Backend
+Data Analysis,61.0,2.016,0.0,0.0,True,Data
+Generative AI,60.0,1.983,0.0,0.0,True,AI/ML
+REST APIs,58.0,1.917,0.0,0.0,True,Backend
+Statistics,53.0,1.751,0.0,0.0,True,Data
+Power BI,48.0,1.586,98185.0,14.699,True,Data
+Bash,39.0,1.289,27004.0,4.043,True,DevOps
+Spring,39.0,1.289,7215.0,1.08,True,Backend
+Spark,38.0,1.256,132756.0,19.874,True,Data
+Kotlin,38.0,1.256,2364.0,0.354,True,Programming
+Google Analytics,38.0,1.256,0.0,0.0,True,Marketing
+Microservices,37.0,1.223,0.0,0.0,True,Backend
+PyTorch,35.0,1.157,27250.0,4.079,True,AI/ML
+HTML/CSS,35.0,1.157,9382.0,1.405,True,Frontend
+Vue.js,32.0,1.058,3530.0,0.528,True,Frontend
+RAG,32.0,1.058,0.0,0.0,True,AI/ML
+Content Marketing,31.0,1.024,0.0,0.0,True,Marketing
+dbt,29.0,0.958,0.0,0.0,True,Data
+Angular,28.0,0.925,5341.0,0.8,True,Frontend
+Kafka,27.0,0.892,49885.0,7.468,True,Data
+Rust,27.0,0.892,1956.0,0.293,True,Programming
+Embeddings,25.0,0.826,0.0,0.0,True,AI/ML
+Databricks,24.0,0.793,53131.0,7.954,True,Data
+Airflow,24.0,0.793,45191.0,6.765,True,Data
+C#,24.0,0.793,16765.0,2.51,True,Programming
+MLOps,23.0,0.76,0.0,0.0,True,AI/ML
+LangChain,22.0,0.727,0.0,0.0,True,AI/ML
+Computer Vision,22.0,0.727,2184.0,0.327,True,AI/ML
+BigQuery,21.0,0.694,24016.0,3.595,True,Data
+Snowflake,20.0,0.661,54964.0,8.228,True,Data
+MySQL,20.0,0.661,26082.0,3.905,True,Databases
+Prompt Engineering,19.0,0.628,0.0,0.0,True,AI/ML
+Redis,19.0,0.628,5701.0,0.853,True,Databases
+Tableau,19.0,0.628,127101.0,19.027,True,Data
+Spanish,18.0,0.595,0.0,0.0,True,Languages
+PHP,17.0,0.562,4358.0,0.652,True,Programming
+R,17.0,0.562,130749.0,19.574,True,Programming
+Vector Databases,17.0,0.562,0.0,0.0,True,AI/ML
+Deep Learning,16.0,0.529,0.0,0.0,True,AI/ML
+FastAPI,15.0,0.496,2229.0,0.334,True,Backend
+Email Marketing,15.0,0.496,0.0,0.0,True,Marketing
+TensorFlow,14.0,0.463,35001.0,5.24,True,AI/ML
+Elasticsearch,14.0,0.463,9921.0,1.485,True,Databases
+GraphQL,14.0,0.463,2675.0,0.4,True,Backend
+NoSQL,13.0,0.43,45022.0,6.74,True,Databases
+Fine-tuning,12.0,0.397,0.0,0.0,True,AI/ML
+Swift,11.0,0.364,1883.0,0.282,True,Programming
+Data Visualization,11.0,0.364,12100.0,1.811,True,Data
+Ruby,10.0,0.33,4387.0,0.657,True,Programming
+Django,9.0,0.297,4007.0,0.6,True,Backend
+Scala,9.0,0.297,56826.0,8.507,True,Programming
+Transformers,9.0,0.297,983.0,0.147,True,AI/ML
+scikit-learn,7.0,0.231,20046.0,3.001,True,AI/ML
+NLP,6.0,0.198,0.0,0.0,True,AI/ML
+NumPy,6.0,0.198,20434.0,3.059,True,Data
+Pandas,6.0,0.198,32161.0,4.815,True,Data
+MongoDB,5.0,0.165,22273.0,3.334,True,Databases
+Recommender Systems,4.0,0.132,0.0,0.0,True,AI/ML
+Flask,4.0,0.132,4798.0,0.718,True,Backend
+Streamlit,2.0,0.066,0.0,0.0,True,Frontend
+XGBoost,2.0,0.066,0.0,0.0,True,AI/ML
+LlamaIndex,2.0,0.066,0.0,0.0,True,AI/ML
+tidyverse,0.0,0.0,875.0,0.131,False,Other
+suse,0.0,0.0,120.0,0.018,False,Other
+zoom,0.0,0.0,1892.0,0.283,False,Other
+rocketchat,0.0,0.0,1.0,0.0,False,Other
+rshiny,0.0,0.0,777.0,0.116,False,Other
+ruby on rails,0.0,0.0,616.0,0.092,False,Other
+rubyon rails,0.0,0.0,1.0,0.0,False,Other
+sap,0.0,0.0,29099.0,4.356,False,Other
+sas,0.0,0.0,41648.0,6.235,False,Other
+sass,0.0,0.0,361.0,0.054,False,Other
+powerpoint,0.0,0.0,28535.0,4.272,False,Other
+powershell,0.0,0.0,7141.0,1.069,False,Other
+pulumi,0.0,0.0,456.0,0.068,False,Other
+puppet,0.0,0.0,1719.0,0.257,False,Other
+qlik,0.0,0.0,16899.0,2.53,False,Other
+qt,0.0,0.0,153.0,0.023,False,Other
+redhat,0.0,0.0,866.0,0.13,False,Other
+wire,0.0,0.0,465.0,0.07,False,Other
+word,0.0,0.0,30552.0,4.574,False,Other
+workfront,0.0,0.0,80.0,0.012,False,Other
+wrike,0.0,0.0,73.0,0.011,False,Other
+wsl,0.0,0.0,96.0,0.014,False,Other
+xamarin,0.0,0.0,62.0,0.009,False,Other
+yarn,0.0,0.0,2169.0,0.325,False,Other
+visio,0.0,0.0,5298.0,0.793,False,Other
+visual basic,0.0,0.0,2214.0,0.331,False,Other
+visualbasic,0.0,0.0,1.0,0.0,False,Other
+vmware,0.0,0.0,2777.0,0.416,False,Other
+watson,0.0,0.0,939.0,0.141,False,Other
+webex,0.0,0.0,235.0,0.035,False,Other
+wimi,0.0,0.0,1.0,0.0,False,Other
+windows,0.0,0.0,13286.0,1.989,False,Other
+trello,0.0,0.0,569.0,0.085,False,Other
+dingtalk,0.0,0.0,1.0,0.0,False,Other
+dlib,0.0,0.0,38.0,0.006,False,Other
+dplyr,0.0,0.0,669.0,0.1,False,Other
+drupal,0.0,0.0,199.0,0.03,False,Other
+dynamodb,0.0,0.0,6984.0,1.046,False,Other
+electron,0.0,0.0,229.0,0.034,False,Other
+elixir,0.0,0.0,310.0,0.046,False,Other
+ember.js,0.0,0.0,12.0,0.002,False,Other
+dart,0.0,0.0,245.0,0.037,False,Other
+datarobot,0.0,0.0,801.0,0.12,False,Other
+dax,0.0,0.0,9243.0,1.384,False,Other
+db2,0.0,0.0,4489.0,0.672,False,Other
+debian,0.0,0.0,299.0,0.045,False,Other
+delphi,0.0,0.0,90.0,0.013,False,Other
+deno,0.0,0.0,2.0,0.0,False,Other
+digitalocean,0.0,0.0,274.0,0.041,False,Other
+codecommit,0.0,0.0,249.0,0.037,False,Other
+cognos,0.0,0.0,5414.0,0.81,False,Other
+colocation,0.0,0.0,368.0,0.055,False,Other
+confluence,0.0,0.0,10736.0,1.607,False,Other
+cordova,0.0,0.0,132.0,0.02,False,Other
+couchbase,0.0,0.0,638.0,0.096,False,Other
+couchdb,0.0,0.0,212.0,0.032,False,Other
+crystal,0.0,0.0,2485.0,0.372,False,Other
+capacitor,0.0,0.0,15.0,0.002,False,Other
+cassandra,0.0,0.0,12398.0,1.856,False,Other
+centos,0.0,0.0,659.0,0.099,False,Other
+chainer,0.0,0.0,13.0,0.002,False,Other
+chef,0.0,0.0,3710.0,0.555,False,Other
+clickup,0.0,0.0,132.0,0.02,False,Other
+clojure,0.0,0.0,294.0,0.044,False,Other
+cobol,0.0,0.0,360.0,0.054,False,Other
+jquery,0.0,0.0,1497.0,0.224,False,Other
+julia,0.0,0.0,2467.0,0.369,False,Other
+jupyter,0.0,0.0,9397.0,1.407,False,Other
+kali,0.0,0.0,17.0,0.003,False,Other
+laravel,0.0,0.0,341.0,0.051,False,Other
+linode,0.0,0.0,20.0,0.003,False,Other
+lisp,0.0,0.0,75.0,0.011,False,Other
+looker,0.0,0.0,19963.0,2.989,False,Other
+gtx,0.0,0.0,1.0,0.0,False,Other
+hadoop,0.0,0.0,64781.0,9.698,False,Other
+haskell,0.0,0.0,253.0,0.038,False,Other
+heroku,0.0,0.0,208.0,0.031,False,Other
+homebrew,0.0,0.0,14.0,0.002,False,Other
+ibm cloud,0.0,0.0,1686.0,0.252,False,Other
+ionic,0.0,0.0,132.0,0.02,False,Other
+jira,0.0,0.0,23471.0,3.514,False,Other
+flow,0.0,0.0,31920.0,4.779,False,Other
+flutter,0.0,0.0,489.0,0.073,False,Other
+fortran,0.0,0.0,283.0,0.042,False,Other
+gatsby,0.0,0.0,33.0,0.005,False,Other
+gdpr,0.0,0.0,7079.0,1.06,False,Other
+ggplot2,0.0,0.0,1287.0,0.193,False,Other
+google chat,0.0,0.0,44.0,0.007,False,Other
+groovy,0.0,0.0,1013.0,0.152,False,Other
+erlang,0.0,0.0,135.0,0.02,False,Other
+esquisse,0.0,0.0,3.0,0.0,False,Other
+express,0.0,0.0,7413.0,1.11,False,Other
+f#,0.0,0.0,157.0,0.024,False,Other
+fastify,0.0,0.0,26.0,0.004,False,Other
+fedora,0.0,0.0,51.0,0.008,False,Other
+firebase,0.0,0.0,1109.0,0.166,False,Other
+firestore,0.0,0.0,333.0,0.05,False,Other
+oracle,0.0,0.0,45168.0,6.762,False,Other
+outlook,0.0,0.0,8966.0,1.342,False,Other
+ovh,0.0,0.0,98.0,0.015,False,Other
+pascal,0.0,0.0,68.0,0.01,False,Other
+perl,0.0,0.0,4704.0,0.704,False,Other
+phoenix,0.0,0.0,1779.0,0.266,False,Other
+planner,0.0,0.0,1030.0,0.154,False,Other
+play framework,0.0,0.0,60.0,0.009,False,Other
+no-sql,0.0,0.0,2836.0,0.425,False,Other
+notion,0.0,0.0,1802.0,0.27,False,Other
+npm,0.0,0.0,428.0,0.064,False,Other
+nuix,0.0,0.0,41.0,0.006,False,Other
+nuxt.js,0.0,0.0,12.0,0.002,False,Other
+objective-c,0.0,0.0,158.0,0.024,False,Other
+ocaml,0.0,0.0,35.0,0.005,False,Other
+openstack,0.0,0.0,786.0,0.118,False,Other
+mlr,0.0,0.0,112.0,0.017,False,Other
+asp.net core,0.0,0.0,184.0,0.028,False,Other
+asp.netcore,0.0,0.0,3.0,0.0,False,Other
+assembly,0.0,0.0,1917.0,0.287,False,Other
+atlassian,0.0,0.0,2378.0,0.356,False,Other
+aurora,0.0,0.0,3194.0,0.478,False,Other
+bitbucket,0.0,0.0,5039.0,0.754,False,Other
+blazor,0.0,0.0,67.0,0.01,False,Other
+c,0.0,0.0,15674.0,2.346,False,Other
+airtable,0.0,0.0,296.0,0.044,False,Other
+alteryx,0.0,0.0,12290.0,1.84,False,Other
+angular.js,0.0,0.0,115.0,0.017,False,Other
+ansible,0.0,0.0,7882.0,1.18,False,Other
+apl,0.0,0.0,195.0,0.029,False,Other
+arch,0.0,0.0,278.0,0.042,False,Other
+asana,0.0,0.0,556.0,0.083,False,Other
+asp.net,0.0,0.0,1222.0,0.183,False,Other
+monday.com,0.0,0.0,177.0,0.026,False,Other
+ms access,0.0,0.0,2875.0,0.43,False,Other
+msaccess,0.0,0.0,1.0,0.0,False,Other
+mxnet,0.0,0.0,1147.0,0.172,False,Other
+neo4j,0.0,0.0,3738.0,0.56,False,Other
+next.js,0.0,0.0,207.0,0.031,False,Other
+nltk,0.0,0.0,2485.0,0.372,False,Other
+lua,0.0,0.0,187.0,0.028,False,Other
+macos,0.0,0.0,795.0,0.119,False,Other
+matlab,0.0,0.0,11890.0,1.78,False,Other
+mattermost,0.0,0.0,24.0,0.004,False,Other
+microsoft lists,0.0,0.0,8.0,0.001,False,Other
+microsoft teams,0.0,0.0,738.0,0.11,False,Other
+microstrategy,0.0,0.0,5298.0,0.793,False,Other
+mlpack,0.0,0.0,25.0,0.004,False,Other
+spreadsheet,0.0,0.0,3653.0,0.547,False,Other
+spss,0.0,0.0,10335.0,1.547,False,Other
+sql server,0.0,0.0,40148.0,6.01,False,Other
+sqlite,0.0,0.0,367.0,0.055,False,Other
+sqlserver,0.0,0.0,28.0,0.004,False,Other
+ssis,0.0,0.0,18774.0,2.811,False,Other
+ssrs,0.0,0.0,9258.0,1.386,False,Other
+selenium,0.0,0.0,2295.0,0.344,False,Other
+sharepoint,0.0,0.0,8766.0,1.312,False,Other
+sheets,0.0,0.0,5583.0,0.836,False,Other
+shogun,0.0,0.0,11.0,0.002,False,Other
+slack,0.0,0.0,2585.0,0.387,False,Other
+smartsheet,0.0,0.0,640.0,0.096,False,Other
+solidity,0.0,0.0,438.0,0.066,False,Other
+splunk,0.0,0.0,5102.0,0.764,False,Other
+ringcentral,0.0,0.0,105.0,0.016,False,Other
+twilio,0.0,0.0,249.0,0.037,False,Other
+ubuntu,0.0,0.0,1236.0,0.185,False,Other
+unify,0.0,0.0,1308.0,0.196,False,Other
+unity,0.0,0.0,1691.0,0.253,False,Other
+unreal,0.0,0.0,284.0,0.043,False,Other
+vb.net,0.0,0.0,483.0,0.072,False,Other
+vba,0.0,0.0,12686.0,1.899,False,Other
+svelte,0.0,0.0,103.0,0.015,False,Other
+svn,0.0,0.0,1194.0,0.179,False,Other
+symfony,0.0,0.0,160.0,0.024,False,Other
+symphony,0.0,0.0,288.0,0.043,False,Other
+terminal,0.0,0.0,1676.0,0.251,False,Other
+theano,0.0,0.0,877.0,0.131,False,Other
+tidyr,0.0,0.0,75.0,0.011,False,Other
+redshift,0.0,0.0,33367.0,4.995,False,Other

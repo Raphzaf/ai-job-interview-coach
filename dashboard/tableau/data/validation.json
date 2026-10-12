@@ -1,0 +1,120 @@
+[
+  {
+    "check": "overview: total postings",
+    "actual": 784897,
+    "expected": 784897,
+    "ok": true
+  },
+  {
+    "check": "overview: postings with skill data",
+    "actual": 667989,
+    "expected": 667989,
+    "ok": true
+  },
+  {
+    "check": "overview: postings with salary",
+    "actual": 21997,
+    "expected": 21997,
+    "ok": true
+  },
+  {
+    "check": "skill demand: dense (rows = groups x skills)",
+    "actual": 79560,
+    "expected": 79560,
+    "ok": true
+  },
+  {
+    "check": "skill demand: one denominator per group",
+    "actual": 1,
+    "expected": 1,
+    "ok": true
+  },
+  {
+    "check": "skill demand: SQL postings",
+    "actual": 385638,
+    "expected": 385638,
+    "ok": true
+  },
+  {
+    "check": "skill demand: all skill mentions",
+    "actual": 3535853,
+    "expected": 3535853,
+    "ok": true
+  },
+  {
+    "check": "skill demand: SQL share of postings (%)",
+    "actual": 57.73,
+    "expected": 57.73,
+    "ok": true
+  },
+  {
+    "check": "skill demand: filtered share (AWS | Data Engineer | Germany) equals direct SQL",
+    "actual": 33.34,
+    "expected": 33.34,
+    "ok": true
+  },
+  {
+    "check": "skill trend: Python postings",
+    "actual": 380495,
+    "expected": 380495,
+    "ok": true
+  },
+  {
+    "check": "skill trend: dense",
+    "actual": 10836,
+    "expected": 10836,
+    "ok": true
+  },
+  {
+    "check": "live jobs: rows",
+    "actual": 3026,
+    "expected": 3026,
+    "ok": true
+  },
+  {
+    "check": "live skills: dense",
+    "actual": 21681,
+    "expected": 21681,
+    "ok": true
+  },
+  {
+    "check": "live skills: all skill mentions",
+    "actual": 11107,
+    "expected": 11107,
+    "ok": true
+  },
+  {
+    "check": "live skills: denominators sum to all postings (per skill)",
+    "actual": 3026,
+    "expected": 3026,
+    "ok": true
+  },
+  {
+    "check": "salary medians equal Phase-3 SQL results",
+    "actual": {
+      "Business Analyst / Non-senior": 85000.0,
+      "Cloud Engineer / Non-senior": 90000.0,
+      "Data Analyst / Non-senior": 90000.0,
+      "Data Analyst / Senior": 111175.0,
+      "Data Engineer / Non-senior": 125000.0,
+      "Data Engineer / Senior": 147500.0,
+      "Data Scientist / Non-senior": 127500.0,
+      "Data Scientist / Senior": 155500.0,
+      "Machine Learning Engineer / Non-senior": 106415.0,
+      "Software Engineer / Non-senior": 99150.0
+    },
+    "expected": {
+      "Business Analyst / Non-senior": 85000.0,
+      "Cloud Engineer / Non-senior": 90000.0,
+      "Data Analyst / Non-senior": 90000.0,
+      "Data Analyst / Senior": 111175.0,
+      "Data Engineer / Non-senior": 125000.0,
+      "Data Engineer / Senior": 147500.0,
+      "Data Scientist / Non-senior": 127500.0,
+      "Data Scientist / Senior": 155500.0,
+      "Machine Learning Engineer / Non-senior": 106415.0,
+      "Software Engineer / Non-senior": 99150.0
+    },
+    "ok": true
+  }
+]

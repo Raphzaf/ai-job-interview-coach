@@ -145,6 +145,8 @@ textarea:focus, select:focus { outline: 2px solid #c5d0fa; border-color: var(--p
 .chip-missing { background: var(--bad-bg); color: var(--bad); }
 .chip-preferred { background: var(--warn-bg); color: var(--warn); }
 .empty { color: var(--muted); font-size: .85rem; font-style: italic; }
+.market { margin-top: 1.2rem; padding-top: .4rem; border-top: 1px solid var(--border); }
+.market .breakdown { min-width: 0; }
 
 .summary { background: #f4f6fd; border-left: 3px solid var(--primary); padding: .7rem .9rem; border-radius: 6px; margin: 0; }
 .list { margin: 0; padding-left: 1.1rem; font-size: .9rem; }

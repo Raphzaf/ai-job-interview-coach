@@ -1,0 +1,36 @@
+role_family,skill_rank,skill,postings,share_pct
+Business Analyst,1,SQL,17391,47.4
+Business Analyst,2,Excel,17094,46.5
+Business Analyst,3,Tableau,9308,25.3
+Business Analyst,4,Power BI,9236,25.1
+Business Analyst,5,Python,8081,22.0
+Cloud Engineer,1,Python,3111,34.7
+Cloud Engineer,2,AWS,3070,34.3
+Cloud Engineer,3,Azure,2938,32.8
+Cloud Engineer,4,SQL,2230,24.9
+Cloud Engineer,5,Linux,1736,19.4
+Data Analyst,1,SQL,110279,59.9
+Data Analyst,2,Excel,75071,40.8
+Data Analyst,3,Python,68172,37.0
+Data Analyst,4,Tableau,56383,30.6
+Data Analyst,5,Power BI,45382,24.7
+Data Engineer,1,SQL,142236,67.5
+Data Engineer,2,Python,136733,64.9
+Data Engineer,3,AWS,81291,38.6
+Data Engineer,4,Spark,79973,37.9
+Data Engineer,5,Azure,76775,36.4
+Data Scientist,1,Python,139499,78.5
+Data Scientist,2,SQL,97653,54.9
+Data Scientist,3,R,72217,40.6
+Data Scientist,4,Spark,36556,20.6
+Data Scientist,5,Tableau,35359,19.9
+Machine Learning Engineer,1,Python,9671,79.5
+Machine Learning Engineer,2,TensorFlow,4529,37.2
+Machine Learning Engineer,3,PyTorch,4384,36.0
+Machine Learning Engineer,4,AWS,3779,31.1
+Machine Learning Engineer,5,SQL,3494,28.7
+Software Engineer,1,Python,15228,40.5
+Software Engineer,2,SQL,12355,32.9
+Software Engineer,3,AWS,10427,27.7
+Software Engineer,4,Java,9835,26.2
+Software Engineer,5,Azure,7092,18.9

@@ -1,0 +1,74 @@
+{
+  "reference": {
+    "question": "Is remote work associated with the role family? (data_jobs 2023)",
+    "h0": "Remote status is independent of role_family.",
+    "h1": "Remote status depends on role_family.",
+    "test": "Pearson chi-square test of independence",
+    "assumptions": "Independent postings; expected counts >= 5 in at least 80% of cells (0 of 14 cells below 5, smallest 1091.18).",
+    "assumption_ok": true,
+    "n": 784897,
+    "chi2": 5122.148,
+    "dof": 6,
+    "p_value": 0.0,
+    "cramers_v": 0.0808,
+    "effect": "negligible",
+    "remote_share_pct": {
+      "Data Engineer": 12.03,
+      "Machine Learning Engineer": 10.58,
+      "Data Scientist": 8.77,
+      "Data Analyst": 6.96,
+      "Software Engineer": 6.53,
+      "Business Analyst": 5.69,
+      "Cloud Engineer": 4.63
+    },
+    "standardized_residual_remote": {
+      "Business Analyst": -23.55,
+      "Cloud Engineer": -15.75,
+      "Data Analyst": -30.24,
+      "Data Engineer": 51.27,
+      "Data Scientist": -1.36,
+      "Machine Learning Engineer": 6.86,
+      "Software Engineer": -16.54
+    }
+  },
+  "live": {
+    "question": "Is remote work associated with the job family? (Arbeitnow snapshot 2026)",
+    "h0": "Remote status is independent of job_family.",
+    "h1": "Remote status depends on job_family.",
+    "test": "Pearson chi-square test of independence",
+    "assumptions": "Independent postings; expected counts >= 5 in at least 80% of cells (1 of 22 cells below 5, smallest 4.44).",
+    "assumption_ok": true,
+    "n": 3026,
+    "chi2": 65.191,
+    "dof": 10,
+    "p_value": 3.7255683185777967e-10,
+    "cramers_v": 0.1468,
+    "effect": "small",
+    "remote_share_pct": {
+      "Marketing & Communication": 20.13,
+      "Software & IT": 12.26,
+      "Data & AI": 10.46,
+      "Management & Consulting": 9.68,
+      "Customer Service": 8.7,
+      "Operations & Logistics": 8.16,
+      "HR & Recruiting": 7.69,
+      "Other": 6.79,
+      "Sales & Business Development": 6.21,
+      "Engineering & Technical": 5.57,
+      "Finance & Accounting": 4.51
+    },
+    "standardized_residual_remote": {
+      "Customer Service": -0.21,
+      "Data & AI": 0.45,
+      "Engineering & Technical": -2.36,
+      "Finance & Accounting": -2.59,
+      "HR & Recruiting": -0.6,
+      "Management & Consulting": 0.02,
+      "Marketing & Communication": 5.97,
+      "Operations & Logistics": -0.47,
+      "Other": -1.54,
+      "Sales & Business Development": -2.03,
+      "Software & IT": 1.92
+    }
+  }
+}

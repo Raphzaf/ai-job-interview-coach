@@ -1,0 +1,7 @@
+role_family,seniority,postings,mean_skills,sd_skills,median_skills
+Data Analyst,Non-senior,159228,3.99,2.72,3.0
+Data Analyst,Senior,24852,4.70,2.97,4.0
+Data Engineer,Non-senior,169150,6.70,4.23,6.0
+Data Engineer,Senior,41594,7.55,4.34,7.0
+Data Scientist,Non-senior,145669,5.48,3.71,5.0
+Data Scientist,Senior,32060,5.74,3.72,5.0

@@ -1,0 +1,248 @@
+{
+  "reference_skill_count": {
+    "n": 667989,
+    "mean": 5.474,
+    "sd": 3.837,
+    "median": 5.0,
+    "q1": 3.0,
+    "q3": 7.0,
+    "min": 1.0,
+    "max": 53.0,
+    "skewness": 1.434
+  },
+  "reference_skill_count_by_role": {
+    "Business Analyst": {
+      "n": 36724,
+      "mean": 3.614,
+      "sd": 2.59,
+      "median": 3.0,
+      "q1": 2.0,
+      "q3": 5.0,
+      "min": 1.0,
+      "max": 26.0,
+      "skewness": 1.658
+    },
+    "Cloud Engineer": {
+      "n": 8961,
+      "mean": 5.183,
+      "sd": 4.052,
+      "median": 4.0,
+      "q1": 2.0,
+      "q3": 7.0,
+      "min": 1.0,
+      "max": 34.0,
+      "skewness": 1.375
+    },
+    "Data Analyst": {
+      "n": 184080,
+      "mean": 4.085,
+      "sd": 2.767,
+      "median": 3.0,
+      "q1": 2.0,
+      "q3": 5.0,
+      "min": 1.0,
+      "max": 42.0,
+      "skewness": 1.5
+    },
+    "Data Engineer": {
+      "n": 210744,
+      "mean": 6.865,
+      "sd": 4.263,
+      "median": 6.0,
+      "q1": 4.0,
+      "q3": 9.0,
+      "min": 1.0,
+      "max": 53.0,
+      "skewness": 1.141
+    },
+    "Data Scientist": {
+      "n": 177729,
+      "mean": 5.53,
+      "sd": 3.715,
+      "median": 5.0,
+      "q1": 3.0,
+      "q3": 7.0,
+      "min": 1.0,
+      "max": 42.0,
+      "skewness": 1.453
+    },
+    "Machine Learning Engineer": {
+      "n": 12164,
+      "mean": 6.327,
+      "sd": 4.119,
+      "median": 6.0,
+      "q1": 3.0,
+      "q3": 9.0,
+      "min": 1.0,
+      "max": 30.0,
+      "skewness": 1.101
+    },
+    "Software Engineer": {
+      "n": 37587,
+      "mean": 5.816,
+      "sd": 4.126,
+      "median": 5.0,
+      "q1": 3.0,
+      "q3": 8.0,
+      "min": 1.0,
+      "max": 48.0,
+      "skewness": 1.339
+    }
+  },
+  "reference_salary_year": {
+    "n": 21997,
+    "mean": 123292.218,
+    "sd": 48316.796,
+    "median": 115000.0,
+    "q1": 90000.0,
+    "q3": 150000.0,
+    "min": 15000.0,
+    "max": 960000.0,
+    "skewness": 1.746
+  },
+  "live_skill_count": {
+    "n": 3026,
+    "mean": 3.671,
+    "sd": 3.689,
+    "median": 2.0,
+    "q1": 1.0,
+    "q3": 5.0,
+    "min": 0.0,
+    "max": 35.0,
+    "skewness": 1.81
+  },
+  "live_skill_count_by_family": {
+    "Customer Service": {
+      "n": 46,
+      "mean": 2.087,
+      "sd": 2.064,
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 3.0,
+      "min": 0.0,
+      "max": 9.0,
+      "skewness": 1.462
+    },
+    "Data & AI": {
+      "n": 306,
+      "mean": 7.418,
+      "sd": 4.726,
+      "median": 7.0,
+      "q1": 4.0,
+      "q3": 10.0,
+      "min": 0.0,
+      "max": 35.0,
+      "skewness": 1.17
+    },
+    "Engineering & Technical": {
+      "n": 323,
+      "mean": 3.92,
+      "sd": 3.948,
+      "median": 3.0,
+      "q1": 1.0,
+      "q3": 6.0,
+      "min": 0.0,
+      "max": 23.0,
+      "skewness": 1.273
+    },
+    "Finance & Accounting": {
+      "n": 244,
+      "mean": 1.775,
+      "sd": 1.611,
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 2.0,
+      "min": 0.0,
+      "max": 9.0,
+      "skewness": 1.648
+    },
+    "HR & Recruiting": {
+      "n": 91,
+      "mean": 1.857,
+      "sd": 2.079,
+      "median": 1.0,
+      "q1": 0.5,
+      "q3": 3.0,
+      "min": 0.0,
+      "max": 14.0,
+      "skewness": 2.562
+    },
+    "Management & Consulting": {
+      "n": 465,
+      "mean": 2.794,
+      "sd": 2.565,
+      "median": 2.0,
+      "q1": 1.0,
+      "q3": 4.0,
+      "min": 0.0,
+      "max": 13.0,
+      "skewness": 1.224
+    },
+    "Marketing & Communication": {
+      "n": 313,
+      "mean": 2.588,
+      "sd": 2.109,
+      "median": 2.0,
+      "q1": 1.0,
+      "q3": 4.0,
+      "min": 0.0,
+      "max": 11.0,
+      "skewness": 1.335
+    },
+    "Operations & Logistics": {
+      "n": 98,
+      "mean": 2.816,
+      "sd": 2.312,
+      "median": 2.0,
+      "q1": 1.0,
+      "q3": 4.0,
+      "min": 0.0,
+      "max": 12.0,
+      "skewness": 1.281
+    },
+    "Other": {
+      "n": 280,
+      "mean": 2.65,
+      "sd": 2.575,
+      "median": 2.0,
+      "q1": 1.0,
+      "q3": 4.0,
+      "min": 0.0,
+      "max": 14.0,
+      "skewness": 1.442
+    },
+    "Sales & Business Development": {
+      "n": 338,
+      "mean": 2.953,
+      "sd": 2.183,
+      "median": 3.0,
+      "q1": 1.0,
+      "q3": 4.0,
+      "min": 0.0,
+      "max": 12.0,
+      "skewness": 0.932
+    },
+    "Software & IT": {
+      "n": 522,
+      "mean": 5.264,
+      "sd": 4.699,
+      "median": 4.0,
+      "q1": 1.0,
+      "q3": 8.0,
+      "min": 0.0,
+      "max": 26.0,
+      "skewness": 1.151
+    }
+  },
+  "live_description_words": {
+    "n": 3026,
+    "mean": 582.003,
+    "sd": 281.987,
+    "median": 528.5,
+    "q1": 386.0,
+    "q3": 725.0,
+    "min": 9.0,
+    "max": 2330.0,
+    "skewness": 1.432
+  }
+}

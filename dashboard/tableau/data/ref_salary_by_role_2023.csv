@@ -1,0 +1,11 @@
+role_family,seniority,postings_with_salary,salary_p25,salary_median,salary_p75
+Business Analyst,Non-senior,610,70320,85000,105000
+Cloud Engineer,Non-senior,65,79200,90000,136000
+Data Analyst,Non-senior,5446,70000,90000,111175
+Data Analyst,Senior,1131,92500,111175,125000
+Data Engineer,Non-senior,4500,100000,125000,147500
+Data Engineer,Senior,1591,125000,147500,167174
+Data Scientist,Non-senior,5921,100000,127500,158938
+Data Scientist,Senior,1690,125000,155500,174000
+Machine Learning Engineer,Non-senior,576,80850,106415,166000
+Software Engineer,Non-senior,467,79200,99150,149827

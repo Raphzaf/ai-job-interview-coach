@@ -1,0 +1,237 @@
+{
+  "source": "Arbeitnow Job Board API",
+  "url": "https://www.arbeitnow.com/api/job-board-api",
+  "terms": "Free public API; do not abuse; link back to arbeitnow.com; Arbeitnow terms of service apply.",
+  "started_at_utc": "2026-10-08T11:21:21.702881+00:00",
+  "finished_at_utc": "2026-10-08T11:22:30.672424+00:00",
+  "request_delay_seconds": 2.0,
+  "stop_reason": "no next link (last page)",
+  "pages": [
+    {
+      "page": 1,
+      "jobs": 325,
+      "valid": 325,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "88e34d3969ebe9a9564a672c540cdb88fe6ac6b5a594dd9707485fefcb8d5e4b"
+    },
+    {
+      "page": 2,
+      "jobs": 325,
+      "valid": 325,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "064310207afbc81af325a9f88075ae78a701e752d1892bbc203f748d1ae29559"
+    },
+    {
+      "page": 3,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "368ccf28543d0888b1ca88b5ca2828efb5ecaffe5fcb166b131dcb326fdc3629"
+    },
+    {
+      "page": 4,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "2a0e340a1897ee75fd6b5fbdbf2dd77f768accce70d71a90b14c412cd8799c67"
+    },
+    {
+      "page": 5,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "d5f30662cae96041606d01dd684feb4a36c036e1b9382b70c110d5b7964506f0"
+    },
+    {
+      "page": 6,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "bd88e20bd6cab222a361dad1a5fb601d3a336994b5e9b55375e5f70e57ca5dee"
+    },
+    {
+      "page": 7,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "773bf3c8b5833f7ae5b8a4de5d2879fa808e0ff46bc30c17751db29d1388c6e3"
+    },
+    {
+      "page": 8,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "9ebd97cb24f46f2a343f5e29a0f072eea965706f116013bce87519a26218c7d4"
+    },
+    {
+      "page": 9,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "2171e60e08fa58ac4103882a5ff7803cf36c49611b9694b253e3577e497581ad"
+    },
+    {
+      "page": 10,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "bd182f99aecab697a22993e308972d01bf9c175f90f15ade9d02c0bc3d5d5b22"
+    },
+    {
+      "page": 11,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "fbe15e515cd5704353fa568d905564b255a31684dfb618df54fe0a25963120e3"
+    },
+    {
+      "page": 12,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "dda2efce12939422ba2904497d9c3ace49ae629e021d2249ba93665a135f1e4f"
+    },
+    {
+      "page": 13,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "72191b728ccbc4f507021cccedad3ba3a6bb2f712377b754b3a4d0447663a20c"
+    },
+    {
+      "page": 14,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "d0b10cf8a42c827487acde56203983ffc96de7bfadd4e6932d83f21af2fdbd33"
+    },
+    {
+      "page": 15,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "78fe982a39764340db28d7c54de5a056e5fc6abd5f6657fff739b4cc074b31c1"
+    },
+    {
+      "page": 16,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "ca893c4648a6b6382c83152611d21de016c52193e9356ebc3572461219cdedc6"
+    },
+    {
+      "page": 17,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "c465732b08c629115df38798d9978a828b11fb8c1eee7de0c16c19d692546140"
+    },
+    {
+      "page": 18,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "01c6dff4c8a8b6fa4ef09ec63df79826e7d1d5dcb08174a7cc1b73428538b060"
+    },
+    {
+      "page": 19,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "88608bb7087d8ab7896e6feae10b1dd7c6372f45b8f18cb97fa78549b317f2e5"
+    },
+    {
+      "page": 20,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "fe57fad2a892657759abcdcc189a08253c73eea4f3544fca58894608650d49a9"
+    },
+    {
+      "page": 21,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "861b2a2b4b0fa3979166b1b322fe4aa06074cafe83c7546c433cfccbc6eac564"
+    },
+    {
+      "page": 22,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "c7898b0ee94da6262f8183b05e10f8764f96cd5d4f927bab0512305eee9bd796"
+    },
+    {
+      "page": 23,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "7b8f7beca9245ccd99a7f015d1c41093c35116582bc9081b1702cdcfdccff598"
+    },
+    {
+      "page": 24,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "832a8356bbf69026735a556a08149744df657f779ecce0050d75e5649e558e67"
+    },
+    {
+      "page": 25,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "47c9734a61a86b58cdb582e72bee47d9e1e443dec6ebf0c5f88e83283a2401a2"
+    },
+    {
+      "page": 26,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "1692b0f861bc6a3bb136fde2cefa4344884de5620f6f940af2fea2aa0b10930f"
+    },
+    {
+      "page": 27,
+      "jobs": 100,
+      "valid": 100,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "1027521dae05073aafe18fd3d8d650755056dc9ca18321b547aa09c8f040560e"
+    },
+    {
+      "page": 28,
+      "jobs": 30,
+      "valid": 30,
+      "invalid": 0,
+      "errors": [],
+      "sha256": "c0d1d67f8b460b44cee9fcd0f20404e0495ef3897927716d5acb7c5deb532129"
+    }
+  ],
+  "total_jobs": 3180,
+  "total_invalid": 0
+}

@@ -1,0 +1,9 @@
+term,pct_difference,ci_low,ci_high,p_value
+role: Business Analyst,3.16,-0.03,6.46,0.05213573126273223
+role: Data Engineer,39.38,37.59,41.19,0.0
+role: Data Scientist,43.2,41.42,45.01,0.0
+role: Machine Learning Engineer,60.88,50.87,71.55,2.198113980950239e-47
+role: Software Engineer,43.85,35.6,52.6,2.1642116781404474e-33
+is_senior,17.16,15.92,18.42,1.0182595658895706e-180
+work_from_home,2.66,1.39,3.93,3.2949458529919437e-05
+skill_count,0.29,0.16,0.43,1.7441640124440008e-05

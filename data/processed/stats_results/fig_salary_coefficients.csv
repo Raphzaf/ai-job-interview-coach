@@ -1,0 +1,8 @@
+term,coef,pct_effect,ci95_pct,p_value,label
+work_from_home,0.0262,2.66,"[np.float64(1.39), np.float64(3.93)]",3.2949458529919437e-05,Remote (work from home)
+role: Business Analyst,0.0311,3.16,"[np.float64(-0.03), np.float64(6.46)]",0.05213573126273223,Business Analyst (vs Data Analyst)
+is_senior,0.1584,17.16,"[np.float64(15.92), np.float64(18.42)]",1.0182595658895706e-180,Senior posting
+role: Data Engineer,0.3321,39.38,"[np.float64(37.59), np.float64(41.19)]",0.0,Data Engineer (vs Data Analyst)
+role: Data Scientist,0.3591,43.2,"[np.float64(41.42), np.float64(45.01)]",0.0,Data Scientist (vs Data Analyst)
+role: Software Engineer,0.3636,43.85,"[np.float64(35.6), np.float64(52.6)]",2.1642116781404474e-33,Software Engineer (vs Data Analyst)
+role: Machine Learning Engineer,0.4755,60.88,"[np.float64(50.87), np.float64(71.55)]",2.198113980950239e-47,Machine Learning Engineer (vs Data Analyst)

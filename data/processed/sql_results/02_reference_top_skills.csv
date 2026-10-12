@@ -1,0 +1,16 @@
+skill,category,postings,share_of_postings_pct
+SQL,Data,385638,57.73
+Python,Programming,380495,56.96
+AWS,Cloud,145229,21.74
+Spark,Data,132756,19.87
+Azure,Cloud,132400,19.82
+R,Programming,130749,19.57
+Tableau,Data,127101,19.03
+Excel,Data,126894,19.00
+Power BI,Data,98185,14.70
+Java,Programming,85490,12.80
+Git,DevOps,71442,10.70
+hadoop,Other,64781,9.70
+Scala,Programming,56826,8.51
+Snowflake,Data,54964,8.23
+Databricks,Data,53131,7.95

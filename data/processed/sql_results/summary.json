@@ -1,0 +1,92 @@
+[
+  {
+    "name": "01_table_row_counts",
+    "question": "How many rows does each table hold after loading? (sanity check vs. Phase 2 reports)",
+    "rows": 7,
+    "seconds": 0.448
+  },
+  {
+    "name": "02_reference_top_skills",
+    "question": "Which skills are most demanded in 2023 data-role postings?",
+    "rows": 15,
+    "seconds": 0.646
+  },
+  {
+    "name": "03_reference_top5_skills_per_role",
+    "question": "What are the five most demanded skills for each data role family?",
+    "rows": 35,
+    "seconds": 1.2
+  },
+  {
+    "name": "04_reference_senior_skill_lift",
+    "question": "Which skills are relatively more frequent in senior than in non-senior data postings?",
+    "rows": 15,
+    "seconds": 3.294
+  },
+  {
+    "name": "05_reference_salary_by_role_seniority",
+    "question": "What is the median advertised annual salary by role family and seniority?",
+    "rows": 10,
+    "seconds": 0.097
+  },
+  {
+    "name": "06_reference_remote_by_role",
+    "question": "How common is remote work in each data role family (2023)?",
+    "rows": 7,
+    "seconds": 0.114
+  },
+  {
+    "name": "07_reference_skill_count_by_seniority",
+    "question": "Do senior data postings list more skills than non-senior ones (descriptive)?",
+    "rows": 6,
+    "seconds": 0.541
+  },
+  {
+    "name": "08_reference_monthly_postings",
+    "question": "How are 2023 postings distributed over the months (within the reference source only)?",
+    "rows": 12,
+    "seconds": 0.119
+  },
+  {
+    "name": "09_live_family_overview",
+    "question": "What does the current (Oct 2026) Arbeitnow snapshot look like per job family?",
+    "rows": 11,
+    "seconds": 0.007
+  },
+  {
+    "name": "10_live_top_skills_tech_vs_non_tech",
+    "question": "Which skills are most frequent in tech vs non-tech postings of the live snapshot?",
+    "rows": 20,
+    "seconds": 0.014
+  },
+  {
+    "name": "11_live_experience_level_profile",
+    "question": "How do skill counts, remote work and English descriptions vary with the employer-stated experience level?",
+    "rows": 5,
+    "seconds": 0.005
+  },
+  {
+    "name": "12_live_cities",
+    "question": "Where are the live postings located, and how remote-friendly is each city?",
+    "rows": 16,
+    "seconds": 0.006
+  },
+  {
+    "name": "13_live_companies_above_average",
+    "question": "Which employers post more jobs than the average employer in the live snapshot?",
+    "rows": 15,
+    "seconds": 0.018
+  },
+  {
+    "name": "14_live_tech_jobs_with_cloud_and_ai",
+    "question": "Among live tech postings, how many ask for both cloud/DevOps and AI/ML skills?",
+    "rows": 1,
+    "seconds": 0.006
+  },
+  {
+    "name": "15_data_quality_checks",
+    "question": "Are the cleaning decisions visible and consistent in the database?",
+    "rows": 5,
+    "seconds": 0.884
+  }
+]

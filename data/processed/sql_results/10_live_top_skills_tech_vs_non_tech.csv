@@ -1,0 +1,21 @@
+skill,category,tech_postings,tech_share_pct,non_tech_postings,non_tech_share_pct
+English,Languages,544,65.70,1351,61.46
+Python,Programming,233,28.14,114,5.19
+Communication,Soft skills,227,27.42,406,18.47
+Teamwork,Soft skills,223,26.93,419,19.06
+Leadership,Soft skills,211,25.48,488,22.20
+Stakeholder Management,Soft skills,178,21.50,394,17.93
+Testing,Engineering,177,21.38,168,7.64
+CI/CD,DevOps,158,19.08,23,1.05
+German,Languages,149,18.00,404,18.38
+Git,DevOps,135,16.30,50,2.27
+Machine Learning,AI/ML,117,14.13,69,3.14
+AWS,Cloud,116,14.01,33,1.50
+LLMs,AI/ML,112,13.53,79,3.59
+TypeScript,Programming,102,12.32,33,1.50
+Kubernetes,DevOps,100,12.08,33,1.50
+SQL,Data,99,11.96,51,2.32
+Docker,DevOps,92,11.11,17,0.77
+Azure,Cloud,89,10.75,30,1.36
+Java,Programming,88,10.63,13,0.59
+Terraform,DevOps,85,10.27,25,1.14

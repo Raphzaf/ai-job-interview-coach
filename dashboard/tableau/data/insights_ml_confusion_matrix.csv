@@ -1,0 +1,50 @@
+true_role,predicted_role,postings,pct_of_true_role
+Business Analyst,Business Analyst,37,0.54
+Business Analyst,Cloud Engineer,12,0.18
+Business Analyst,Data Analyst,5358,78.9
+Business Analyst,Data Engineer,695,10.23
+Business Analyst,Data Scientist,562,8.28
+Business Analyst,Machine Learning Engineer,0,0.0
+Business Analyst,Software Engineer,127,1.87
+Cloud Engineer,Business Analyst,0,0.0
+Cloud Engineer,Cloud Engineer,141,9.09
+Cloud Engineer,Data Analyst,246,15.85
+Cloud Engineer,Data Engineer,719,46.33
+Cloud Engineer,Data Scientist,136,8.76
+Cloud Engineer,Machine Learning Engineer,9,0.58
+Cloud Engineer,Software Engineer,301,19.39
+Data Analyst,Business Analyst,7,0.02
+Data Analyst,Cloud Engineer,9,0.03
+Data Analyst,Data Analyst,25428,70.72
+Data Analyst,Data Engineer,4012,11.16
+Data Analyst,Data Scientist,6267,17.43
+Data Analyst,Machine Learning Engineer,6,0.02
+Data Analyst,Software Engineer,226,0.63
+Data Engineer,Business Analyst,13,0.03
+Data Engineer,Cloud Engineer,96,0.22
+Data Engineer,Data Analyst,4165,9.58
+Data Engineer,Data Engineer,33633,77.4
+Data Engineer,Data Scientist,4418,10.17
+Data Engineer,Machine Learning Engineer,88,0.2
+Data Engineer,Software Engineer,1042,2.4
+Data Scientist,Business Analyst,12,0.03
+Data Scientist,Cloud Engineer,14,0.04
+Data Scientist,Data Analyst,6808,18.78
+Data Scientist,Data Engineer,5795,15.98
+Data Scientist,Data Scientist,23063,63.6
+Data Scientist,Machine Learning Engineer,143,0.39
+Data Scientist,Software Engineer,425,1.17
+Machine Learning Engineer,Business Analyst,0,0.0
+Machine Learning Engineer,Cloud Engineer,7,0.31
+Machine Learning Engineer,Data Analyst,120,5.3
+Machine Learning Engineer,Data Engineer,576,25.44
+Machine Learning Engineer,Data Scientist,1192,52.65
+Machine Learning Engineer,Machine Learning Engineer,235,10.38
+Machine Learning Engineer,Software Engineer,134,5.92
+Software Engineer,Business Analyst,9,0.14
+Software Engineer,Cloud Engineer,105,1.63
+Software Engineer,Data Analyst,1009,15.64
+Software Engineer,Data Engineer,2280,35.34
+Software Engineer,Data Scientist,790,12.25
+Software Engineer,Machine Learning Engineer,23,0.36
+Software Engineer,Software Engineer,2235,34.65

@@ -1,141 +1,219 @@
-# AI Job Interview & Application Coach
+# AI Job Market & Interview Coach
 
-> A Retrieval-Augmented Generation (RAG) application that compares a CV with a job description, explains the match with a transparent score, generates personalised interview questions and gives grounded feedback on the candidate's answers.
+> From job-market data to personalised interview preparation. A data-analytics pipeline measures what employers ask for (Python, PostgreSQL, statistics, machine learning, Tableau). A RAG application then compares a candidate's CV with a specific job, explains the match, shows how much the market asks for the missing skills, and coaches the candidate through interview questions with grounded feedback.
 
-Final project, Generative AI Bootcamp.
+Final project, Data Science & Generative AI Bootcamp.
+
+| Match analysis with market context | Interview practice & feedback |
+|---|---|
+| ![Match analysis](docs/screenshots/analysis-with-market.png) | ![Interview feedback](docs/screenshots/interview-feedback.png) |
+
+*Screenshots taken with the fictional sample documents and Gemini (`gemini-flash-latest`) as LLM.*
 
 ---
 
 ## Table of contents
 
-1. [Project Overview](#project-overview)
-2. [Problem](#problem)
-3. [Solution](#solution)
-4. [Features](#features)
-5. [Architecture](#architecture)
-6. [How the RAG Pipeline Works](#how-the-rag-pipeline-works)
-7. [Matching Methodology](#matching-methodology)
-8. [Technology Stack](#technology-stack)
-9. [Project Structure](#project-structure)
-10. [Installation](#installation)
-11. [Environment Variables](#environment-variables)
-12. [Running the Application](#running-the-application)
+1. [Problem](#problem)
+2. [Solution](#solution)
+3. [Architecture](#architecture)
+4. [Layer 1: Job-market data analytics](#layer-1-job-market-data-analytics)
+5. [Layer 2: AI Interview Coach](#layer-2-ai-interview-coach)
+6. [How the two layers connect](#how-the-two-layers-connect)
+7. [Technology Stack](#technology-stack)
+8. [Project Structure](#project-structure)
+9. [Installation](#installation)
+10. [Running the Coach](#running-the-coach)
+11. [Reproducing the Data Pipeline](#reproducing-the-data-pipeline)
+12. [Environment Variables](#environment-variables)
 13. [API Documentation](#api-documentation)
-14. [Example Usage](#example-usage)
-15. [Testing](#testing)
-16. [Evaluation](#evaluation)
-17. [Challenges](#challenges)
-18. [Limitations](#limitations)
-19. [Future Improvements](#future-improvements)
-20. [Demo Instructions](#demo-instructions)
-21. [Conclusion](#conclusion)
+14. [Testing](#testing)
+15. [Evaluation](#evaluation)
+16. [Challenges](#challenges)
+17. [Limitations and Ethics](#limitations-and-ethics)
+18. [Future Improvements](#future-improvements)
+19. [Demo](#demo)
 
 ---
 
-## Project Overview
-
-The user uploads (or pastes) a **CV** and a **job description**. The application:
-
-1. extracts and cleans the text (PDF, DOCX, TXT),
-2. splits both documents into section-aware, token-bounded **chunks**,
-3. turns every chunk into an **embedding** and indexes it with **FAISS**,
-4. computes a **transparent match score** (skills, requirement coverage, semantic similarity, experience),
-5. uses **semantic retrieval + an LLM** to explain the match, generate **personalised interview questions** and **evaluate answers**, always citing the CV/job passages it relied on.
-
-| Match analysis | Interview practice & feedback |
-|---|---|
-| ![Match analysis](docs/screenshots/analysis.png) | ![Interview feedback](docs/screenshots/interview-feedback.png) |
-
-*Screenshots taken with the fictional sample documents and Gemini (`gemini-flash-latest`) as LLM.*
-
-It is **not** a chatbot that receives the whole CV and job ad in one prompt: every LLM call receives only the chunks retrieved by FAISS for that specific task, plus deterministic facts computed in code.
-
 ## Problem
 
-Job seekers usually prepare for interviews with generic question lists. They do not know:
+Job seekers usually prepare for interviews with generic question lists and guesswork. They do not know:
 
-- how well their CV actually matches a given job and *why*;
-- which requirements are not evidenced in their CV (the questions an interviewer is most likely to dig into);
+- **what the market actually asks for** in their target role (which skills, how often, at which seniority);
+- **how well their CV matches a given job** and *why*;
+- **which requirements their CV does not evidence**, which are exactly the topics an interviewer will dig into;
 - whether their answers are specific, structured and connected to the role.
 
 Generic LLM chats make this worse in a subtle way: they confidently invent experience the candidate never had, or produce a "match percentage" that cannot be explained.
 
 ## Solution
 
-A small, explainable GenAI system:
+Two layers, one story: **"What does the market want?" → "How does my CV compare, and how do I prepare?"**
 
 | Need | How it is solved |
 |---|---|
-| "How well do I match?" | Deterministic, documented score combining 4 signals; every sub-score is explained in the UI. |
-| "Where is the evidence?" | Each job requirement is matched to the best CV chunk via semantic search (FAISS) and shown as evidence. |
-| "What will they ask me?" | A planner picks a category (technical / experience / gap / behavioral) and a focus (a skill or requirement) from the analysis; RAG retrieves the relevant CV + job passages; the LLM writes a question grounded in them. |
-| "Was my answer good?" | The answer is evaluated against a 4-criterion rubric and the retrieved context; the overall score is computed in code; the improved answer uses `[placeholders]` instead of invented facts. |
-| "Can I trust it?" | Sources (`[S1]`, `[S2]`, ...) are displayed; outputs are validated JSON; results say whether they came from the LLM or the offline fallback. |
-
-## Features
-
-- **Document input**: PDF, DOCX (including tables) and TXT upload, or paste text. Clear errors for empty, scanned/image-only, corrupted, unsupported or oversized files.
-- **Preprocessing**: Unicode normalisation, PDF artefact repair (ligatures, hyphenated line breaks), bullet normalisation, whitespace cleanup, document validation. Technical tokens such as `C++`, `C#`, `Node.js` and `5+ years` are preserved.
-- **Tokenization**: chunk sizes are measured with the embedding model's own word-piece tokenizer.
-- **Chunking**: section-aware (Experience, Skills, Requirements...) and token-bounded, with unit-level overlap.
-- **Embeddings**: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions, local, CPU), behind a swappable interface with an LRU cache.
-- **FAISS vector search**: exact cosine similarity (`IndexFlatIP`), metadata kept aligned with every vector, filtering by document type.
-- **CV / job match analysis**: overall score + 4 sub-scores, matching / missing (required vs nice-to-have) / additional skills, requirement-by-requirement coverage with CV evidence, years of experience, strengths, gaps.
-- **AI insights**: summary, strengths, gaps and recommendations generated by the LLM from retrieved context, with citations.
-- **Interview questions**: 4 categories rotated automatically or chosen by the user; personalised with retrieved CV and job passages; no repeats within a session.
-- **Answer evaluation**: rubric scores (relevance, specificity, structure, job alignment), strengths, weaknesses, missing points, suggestions, stronger example answer and a grounding note.
-- **Provider-agnostic LLM layer**: any OpenAI-compatible API (OpenAI, Gemini, Groq, Ollama...) configured with environment variables.
-- **Offline mode and fallback**: without an API key (or if the LLM fails) the app still works using template- and heuristic-based generation over the same retrieved context, and clearly labels those results.
-- **Web UI + REST API + OpenAPI docs**, Docker image, 102 automated tests, evaluation script.
+| "What do employers ask for?" | Data pipeline over **787,923 job postings** (two public sources), PostgreSQL, 15 SQL analyses, statistical tests and an interactive **Tableau Public** dashboard. |
+| "Which skills define a role?" | A **scikit-learn classifier** predicts the role family from a posting's skills (macro-F1 0.393 vs 0.142 for a stratified baseline); permutation importance shows which skills drive each role. |
+| "How well do I match this job?" | Deterministic, documented **match score** combining 4 signals; every sub-score is explained in the UI. |
+| "Does the market care about my gaps?" | The coach shows, for each **missing skill**, the share of postings of that role family that ask for it. Example: AWS appears in 31.1 % of 12,164 Machine Learning Engineer postings. |
+| "What will they ask me?" | RAG (FAISS retrieval over the CV and job) + LLM generates **personalised interview questions**, with sources. |
+| "Was my answer good?" | The answer is evaluated against a 4-criterion rubric and the retrieved context, and a stronger answer is proposed (with `[placeholders]` instead of invented facts). |
+| "Can I trust it?" | Sources (`[S1]`, `[S2]`...) are displayed; outputs are validated JSON; every number comes from saved, reproducible results; limitations are stated. |
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    subgraph Client
-        UI[Web UI<br/>HTML/JS]
-    end
-    subgraph API[FastAPI app]
-        R1["/api/documents/extract"]
-        R2["/api/analyze"]
-        R3["/api/interview/question"]
-        R4["/api/interview/answer"]
-    end
-    subgraph Core[Coach pipeline]
-        DP[Document processing<br/>extract · clean · validate · chunk]
-        TK[Tokenizer<br/>MiniLM word-pieces]
-        EM[Embedding service<br/>all-MiniLM-L6-v2 + cache]
-        VS[(FAISS IndexFlatIP<br/>+ chunk metadata)]
-        MT[Matching engine<br/>skills · requirements · experience]
-        PL[Interview planner]
-        RG[RAG: retrieval → prompt → LLM<br/>→ JSON → Pydantic]
-        OF[Offline generator<br/>fallback]
-        SS[(In-memory sessions)]
-    end
-    LLM[[LLM provider<br/>OpenAI-compatible API]]
-
-    UI --> R1 & R2 & R3 & R4
-    R1 --> DP
-    R2 --> DP --> TK
-    DP --> EM --> VS
-    VS --> MT
-    MT --> RG
-    R3 --> PL --> RG
-    R4 --> RG
-    RG <--> VS
-    RG <--> LLM
-    RG -.on failure.-> OF
-    R2 --> SS
-    SS --> R3 & R4
+  subgraph L1["Layer 1: Job-market data analytics"]
+    A[Arbeitnow public API<br/>3,026 postings, Oct 2026] --> C
+    H[HF lukebarousse/data_jobs<br/>784,897 postings, 2023] --> C
+    C[Cleaning & features<br/>pandas · NumPy] --> DB[(PostgreSQL 16<br/>schema market<br/>read-only role)]
+    DB --> Q[15 SQL analyses]
+    DB --> S[Statistics<br/>SciPy · statsmodels]
+    DB --> M[ML classifier<br/>scikit-learn]
+    DB --> E[Validated extracts]
+    E --> T[Tableau Public<br/>dashboard]
+    E --> J[market context JSON<br/>12 KB]
+  end
+  subgraph L2["Layer 2: AI Interview Coach (FastAPI + web UI)"]
+    U[CV + job description] --> DP[Extraction · cleaning ·<br/>token-aware chunking]
+    DP --> EM[Embeddings<br/>all-MiniLM-L6-v2]
+    EM --> F[(FAISS)]
+    F --> MT[Deterministic<br/>match score]
+    F --> RAG[RAG prompts → LLM →<br/>validated JSON]
+    MT --> RAG
+    J --> MC[Market demand<br/>for missing skills]
+    MT --> MC
+    MC --> RAG
+    RAG --> UI[Insights · questions ·<br/>answer feedback]
+  end
 ```
 
-Design choices, in short:
+**Design principles:**
+- **Every technology has a job.** PostgreSQL stores 4.5 M rows and enforces least privilege. Statistics test hypotheses with effect sizes. ML quantifies how much skills say about a role. The dashboard explores the market. RAG grounds the LLM in the candidate's own documents.
+- **Deterministic where possible, LLM where useful.** Scores, skills, statistics and market figures are computed in code and reproducible. The LLM writes language: explanations, questions and feedback.
+- **No fabricated numbers.** Every figure in this README and the docs comes from a saved result file: `data/processed/*_results/`, `evaluation/results_*.md`, `dashboard/tableau/data/validation.json`.
 
-- **One process, one command.** FastAPI serves both the JSON API and the static UI. No database: each analysis creates an in-memory session holding the FAISS index, so the interview reuses it instead of re-embedding the documents (sessions expire after 2 h, at most 100 are kept).
-- **Deterministic where possible, LLM where useful.** Scores, skills, requirement coverage and question planning are computed in code (reproducible, testable). The LLM writes language: explanations, questions and feedback.
-- **Everything swappable through interfaces**: `EmbeddingService`, `TokenCounter`, `LLMProvider`. Tests inject fakes through the same seams.
+---
 
-## How the RAG Pipeline Works
+## Layer 1: Job-market data analytics
+
+Detailed documentation per phase: [Data pipeline](docs/DATA_PIPELINE.md) · [Database](docs/DATABASE.md) · [Statistics](docs/STATISTICAL_ANALYSIS.md) · [Machine learning](docs/MACHINE_LEARNING.md) · [Dashboard](docs/DASHBOARD.md).
+
+### Data sources
+
+| | Live snapshot | Reference dataset |
+|---|---|---|
+| Source | [Arbeitnow](https://www.arbeitnow.com/) public job-board API (JSON) | [`lukebarousse/data_jobs`](https://huggingface.co/datasets/lukebarousse/data_jobs) on Hugging Face |
+| Licence / terms | Public API, attribution link kept per posting; no scraping | Apache-2.0 |
+| Period | Snapshot of 2026-10-08 | Postings from 2023 |
+| Rows | 3,180 fetched → **3,026** after cleaning | 785,741 → **784,897** after cleaning |
+| Scope | All occupations, mostly Germany | Data/tech roles, worldwide |
+| In Git? | Processed tables yes; raw pages no (they contain recruiter contact details) | No (231 MB): pinned revision, SHA-256 verified on download |
+
+The two sources are **analysed separately and never compared over time**. Their populations differ: data roles worldwide in 2023 vs all occupations in Germany in 2026.
+
+### Pipeline
+
+1. **Ingestion:** polite API pagination with Pydantic validation; reproducible download with checksum.
+2. **Cleaning & features:**
+   - HTML to text, language detection, de-duplication, country repair;
+   - skill extraction with the coach's own 99-skill taxonomy;
+   - seniority, remote and role-family features;
+   - profiling reports with missing values and duplicates.
+3. **PostgreSQL 16:**
+   - two fact tables, shared dimensions (`sources`, `companies`, `skills`) and skill link tables;
+   - an owner role and a **read-only** `coach_reader` role that cannot see job description text;
+   - an idempotent COPY loader whose row counts are checked (4,478,391 rows);
+   - 15 analytical queries with saved results.
+4. **Statistics** (SciPy, statsmodels): see below.
+5. **Machine learning** (scikit-learn): see below.
+6. **Dashboard extracts:** 11 CSV files built in SQL. They are dense, with per-row denominators, so every share stays correct under any Tableau filter. 16/16 validation checks pass against the database.
+
+### Statistical results (`data/processed/stats_results/`)
+
+| # | Question | Test | Result |
+|---|---|---|---|
+| A | Do senior postings list more skills? | Mann-Whitney U per role, Holm correction | Yes, but **small/negligible** effect (Cliff's δ 0.15 / 0.13 / 0.05) |
+| B | Is remote work associated with the job family? | Chi-square | **Negligible** (2023, V = 0.081) / **small** (2026, V = 0.147) |
+| C | Which skills are over-represented in senior postings, within the same role? | Cochran-Mantel-Haenszel per skill, Benjamini-Hochberg | 64 of 71 skills significant, odds ratios 0.71–1.84 |
+| D | What is the advertised salary associated with? | OLS on log(salary), HC3 errors | R² = 0.26; senior **+17.2 %**; ML Engineer **+60.9 %** vs Data Analyst |
+| E | Do more experienced profiles list more skills? (live data) | Kruskal-Wallis + Spearman, stratified by language | **Small** effect (ε² = 0.033) |
+
+With up to 785k rows almost every test is "significant". The conclusions therefore rely on **effect sizes and confidence intervals**, and all results are associations, not causal effects. The executed notebook is [`notebooks/statistical_analysis.ipynb`](notebooks/statistical_analysis.ipynb).
+
+### Machine learning (`data/processed/ml_results/`)
+
+**Task:** predict the role family (7 classes) of a 2023 posting from its skills.
+
+**Method:**
+- 641,060 postings, 59 features (58 coach-taxonomy skills + skill count);
+- **company-grouped** train/test split, so no company appears on both sides;
+- grid search with StratifiedGroupKFold;
+- HistGradientBoosting selected on cross-validated macro-F1.
+
+| Model (test set, 132,728 postings) | Macro-F1 | Accuracy |
+|---|---|---|
+| Most-frequent baseline | 0.071 | 0.327 |
+| Stratified baseline | 0.142 | n/a |
+| **HistGradientBoosting** | **0.393** | **0.639** (top-3: 0.929) |
+
+**Interpretation:**
+- Skills alone carry real but limited information about a role: Data Analyst, Data Engineer and Data Scientist overlap heavily.
+- A second experiment (senior vs non-senior from skills) reaches only ROC-AUC 0.625. It is reported as a weak, honest negative result.
+
+The executed notebook is [`notebooks/ml_analysis.ipynb`](notebooks/ml_analysis.ipynb).
+
+| Senior skill odds ratios (statistics C) | Role classifier confusion matrix |
+|---|---|
+| ![Odds ratios](reports/figures/stats/C_senior_skill_odds_ratios.png) | ![Confusion matrix](reports/figures/ml/ML_confusion_matrix.png) |
+
+### Interactive dashboard (Tableau Public)
+
+- **What's ready:** the data files (`dashboard/tableau/data/`, 11 CSV + data dictionary + validation), a click-by-click [build guide](dashboard/TABLEAU_BUILD_GUIDE.md), the [design specification](docs/DASHBOARD.md) and the [expected values](dashboard/tableau/EXPECTED_VALUES.md) to check the build against.
+- **What it contains:** 4 dashboards:
+  1. 2023 market overview;
+  2. skills, seniority and salary;
+  3. live 2026 snapshot;
+  4. model results.
+- **Filters:** role, seniority, country, remote and skill.
+- **Publication:** the workbook is built and published manually in Tableau Public, which cannot be automated from code. **Public link:** *to be added after publication.*
+
+---
+
+## Layer 2: AI Interview Coach
+
+The user uploads (or pastes) a **CV** and a **job description**. The application:
+
+1. extracts and cleans the text (PDF, DOCX, TXT);
+2. splits both documents into section-aware, token-bounded **chunks**;
+3. turns every chunk into an **embedding** and indexes it with **FAISS**;
+4. computes a **transparent match score** (skills, requirement coverage, semantic similarity, experience);
+5. adds the **job-market context**: demand for the job's missing skills in the detected role family;
+6. uses **semantic retrieval + an LLM** to explain the match, generate **personalised interview questions** and **evaluate answers**, always citing the CV/job passages it relied on.
+
+It is **not** a chatbot that receives the whole CV and job ad in one prompt. Every LLM call receives only the chunks retrieved by FAISS for that specific task, plus deterministic facts computed in code.
+
+### Features
+
+- **Document input:** PDF, DOCX (including tables) and TXT upload, or pasted text. Clear errors for empty, scanned/image-only, corrupted, unsupported or oversized files.
+- **Preprocessing:** Unicode normalisation, PDF artefact repair, bullet normalisation, validation. Technical tokens such as `C++`, `C#`, `Node.js` and `5+ years` are preserved.
+- **Tokenization and chunking:** chunk sizes are measured with the embedding model's own word-piece tokenizer. Chunks are section-aware, at most 200 tokens, with overlap.
+- **Embeddings:** `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions, local CPU, pretrained inference only), with an LRU cache.
+- **FAISS vector search:** exact cosine similarity (`IndexFlatIP`), with metadata aligned to every vector.
+- **Match analysis:**
+  - overall score + 4 sub-scores;
+  - matching, missing (required vs nice-to-have) and additional skills;
+  - requirement-by-requirement coverage with CV evidence;
+  - years of experience.
+- **Job-market context:** demand for missing skills and the role's top 10 skills (✓/✗ against the CV), from the analytics layer.
+- **AI insights, interview questions (4 categories), answer evaluation (rubric, stronger answer, grounding note).**
+- **Provider-agnostic LLM layer:** any OpenAI-compatible API (OpenAI, Gemini, Groq, Ollama...).
+- **Offline mode and fallback:** without an API key, or if the LLM fails, the app still works with template- and heuristic-based generation, and it labels those results.
+- **Web UI + REST API + OpenAPI docs**, Docker image.
+
+### How the RAG pipeline works
 
 ```mermaid
 flowchart LR
@@ -154,180 +232,129 @@ flowchart LR
     K --> L[Insights · Question · Feedback<br/>+ displayed sources]
 ```
 
-### 1. Extraction and cleaning (`app/document_processing/`)
+1. **Extraction and cleaning** (`app/document_processing/`):
+   - pypdf, python-docx (paragraphs and tables), TXT with encoding fallbacks;
+   - magic bytes are checked first, and scanned PDFs are rejected explicitly;
+   - cleaning removes formatting noise but never content: no lower-casing or stemming.
+2. **Tokenization and chunking:**
+   - `all-MiniLM-L6-v2` has a hard **256-token** window, so chunk sizes are measured with the same tokenizer and limited to 200 tokens;
+   - chunks never cross sections, and a new job entry starts a new chunk;
+   - whole units overlap between consecutive chunks.
+3. **Embeddings:**
+   - L2-normalised 384-d vectors of `"{section}: {chunk}"`;
+   - queries are embedded with the same model;
+   - a `HashingEmbedder` exists **only** for tests: it is deterministic but not semantic.
+4. **FAISS:**
+   - `IndexFlatIP` gives exact search; a session holds only tens of vectors, so approximate indexes would only add recall loss;
+   - a Python list keeps each chunk at the same position as its vector.
+5. **Retrieval:**
+   - multi-query retrieval for insights (one query per requirement, because a whole job ad exceeds the 256-token window);
+   - balanced CV + job retrieval for questions and evaluation;
+   - chunks below cosine 0.15 are discarded.
+6. **Grounded generation:**
+   - every prompt starts with the grounding rules: use the context, never invent experience or numbers, cite `[S#]`, prefix general tips with `General advice:`;
+   - computed facts (scores, skills, market demand) are given as facts that the model must not change.
+7. **Structured outputs:** JSON mode → safe JSON extraction → Pydantic validation (types, enums, 0–10 ranges, lengths) → one repair request with the exact errors → otherwise `LLMError`. The overall answer score is the mean of the rubric criteria, **computed in code**.
+8. **Fallback:** if the LLM fails and `LLM_FALLBACK_TO_OFFLINE=true`, the offline generator answers over the same retrieved context, and the result is labelled `offline-fallback`.
 
-`extractors.py` reads PDF (`pypdf`), DOCX (`python-docx`, paragraphs **and tables**) and TXT (UTF-8 → cp1252 → latin-1). Magic bytes are checked first, so a renamed file produces a clear message instead of a parser stack trace. A PDF without a text layer (a scanned CV) is rejected explicitly instead of silently producing an empty analysis.
+### Matching methodology
 
-`cleaner.py` removes *formatting noise* but never *content*: no lower-casing, stop-word removal or stemming, because `C++`, `C#`, `Node.js`, `M.Sc.` or `5+ years` carry meaning. `validate_document` rejects documents that are empty, too short (< 80 chars), too long (> 60,000 chars) or mostly non-letters (broken extraction).
-
-### 2. Tokenization and chunking (`tokenizer.py`, `chunker.py`)
-
-Transformers read **tokens**, not characters. `all-MiniLM-L6-v2` has a hard **256-token** window and silently truncates longer input, so a long chunk would be embedded from its beginning only. Chunk sizes are therefore measured with **the same tokenizer as the embedding model** (Hugging Face `AutoTokenizer`), and limited to `CHUNK_MAX_TOKENS=200` (headroom for special tokens and the section prefix). The same counter caps the context sent to the LLM (≈1,400 tokens).
-
-Chunking strategy:
-
-1. Split the document into **sections** using heading detection (known headings + short ALL-CAPS lines). A chunk never crosses sections, so it stays on one topic and carries its section as metadata.
-2. Split sections into **units**: bullet points and paragraphs. A bullet is the smallest meaningful piece of evidence in a CV.
-3. **Greedy packing** of units up to 200 tokens, measured on the exact text that gets embedded (`"Work Experience: ..."`).
-4. A paragraph right after a bullet list (typically the next job's header) **starts a new chunk**, so each job stays with its own bullets.
-5. **Overlap** of whole units (≤ 30 tokens) between consecutive chunks of a section.
-
-On the sample documents this gives 9 CV chunks (514 tokens in total) and 6 job chunks (308 tokens).
-
-### 3. Embeddings (`app/embeddings/service.py`)
-
-| | |
-|---|---|
-| Model | `sentence-transformers/all-MiniLM-L6-v2` |
-| Dimensions | 384 |
-| Normalisation | L2 (so inner product = cosine similarity) |
-| Text embedded | `"{section}: {chunk text}"` (the section gives context) |
-| Queries | embedded with the **same** model (vectors of different models are not comparable) |
-| Runtime | local CPU, ~90 MB, downloaded once from Hugging Face |
-| Cache | LRU cache by text (`CachedEmbedder`): repeated chunks/queries are not re-embedded |
-
-Why this model: free, fast on CPU, reproducible (no API drift), keeps CVs on the machine, and is a standard baseline for semantic search. A `HashingEmbedder` (bag-of-words hashing trick) exists **only** for tests: it is deterministic and needs no download, but it is not semantic.
-
-### 4. FAISS vector store (`app/retrieval/faiss_store.py`)
-
-FAISS stores vectors and returns integer row ids. A Python list keeps the `Chunk` at the same position as its vector; both are appended together, so the id → metadata mapping cannot drift. Each result carries `chunk_id`, `doc_type` (`cv`/`job`), `doc_name`, `section`, `position`, `text` and the similarity score.
-
-`IndexFlatIP` performs **exact** search. A session has tens of vectors, so brute force takes microseconds; approximate indexes (IVF, HNSW) only pay off at hundreds of thousands of vectors and would add training steps and recall loss. Filtering by document type is done by scoring all vectors and filtering afterwards, which is exact and cheap at this scale.
-
-### 5. Retrieval strategies (`app/retrieval/retriever.py`, `app/rag/pipeline.py`)
-
-| Task | Query | Retrieval |
-|---|---|---|
-| Requirement coverage | each job requirement | top-5 CV chunks, re-ranked (see Matching) |
-| Match insights | each required job requirement (multi-query) | top-2 CV + top-1 job per query, deduplicated |
-| Interview question | planner focus, e.g. `"experience with PyTorch"` | **balanced**: top-3 CV + top-3 job |
-| Answer evaluation | question + answer | balanced top-3 + 3, merged with the question's sources |
-
-Chunks with cosine similarity < 0.15 are discarded so irrelevant text is not sent to the LLM. Multi-query retrieval is used for the insights because one query built from a whole job description would exceed the 256-token window and blur the individual requirements.
-
-### 6. Generation with grounding (`app/rag/prompts.py`, `app/rag/llm.py`)
-
-Every prompt starts with the same **grounding rules**:
-
-- use the CONTEXT (retrieved CV/job excerpts) as the primary source of truth;
-- never invent candidate experience, skills, employers, numbers, certifications or job requirements;
-- say explicitly when information is not available in the documents;
-- cite document facts as `[S1]`, `[S2]` and prefix general tips with `General advice:`;
-- answer with a JSON object only.
-
-The context is rendered as numbered sources with their origin (`[S2] (CV › Work Experience (#2), similarity 0.41)`), and the same sources are returned to the UI. Task-specific safeguards:
-
-- **Insights**: the score and skill lists are provided as *computed facts*; the model is told not to change them.
-- **Questions**: category and focus come from the planner (the planner's category overrides the model's); gap questions must not pretend the CV mentions the skill; previous questions are listed to avoid repeats; at most 60 words.
-- **Evaluation**: explicit 0–10 rubric; "interview answers are partly subjective, do not claim an answer is objectively right"; the stronger answer must reuse facts from the answer/CV only and put `[placeholders]` for missing details.
-
-### 7. Structured outputs
-
-The LLM is called in JSON mode (`response_format={"type": "json_object"}`; automatically disabled for servers that reject it). `generate_structured()` then:
-
-1. extracts the JSON object (tolerates markdown fences or surrounding text: *safe* recovery only, no guessing of content);
-2. validates it with the Pydantic schema (`MatchInsights`, `InterviewQuestion`, `AnswerEvaluation`): types, enums, ranges (0–10), non-empty lists, max lengths, de-duplication;
-3. if invalid, sends **one repair request** containing the exact validation errors;
-4. if still invalid, raises `LLMError`; invalid data is never passed on.
-
-The overall answer score is the **mean of the four rubric criteria computed in code**, so it cannot contradict the detailed scores.
-
-### 8. Fallback
-
-If the LLM is unavailable, times out, rejects the key, or returns invalid JSON twice, the pipeline (when `LLM_FALLBACK_TO_OFFLINE=true`) uses the **offline generator** and labels the result `offline-fallback` with a warning. Offline mode uses the same retrieved context and match analysis: template questions quoting the most relevant CV line, and a heuristic answer score (semantic + lexical relevance, numbers/skills/first-person actions, STAR markers, job-skill mentions). It is intentionally simpler and is never presented as LLM output.
-
-## Matching Methodology
-
-The overall score is a **weighted average of four deterministic signals**, each in [0, 1]. The LLM never decides the percentage.
+The overall score is a **weighted average of four deterministic signals**. The LLM never decides the percentage.
 
 | Signal | Weight | Computation | Why this weight |
 |---|---|---|---|
-| **Skill overlap** | 0.40 | Matched job skills ÷ job skills; nice-to-have skills count ×0.5 | Most explicit and verifiable signal; what recruiters and ATS screen first. |
-| **Requirement coverage** | 0.35 | For each job requirement: `max(semantic credit, skill credit)`, averaged (nice-to-have ×0.5) | Captures requirements phrased beyond keywords, via FAISS evidence. |
-| **Semantic similarity** | 0.15 | Cosine between the mean CV vector and the mean job vector, rescaled | Holistic but coarse, so a low weight. |
-| **Experience** | 0.10 | min(1, CV years ÷ required years) | Years are a crude seniority proxy; a low weight avoids over-penalising career changers. |
+| **Skill overlap** | 0.40 | Matched job skills ÷ job skills; nice-to-have skills count ×0.5 | Most explicit and verifiable signal |
+| **Requirement coverage** | 0.35 | Per requirement: `max(semantic credit, skill credit)`, averaged | Captures requirements phrased beyond keywords, via FAISS evidence |
+| **Semantic similarity** | 0.15 | Cosine between mean CV and mean job vectors, rescaled | Holistic but coarse |
+| **Experience** | 0.10 | min(1, CV years ÷ required years) | Crude seniority proxy; a low weight avoids penalising career changers |
 
-Weights are configurable (`MATCH_WEIGHT_*`). **A signal that cannot be computed** (e.g. the job states no minimum years, or the CV has no date ranges) is marked *not applicable* and the remaining weights are re-normalised, so it neither helps nor hurts.
+**How the score handles edge cases:**
+- A signal that cannot be computed (e.g. no stated years) is marked *not applicable*, and the other weights are re-normalised.
+- Skills come from a curated taxonomy (99 skills with aliases), with handling of alternatives ("PyTorch **or** TensorFlow") and implications (`PostgreSQL → SQL`).
+- Cosine values are rescaled with anchors calibrated on the 3×3 evaluation set.
 
-Details:
+> The score estimates how well the **text** of the CV matches the **text** of the job description. It is not a hiring probability. The UI states this next to the score.
 
-- **Skills** come from a curated taxonomy (~100 canonical skills with aliases: `postgres → PostgreSQL`, `sklearn → scikit-learn`, `k8s → Kubernetes`). Matching uses custom word boundaries so `C++`, `C#` and `Node.js` work, while `R&D` or "the rest of" are not detected as `R` / `REST`. A skill is only reported if it literally appears in the text, so no skill is hallucinated.
-  - **Required vs nice-to-have**: a skill is "preferred" only if it appears exclusively in nice-to-have requirements.
-  - **Alternatives**: in "PyTorch **or** TensorFlow" or "FastAPI/Flask", having one alternative means the others are not gaps.
-  - **Implications**: a small, uncontroversial hierarchy (`RAG → Generative AI, LLMs`, `PostgreSQL → SQL`, `FastAPI → Python`...). Implied skills are shown with a dashed outline in the UI.
-- **Requirements** are the bullets of requirement-like sections ("Requirements", "Nice to have", "Qualifications"...), with fallbacks to all bullets, then sentences, for prose job ads.
-- **Requirement coverage**: semantic credit = cosine(requirement, best CV chunk) rescaled from [0.25, 0.55] to [0, 1]; skill credit = share of the requirement's skills present in the CV. Status: covered ≥ 70 %, partial ≥ 35 %, otherwise missing. The **evidence** shown is chosen among the top-5 semantic hits, preferring chunks that literally mention the requirement's skills and experience over a bare skills list (light hybrid re-ranking).
-- **Years of experience**: required = largest "N+ years ... experience" in the job; candidate = union of date ranges (`Mar 2023 - Present`, `2019 – 2021`...) found in experience sections, with overlapping jobs merged.
-- **Calibration**: MiniLM cosine values are not percentages (unrelated professional texts still score 0.2–0.4). The rescaling anchors were chosen from measurements on the 3×3 evaluation set: matching CV/job pairs had document similarity 0.78–0.83, mismatched pairs 0.39–0.68 (anchors 0.45 → 0 %, 0.85 → 100 %).
+**Example** (sample documents): **88 %** = Skills 87 % × 0.40 + Requirements 87 % × 0.35 + Semantic 82 % × 0.15 + Experience 100 % × 0.10. Missing: AWS (required); MLOps, Kubernetes, Terraform (nice to have).
 
-> The score estimates how well the **text** of the CV matches the **text** of the job description. It is not a hiring probability and cannot see qualities absent from the documents. The UI states this next to the score.
+---
 
-Example (sample documents): **Overall 88 %** = Skills 87 % × 0.40 + Requirements 87 % × 0.35 + Semantic similarity 82 % × 0.15 + Experience 100 % × 0.10. Missing: AWS (required); MLOps, Kubernetes, Terraform (nice to have).
+## How the two layers connect
+
+1. **Shared vocabulary.** The data pipeline extracts skills from 787,923 postings with the **coach's own skill taxonomy**, so "AWS" in the market data and "AWS" in a CV are the same concept.
+2. **Market context in the coach** (`app/market_context/`). After the match analysis, the coach:
+   - detects the job's role family from its title (7 data/tech families);
+   - shows how often 2023 postings of that family ask for each **missing skill**;
+   - shows the role's top 10 skills, marked ✓/✗ against the CV.
+
+   These figures are also passed to the LLM as labelled facts. The data is a 12 KB JSON file regenerated from the validated Tableau extract (`python -m market.coach_context`; a test checks it is identical). The coach therefore needs **no database** and still works offline.
+3. **Honesty rules:**
+   - the market context never changes the match score;
+   - jobs outside the covered role families (e.g. marketing) get no figures rather than misleading ones;
+   - the source and year are always shown.
+
+![Market context](docs/screenshots/market-context.png)
+
+---
 
 ## Technology Stack
 
-| Layer | Technology | Why |
+| Layer | Technology | Used for |
 |---|---|---|
-| Language | Python 3.11+ (developed and tested on 3.13; Docker image uses 3.12) | |
-| API | FastAPI, Uvicorn, Pydantic v2, pydantic-settings | Typed validation, automatic OpenAPI docs, settings from env |
-| Extraction | pypdf, python-docx | Pure-Python PDF/DOCX parsing, no system dependencies |
-| Tokenizer | Hugging Face `transformers` AutoTokenizer (MiniLM word-pieces) | Exact token counts for the embedding model |
-| Embeddings | sentence-transformers `all-MiniLM-L6-v2` (PyTorch CPU) | Local, free, reproducible semantic vectors |
-| Vector search | FAISS (`faiss-cpu`) `IndexFlatIP` | Exact cosine similarity search |
-| LLM | `openai` SDK against any OpenAI-compatible endpoint (validated with Google Gemini `gemini-flash-latest`) | Provider-agnostic |
-| UI | HTML + CSS + vanilla JavaScript served by FastAPI | No build step |
-| Tests | pytest, FastAPI TestClient (httpx) | |
-| Packaging | Docker, docker-compose | |
+| Language | Python 3.11+ (developed on 3.13; Docker image 3.12) | Everything |
+| Data | pandas, NumPy, httpx | Ingestion (API + checksummed download), cleaning, features |
+| Database | PostgreSQL 16, psycopg 3 | Storage, SQL analysis, least-privilege roles |
+| Statistics | SciPy, statsmodels | Hypothesis tests, effect sizes, OLS |
+| Machine learning | scikit-learn, joblib | Role-family classifier |
+| Visualisation | matplotlib, Tableau Public | Figures, interactive dashboard |
+| Notebooks | Jupyter (nbformat, nbclient) | Executed analysis notebooks |
+| API | FastAPI, Uvicorn, Pydantic v2, pydantic-settings | Coach backend, validation, OpenAPI |
+| Documents | pypdf, python-docx | CV/job extraction |
+| Embeddings | sentence-transformers `all-MiniLM-L6-v2`, HF tokenizer | Semantic vectors, token counts |
+| Vector search | FAISS (`faiss-cpu`) | Exact cosine similarity |
+| LLM | `openai` SDK, any OpenAI-compatible endpoint (validated with Gemini) | Insights, questions, feedback |
+| UI | HTML + CSS + vanilla JavaScript | No build step |
+| Quality | pytest | 159 automated tests |
+| Packaging | Docker, Docker Compose | Coach image + optional PostgreSQL |
 
 ## Project Structure
 
 ```
 ai-job-interview-coach/
-├── app/
-│   ├── main.py                    # FastAPI app factory, error handlers, UI route
-│   ├── api/
-│   │   ├── dependencies.py        # Builds services once (embedder, tokenizer, LLM, sessions)
-│   │   └── routes/                # health, documents, analysis, interview endpoints
-│   ├── core/
-│   │   ├── config.py              # Settings from environment variables / .env
-│   │   ├── errors.py              # User-facing error classes -> clean JSON errors
-│   │   ├── logging.py             # Logging setup (no document content, no secrets)
-│   │   └── sessions.py            # In-memory session store (FAISS index reused per session)
-│   ├── models/
-│   │   ├── domain.py              # Document, Chunk, RetrievedChunk, SkillMatch
-│   │   └── schemas.py             # Pydantic schemas: API + LLM outputs
-│   ├── document_processing/
-│   │   ├── extractors.py          # PDF / DOCX / TXT extraction
-│   │   ├── cleaner.py             # Cleaning, normalisation, validation
-│   │   ├── tokenizer.py           # Token counting (embedding model tokenizer)
-│   │   ├── chunker.py             # Section-aware, token-bounded chunking
-│   │   └── processor.py           # Orchestrates the preprocessing stage
-│   ├── embeddings/service.py      # Embedding providers + LRU cache
-│   ├── retrieval/
-│   │   ├── faiss_store.py         # FAISS index + aligned chunk metadata
-│   │   └── retriever.py           # Query embedding, top-k, balanced retrieval
-│   ├── matching/
-│   │   ├── skills.py              # Skill taxonomy, aliases, alternatives, implications
-│   │   ├── requirements.py        # Requirement and years-of-experience extraction
-│   │   └── matcher.py             # Transparent weighted score + evidence
-│   ├── rag/
-│   │   ├── prompts.py             # Grounding rules and prompt templates
-│   │   ├── llm.py                 # Provider abstraction + structured output validation
-│   │   ├── interview_planner.py   # Chooses question category and focus
-│   │   ├── offline.py             # Offline/fallback generator
-│   │   └── pipeline.py            # The RAG pipeline (analyze / question / evaluate)
-│   └── ui/static/                 # index.html, styles.css, app.js
-├── data/examples/                 # Fictional sample CV (TXT, PDF, DOCX) and job description
-├── evaluation/
-│   ├── data/                      # 3 fictional CVs x 3 job descriptions
-│   ├── run_evaluation.py          # Evaluation script
-│   └── results_llm.md / results_offline.md
-├── tests/                         # 102 unit + integration tests
-├── scripts/make_sample_documents.py
-├── docs/
-│   ├── demo-script.md             # 2-3 minute Demo Day script
-│   ├── presentation-outline.md    # Slide-by-slide outline
-│   └── screenshots/
+├── app/                          # Layer 2: AI Interview Coach (FastAPI)
+│   ├── main.py                   # App factory, error handlers, UI route
+│   ├── api/                      # Service wiring + routes (health, documents, analysis, interview)
+│   ├── core/                     # Settings, errors, logging, in-memory sessions
+│   ├── document_processing/      # Extraction, cleaning, tokenizer, chunker
+│   ├── embeddings/               # Embedding providers + cache
+│   ├── retrieval/                # FAISS store + retriever
+│   ├── matching/                 # Skill taxonomy, requirements, transparent score
+│   ├── market_context/           # Market demand for the job's skills (+ 12 KB JSON)
+│   ├── rag/                      # Prompts, LLM layer, planner, offline generator, pipeline
+│   └── ui/static/                # index.html, styles.css, app.js
+├── market/                       # Layer 1: job-market data analytics
+│   ├── ingestion/                # Arbeitnow API client, HF dataset download
+│   ├── cleaning_*.py, text.py    # Cleaning and feature engineering
+│   ├── profiling.py, pipeline.py # Profiling reports, pipeline entry point
+│   ├── db/                       # PostgreSQL config, setup, loader, query runner
+│   ├── stats/                    # Statistical analyses (SciPy, statsmodels)
+│   ├── ml/                       # Features, training, figures (scikit-learn)
+│   ├── dashboard/export.py       # Tableau extracts + validation
+│   └── coach_context.py          # Builds app/market_context/skill_demand_2023.json
+├── sql/                          # Schema, views, security, 15 analyses, dashboard exports
+├── notebooks/                    # Executed statistics and ML notebooks
+├── data/
+│   ├── examples/                 # Fictional sample CV (TXT/PDF/DOCX) + job description
+│   ├── raw/                      # Manifests only (raw data is not versioned)
+│   └── processed/                # Cleaned live data, reports, SQL/stats/ML results
+├── dashboard/                    # Tableau build guide, expected values, data extracts
+├── models/role_classifier.joblib # Trained classifier (4 MB)
+├── reports/figures/              # Statistics and ML figures
+├── evaluation/                   # GenAI evaluation (data, script, results)
+├── tests/                        # 159 tests
+├── scripts/                      # Sample documents, local PostgreSQL, notebook builders
+├── docs/                         # Phase documentation, demo script, screenshots
+├── demo_day/                     # Demo Day material
 ├── Dockerfile, docker-compose.yml
 ├── requirements.txt, requirements-dev.txt
 └── .env.example
@@ -335,7 +362,7 @@ ai-job-interview-coach/
 
 ## Installation
 
-Requirements: Python 3.11+ and ~1.5 GB of disk (PyTorch CPU + model).
+Requirements: Python 3.11+ and about 1.5 GB of disk (PyTorch CPU + embedding model).
 
 ```bash
 git clone https://github.com/raphzaf/ai-job-interview-coach.git
@@ -344,56 +371,97 @@ cd ai-job-interview-coach
 python -m venv .venv
 source .venv/bin/activate            # Windows: .venv\Scripts\activate
 
-# Optional but recommended: CPU-only PyTorch (much smaller than the default CUDA build)
+# Recommended: CPU-only PyTorch (much smaller than the default CUDA build)
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 
-pip install -r requirements-dev.txt  # app + test dependencies (or requirements.txt for the app only)
-
-cp .env.example .env                 # then edit .env (see below)
+pip install -r requirements-dev.txt  # everything (app, data layer, tests)
+cp .env.example .env                 # then edit .env (see Environment Variables)
 ```
 
-The embedding model (~90 MB) is downloaded from Hugging Face the first time the app starts and cached afterwards.
+The embedding model (about 90 MB) is downloaded from Hugging Face the first time the coach starts, then cached.
+
+## Running the Coach
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Then open:
+- **Web UI:** http://localhost:8000
+- **Interactive API docs (Swagger):** http://localhost:8000/docs
+
+The coach needs **neither PostgreSQL nor the raw data**. It ships with its market-context file. Without an LLM key it runs in labelled offline mode, and the top-right badge shows which mode is active.
+
+**With Docker:**
+
+```bash
+cp .env.example .env    # add your LLM settings
+docker compose up --build
+```
+
+`docker compose up` starts the coach only. PostgreSQL is an optional service in the `db` profile (see below). The image uses CPU-only PyTorch and includes the embedding model, so the container needs no internet access except to call the LLM API.
+
+## Reproducing the Data Pipeline
+
+Every step writes its results to versioned files, so **you do not need to rerun anything to read the results**. To reproduce them:
+
+```bash
+# 1. Data (≈ 5 min + a 231 MB download)
+python -m market.ingestion.hf_data_jobs     # downloads + verifies the reference CSV
+python -m market.ingestion.arbeitnow        # optional: new API snapshot (one is already processed)
+python -m market.pipeline                   # cleaning, features, profiling reports
+
+# 2. PostgreSQL 16 (set PG_ADMIN_PASSWORD, COACH_*_PASSWORD and the DATABASE_* URLs in .env)
+docker compose up -d db                     # or: scripts/local_postgres.sh start (no Docker)
+python -m market.db.setup                   # roles, database, schema, views, privileges
+python -m market.db.load                    # ≈ 2–3 min, row counts verified
+python -m market.db.run_queries             # 15 analyses → data/processed/sql_results/
+
+# 3. Analysis (read-only role, DATABASE_URL)
+python -m market.stats.run_stats            # ≈ 1.5 min → stats_results/ + reports/figures/stats/
+python -m market.ml.train                   # ≈ 12 min → ml_results/ + models/role_classifier.joblib
+python -m market.ml.figures                 # → reports/figures/ml/
+python scripts/build_stats_notebook.py      # re-executes notebooks/statistical_analysis.ipynb
+python scripts/build_ml_notebook.py         # re-executes notebooks/ml_analysis.ipynb
+
+# 4. Dashboard and coach
+python -m market.dashboard.export           # Tableau CSVs + 16 validation checks
+python -m market.coach_context              # coach market-context JSON
+```
+
+**Note:** the database scripts read `DATABASE_URL`, `DATABASE_OWNER_URL` and `DATABASE_ADMIN_URL`. If your shell already defines a `DATABASE_URL` for another project, override it.
 
 ## Environment Variables
 
-All configuration lives in `.env` (never committed; see `.env.example`).
+All configuration lives in `.env`, which is never committed (see `.env.example`).
 
 | Variable | Default | Description |
 |---|---|---|
 | `LLM_PROVIDER` | `openai_compatible` | `openai_compatible` or `offline` (no LLM) |
 | `LLM_MODEL` | `gpt-4o-mini` | Model name for the provider |
-| `LLM_API_KEY` | *(empty)* | API key. If empty (and not a local server), the app runs in offline mode |
+| `LLM_API_KEY` | *(empty)* | API key. If empty (and not a local server), the coach runs in offline mode |
 | `LLM_BASE_URL` | *(empty = OpenAI)* | OpenAI-compatible endpoint URL |
-| `LLM_TEMPERATURE` | `0.3` | Low value for stable structured outputs |
-| `LLM_TIMEOUT_SECONDS` | `60` | Per-request timeout |
+| `LLM_TEMPERATURE` / `LLM_TIMEOUT_SECONDS` | `0.3` / `60` | Generation settings |
 | `LLM_FALLBACK_TO_OFFLINE` | `true` | Use the offline generator (labelled) when the LLM fails |
-| `EMBEDDING_PROVIDER` | `sentence_transformers` | `sentence_transformers` or `hashing` (tests only) |
-| `EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` | Any sentence-transformers model |
-| `CHUNK_MAX_TOKENS` | `200` | Max tokens per chunk (must stay below the model limit, 256) |
-| `CHUNK_OVERLAP_TOKENS` | `30` | Overlap between consecutive chunks |
+| `EMBEDDING_PROVIDER` / `EMBEDDING_MODEL` | `sentence_transformers` / `all-MiniLM-L6-v2` | `hashing` is for tests only |
+| `CHUNK_MAX_TOKENS` / `CHUNK_OVERLAP_TOKENS` | `200` / `30` | Chunking (must stay below the 256-token model limit) |
 | `RETRIEVAL_TOP_K` | `4` | Default top-k |
-| `MATCH_WEIGHT_SKILL_OVERLAP` | `0.40` | Score weight |
-| `MATCH_WEIGHT_REQUIREMENT_COVERAGE` | `0.35` | Score weight |
-| `MATCH_WEIGHT_SEMANTIC_SIMILARITY` | `0.15` | Score weight |
-| `MATCH_WEIGHT_EXPERIENCE` | `0.10` | Score weight |
-| `LOG_LEVEL` | `INFO` | Logging level |
-| `MAX_UPLOAD_MB` | `5` | Max upload size |
+| `MATCH_WEIGHT_*` | `0.40 / 0.35 / 0.15 / 0.10` | Score weights |
+| `MARKET_CONTEXT_ENABLED` | `true` | Show job-market demand in the analysis |
+| `LOG_LEVEL`, `MAX_UPLOAD_MB` | `INFO`, `5` | Misc |
+| `PG_ADMIN_PASSWORD`, `COACH_OWNER_PASSWORD`, `COACH_READER_PASSWORD` | *(empty)* | Data layer only: PostgreSQL passwords |
+| `DATABASE_ADMIN_URL`, `DATABASE_OWNER_URL`, `DATABASE_URL` | see `.env.example` | Data layer only: admin, owner and read-only connections |
 
-Provider examples:
+LLM provider examples:
 
 ```bash
-# OpenAI
-LLM_MODEL=gpt-4o-mini
-LLM_API_KEY=sk-...
-
 # Google Gemini (free tier available): the configuration used to validate the project
 LLM_MODEL=gemini-flash-latest
 LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
 LLM_API_KEY=...
 
-# Groq
-LLM_MODEL=llama-3.3-70b-versatile
-LLM_BASE_URL=https://api.groq.com/openai/v1
+# OpenAI
+LLM_MODEL=gpt-4o-mini
 LLM_API_KEY=...
 
 # Local Ollama (no key needed)
@@ -404,29 +472,6 @@ LLM_BASE_URL=http://localhost:11434/v1
 LLM_PROVIDER=offline
 ```
 
-## Running the Application
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Then open:
-
-- **Web UI**: http://localhost:8000
-- **Interactive API docs (Swagger)**: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
-
-The top-right badge of the UI shows whether an LLM is configured or the app is in offline mode.
-
-### With Docker
-
-```bash
-cp .env.example .env    # add your LLM settings
-docker compose up --build
-```
-
-The image uses CPU-only PyTorch and downloads the embedding model at build time, so the container needs no internet access except to call the LLM API.
-
 ## API Documentation
 
 All endpoints return JSON. Errors have the form `{"error": "<code>", "message": "<human-readable message>"}`.
@@ -436,54 +481,28 @@ All endpoints return JSON. Errors have the form `{"error": "<code>", "message": 
 | `GET` | `/api/health` | Status, LLM provider/model, embedding model, active sessions |
 | `POST` | `/api/documents/extract` | Multipart file upload (PDF/DOCX/TXT) → cleaned text |
 | `GET` | `/api/documents/samples` | Fictional sample CV and job description |
-| `POST` | `/api/analyze` | `{cv_text, job_text, cv_name?, job_name?}` → full analysis + `session_id` |
+| `POST` | `/api/analyze` | `{cv_text, job_text, cv_name?, job_name?}` → analysis, market context, `session_id` |
 | `POST` | `/api/interview/question` | `{session_id, category?}` → personalised question + sources |
 | `POST` | `/api/interview/answer` | `{session_id, question_id, answer}` → structured feedback + sources |
 
-Error codes: `415 unsupported_format`, `422 document_error` / `invalid_request`, `404 session_not_found`, `502 llm_error` (only if the fallback is disabled), `500 internal_error` (generic message; details only in server logs).
+**Error codes:**
+- `415 unsupported_format`;
+- `422 document_error` / `invalid_request`;
+- `404 session_not_found`;
+- `502 llm_error` (only if the fallback is disabled);
+- `500 internal_error` (generic message; details only in server logs).
 
-## Example Usage
-
-```bash
-# 1. Extract text from a file
-curl -F "file=@data/examples/sample_cv.pdf" http://localhost:8000/api/documents/extract
-
-# 2. Analyse (here with the sample documents)
-curl -s http://localhost:8000/api/documents/samples > /tmp/samples.json
-python - <<'EOF'
-import json, urllib.request
-s = json.load(open("/tmp/samples.json"))
-req = urllib.request.Request("http://localhost:8000/api/analyze",
-      data=json.dumps({"cv_text": s["cv_text"], "job_text": s["job_text"]}).encode(),
-      headers={"Content-Type": "application/json"})
-r = json.load(urllib.request.urlopen(req))
-print(r["session_id"], r["match"]["overall_score"], [b["label"] for b in r["match"]["breakdown"]])
-EOF
-
-# 3. Ask for a question, then answer it
-curl -X POST http://localhost:8000/api/interview/question \
-     -H "Content-Type: application/json" -d '{"session_id": "<id>", "category": "gap"}'
-curl -X POST http://localhost:8000/api/interview/answer \
-     -H "Content-Type: application/json" \
-     -d '{"session_id": "<id>", "question_id": "<qid>", "answer": "At Brightleaf I deployed FastAPI services with Docker on Cloud Run..."}'
-```
-
-Abridged analysis response:
+Abridged `/api/analyze` response (sample documents):
 
 ```json
 {
-  "session_id": "3746e0675e1a",
-  "match": {
-    "overall_score": 87.5,
-    "breakdown": [
-      {"label": "Skills", "score": 87.2, "weight": 0.4, "explanation": "16/17 required and 2/5 preferred job skills found in the CV ..."},
-      {"label": "Requirements", "score": 86.6, "weight": 0.35, "explanation": "8 covered, 2 partially covered out of 11 requirements ..."}
-    ],
-    "missing_skills": [{"name": "AWS", "importance": "required"}, {"name": "Kubernetes", "importance": "preferred"}]
+  "match": {"overall_score": 87.5, "missing_skills": [{"name": "AWS", "importance": "required"}, "..."]},
+  "market": {
+    "available": true, "role_family": "Machine Learning Engineer", "postings": 12164,
+    "missing_skill_demand": [{"skill": "AWS", "share": 31.1, "postings_with_skill": 3779, "in_cv": false}, "..."],
+    "untracked_missing_skills": ["MLOps"]
   },
-  "insights": {"summary": "... the primary gap is cloud deployment, as the candidate's production experience is centered on Google Cloud Platform rather than the required AWS ecosystem [S1], [S2] ..."},
-  "insights_generated_by": "llm",
-  "pipeline": {"embedding_model": "sentence-transformers/all-MiniLM-L6-v2", "embedding_dimension": 384, "index_size": 15}
+  "insights_generated_by": "llm"
 }
 ```
 
@@ -493,17 +512,19 @@ Abridged analysis response:
 pytest
 ```
 
-**102 tests, all passing (≈4 s).** They never download a model or call an API: they use the deterministic `HashingEmbedder`, the approximate token counter and a scripted `FakeLLM`.
+**159 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
 
 | File | Covers |
 |---|---|
-| `test_document_processing.py` | cleaning, preservation of technical tokens, PDF artefacts, validation (empty/short/long/garbage), TXT encodings, DOCX tables, PDF, scanned PDF, malformed/unsupported/oversized files |
-| `test_chunking.py` | token counting, heading detection, sections/units, token budget, metadata, no cross-section chunks, entry boundaries, overlap, oversized units |
-| `test_embeddings.py` | normalisation, determinism, similarity ordering, cache hits and eviction |
-| `test_retrieval.py` | FAISS ordering, metadata, doc-type filter, dimension errors, balanced retrieval, score threshold |
-| `test_matching.py` | skill normalisation, aliases, false positives, alternatives, implications, requirements, years (overlaps, education excluded), weight re-normalisation, invalid weights, score consistency, determinism, good pair > bad pair |
-| `test_rag.py` | JSON extraction, schema validation, repair round-trip, failure after repair, context numbering and token budget, grounding rules in prompts, planner rotation/focus, full RAG flow with mocked LLM (prompt contains retrieved evidence and computed score), LLM failure → fallback, fallback disabled → error, offline mode, good answer > weak answer |
-| `test_api.py` | health, UI/docs served, samples, upload errors (415/422), size limit, request validation, unknown session/question, full HTTP flow offline and with mocked LLM, no leak of internal errors |
+| `test_document_processing.py`, `test_chunking.py` | Cleaning, technical tokens, PDF/DOCX/TXT, scanned/invalid files, token counting, sections, budgets, overlap |
+| `test_embeddings.py`, `test_retrieval.py` | Normalisation, cache, FAISS ordering, metadata, filters, balanced retrieval |
+| `test_matching.py` | Skills, aliases, false positives, alternatives, implications, requirements, years, weights, determinism |
+| `test_rag.py`, `test_api.py` | JSON extraction/validation/repair, prompts and grounding, planner, full flow with mocked LLM, fallback, HTTP errors |
+| `test_market.py` | API pagination, schema checks, checksums, HTML/language/skill parsing, cleaning, profiling, skill shares |
+| `test_database.py` | Loader counts, idempotence, rollback, read-only role, constraints, parameterised queries, dense dashboard exports |
+| `test_statistics.py` | Each test recovers a planted effect and holds under the null; effect-size labels |
+| `test_ml.py` | Shared feature builder, company-grouped split, stratified subsampling, learnable signal |
+| `test_market_context.py` | JSON reproducible from the validated extract, figures equal the dashboard's, role detection, no figures outside covered roles, score unchanged, market facts reach the LLM |
 
 ## Evaluation
 
@@ -512,73 +533,72 @@ python -m evaluation.run_evaluation --offline   # no API calls
 python -m evaluation.run_evaluation             # uses the LLM configured in .env
 ```
 
-Dataset: 3 fictional CVs (ML engineer, backend developer, marketing coordinator) × 3 fictional job descriptions (ML engineer, backend developer, digital marketing), in `evaluation/data/`. Full reports: [`evaluation/results_llm.md`](evaluation/results_llm.md) (Gemini `gemini-flash-latest`) and [`evaluation/results_offline.md`](evaluation/results_offline.md).
+**Dataset:** 3 fictional CVs × 3 fictional job descriptions (`evaluation/data/`). **Reports:** [`evaluation/results_llm.md`](evaluation/results_llm.md) (Gemini `gemini-flash-latest`) and [`evaluation/results_offline.md`](evaluation/results_offline.md).
 
-| # | What | How | Success criterion | Result |
-|---|---|---|---|---|
-| 1 | **Retrieval relevance** | 12 labelled queries (e.g. "Fine-tuning transformer classifiers" → chunk containing "BERT") | relevant chunk in top-3 | **hit@1 67 %, hit@3 92 %, MRR 0.81** |
-| 2 | **Matching consistency** | 3×3 matrix of overall scores + repeated run | matching pair is best in every row and column; identical repeated score | **Yes / Yes**; matching pairs avg **95.1** vs mismatched **36.8**; deterministic |
-| 3 | **Output structure validity** | count of LLM outputs valid on first try / after repair / failed | no invalid output reaches the user | **13/13 valid on first try** (1 insights, 6 questions, 6 evaluations) |
-| 4 | **Question relevance** | 6 questions (4 forced categories + 2 auto): category respected, references job skill/requirement, references CV content, uniqueness | personalised, varied | **Category 100 %, job reference 83 %, CV reference 100 %, all unique** (LLM). The behavioral question references the CV but no job skill keyword, so it misses the lexical "job reference" check |
-| 5 | **Answer evaluation consistency** | fixed question; strong / average / off-topic answers, each scored twice | strong > average > off-topic; small spread between repeats | **LLM: 8.1 > 2.2 > 0.2, max spread 0.2 points.** Offline: 9.5 > 8.0 > 0.8 (ordering correct, but too generous to the vague answer) |
+| What | Success criterion | Result |
+|---|---|---|
+| **Retrieval relevance** (12 labelled queries) | Relevant chunk in top-3 | **hit@1 67 %, hit@3 92 %, MRR 0.81** |
+| **Matching consistency** (3×3 matrix + repeat) | Matching pair is best in every row and column; deterministic | **Yes / Yes**: matching pairs average **95.1** vs mismatched **36.8** |
+| **Structured output validity** | No invalid output reaches the user | **13/13 valid on first try** |
+| **Question relevance** (6 questions) | Category respected, personalised, varied | Category 100 %, job reference 83 %, CV reference 100 %, all unique |
+| **Answer evaluation consistency** | Strong > average > off-topic; small spread | **LLM: 8.1 > 2.2 > 0.2**, max spread 0.2 points |
 
-Known limitations of this evaluation: a handful of fictional documents written for the project (risk of overfitting the calibration); labels written by the developer; lexical proxies for "personalisation"; one LLM provider tested; no human rating of question/feedback quality.
+**Known limitations of this evaluation:**
+- a handful of fictional documents;
+- labels written by the developer;
+- lexical proxies for personalisation;
+- one LLM provider tested;
+- no human rating.
 
 ## Challenges
 
-These problems were actually met while building the project:
+Problems actually met while building the project:
 
-1. **Raw cosine similarity is not a percentage.** Measured on the evaluation set, a good CV/requirement pair scored only 0.4–0.6 and unrelated pairs still 0.2–0.4. Using raw cosine as a score would have produced meaningless numbers → explicit, documented rescaling anchors calibrated on the 3×3 matrix.
-2. **Chunk boundaries.** The first chunker glued the header of a job ("Data Scientist – Orbis Retail, 2020–2023") to the *previous* job's bullets. Fixed with the "new entry starts a new chunk" rule. Experimenting with chunk sizes (60–200 tokens) changed match scores by only ~1–2 points, so 200 was kept.
-3. **Semantic retrieval misses literal evidence.** For "Experience with vector databases (FAISS...)", MiniLM ranked a loosely related project line (0.34) above the bullet that literally says "FAISS" (0.23), whatever the chunk size. Solved for the evidence display with a light hybrid re-ranking (skill mentions first, then cosine).
-4. **False skill gaps.** "PyTorch **or** TensorFlow" reported TensorFlow as missing; "Generative AI" was missing although the CV describes a RAG system. Fixed with alternative groups and a small skill-implication map.
-5. **Question→answer similarity is weak with a symmetric embedding model.** A good technical answer had cosine 0.16 with its question, an off-topic one 0.07. The offline relevance heuristic therefore combines semantic and lexical/skill evidence.
-6. **Bugs caught by the tests**: a `\s*` in the bullet regex silently deleted blank lines before lists; `/`-separated skills ("FastAPI/Flask") were not detected; token counts are not additive, so chunk sizes are now measured on the exact joined text.
-7. **LLM provider issues.** The first live run returned 404 because the configured Gemini model had been retired for new users. The fallback worked (all results labelled `offline-fallback`), and the error message now says "model not found, check LLM_MODEL". LLM calls take ~10–15 s each, which led to explicit loading states and a 60-word limit on questions (the first generated questions were long multi-part paragraphs).
-8. **Inconsistent demo data.** The years-of-experience feature revealed that the first version of the sample CVs claimed fewer years in the summary than their own date ranges added up to; the samples were corrected.
+1. **Raw cosine similarity is not a percentage.** Unrelated texts still score 0.2–0.4 with MiniLM. This led to explicit rescaling anchors, calibrated and documented.
+2. **Chunk boundaries.** A job's header was glued to the previous job's bullets. Fixed with the rule "a new entry starts a new chunk".
+3. **False skill gaps.** "PyTorch **or** TensorFlow" reported TensorFlow as missing. Fixed with alternative groups and a small implication map.
+4. **Skill-share denominators.** A first version computed "share of skill *mentions*" instead of "share of *postings*", which inflated rare skills. It was corrected, and every extract now carries its own denominator so Tableau cannot recompute it wrongly.
+5. **A country artefact.** The reference dataset placed 21,775 postings in "Sudan" because of a location-parsing artefact. They were repaired from the location text: 17,629 set to United States, 4,146 set to unknown.
+6. **A loader that never finished.** An O(n²) company-id lookup hung for more than 8 minutes. The loader now reads the generated ids back from PostgreSQL and loads 4.5 M rows in 2–3 minutes.
+7. **Statistical significance is cheap at 785k rows.** Almost every test rejects H0, so the analysis reports effect sizes and confidence intervals, and calls a negligible effect negligible.
+8. **LLM provider drift.** The configured Gemini model was retired mid-project (404). The fallback kept the app working with labelled results, and the configuration moved to `gemini-flash-latest`.
 
-## Limitations
+## Limitations and Ethics
 
-- **Skill taxonomy coverage**: ~100 skills, mostly tech, data and marketing. Skills outside the taxonomy do not count in the skill-overlap signal (requirement coverage partly compensates). Some ambiguous names (e.g. "Go") may occasionally be detected in ordinary sentences.
-- **English only**: headings, regexes and the embedding model are English-oriented.
-- **Small embedding model**: MiniLM is fast but misses some semantic links (see Challenges 3 and 5).
-- **Offline mode is a heuristic**: it ranks answers correctly in the evaluation but over-rates vague answers that use the right keywords; its questions are templates.
-- **No OCR**: scanned (image-only) PDFs are rejected with an explanation.
-- **Experience years** are computed from explicit date ranges in experience sections only.
-- **Sessions are in memory**: lost on restart, not shared between several server processes.
-- **LLM latency**: ~10–15 s per generation with the tested provider.
-- **The context token budget** uses the embedding tokenizer as an approximation of the LLM tokenizer.
-- **RAG reduces but does not eliminate hallucinations**: the LLM can still misread context; sources are shown so the user can verify.
-- The score is an estimate of document fit, **not** a hiring probability.
+**Data:**
+- 2023 reference data covers data/tech roles worldwide. The live snapshot is a single week, mostly from Germany.
+- Skill detection is English-oriented and limited to the 99-skill taxonomy.
+- Salaries are published in only 2.8 % of postings.
+
+**Statistics and ML:**
+- All results are associations from observational data, not causal effects.
+- The role classifier is moderate (macro-F1 0.393) and the seniority model weak (AUC 0.625). They describe the market; they are not used to judge candidates.
+
+**Coach:**
+- The score estimates document fit, not a hiring probability.
+- RAG reduces but does not eliminate hallucinations, which is why sources are shown.
+- The offline mode is a heuristic. There is no OCR. Sessions are in memory. The coach is English only.
+
+**Privacy and licences:**
+- CVs are processed in memory and never stored. Only fictional documents are in the repository.
+- The coach-only Docker image keeps everything local except the LLM call.
+- Only public, licensed data is used (Apache-2.0, plus a public API with attribution links). Raw pages containing recruiter contact details are not versioned.
 
 ## Future Improvements
 
-- Hybrid retrieval for all tasks (BM25 + embeddings) and a cross-encoder re-ranker.
-- Larger / multilingual embedding model (e.g. `bge-m3`, `multilingual-e5`) and multilingual support.
-- Larger skill taxonomy (e.g. ESCO / O*NET) with LLM-assisted extraction validated against it.
-- Adaptive interview difficulty based on previous scores.
-- Persistent interview history and progress tracking.
-- Streaming LLM responses to reduce perceived latency.
-- Voice interview simulation (speech-to-text + text-to-speech).
-- A larger, human-labelled evaluation set.
+- Use the trained classifier to suggest a role family when the job title is ambiguous.
+- Refresh the live snapshot on a schedule and add a time dimension (only once several comparable snapshots exist).
+- Hybrid retrieval (BM25 + embeddings) and a re-ranker; a multilingual embedding model.
+- A larger taxonomy (ESCO / O*NET).
+- Adaptive interview difficulty and persistent progress tracking.
+- A larger, human-rated evaluation set.
 
-## Demo Instructions
+## Demo
 
-Total: about 60 seconds. The full spoken script is in [`docs/demo-script.md`](docs/demo-script.md).
+The demo flow, timing and rehearsal checklist are in [`demo_day/DEMO_SCRIPT.md`](demo_day/DEMO_SCRIPT.md).
 
-**Before the demo**: set the LLM variables in `.env`, start `uvicorn app.main:app`, open http://localhost:8000 and run one analysis once (warms up the model). Check that the top-right badge shows the LLM model. If the network fails during the demo, the app keeps working in labelled offline mode.
-
-1. Click **Load sample documents** (or upload `data/examples/sample_cv.pdf` to show PDF extraction).
-2. Click **Analyze match**: the loading text narrates the pipeline stages.
-3. Show the **88/100 score** and its 4 bars (hover a bar to show how it is computed).
-4. Show **matching skills** (green; dashed = implied) and **missing skills** (AWS required; Kubernetes, Terraform, MLOps nice to have).
-5. Point at **AI insights** with `[S1]` citations; open *Sources* or *Under the hood* for 3 seconds.
-6. Click **Start interview practice**: a personalised technical question appears (mentions the candidate's real project).
-7. Select **Skill gap**, click **New question**: a question about AWS that admits the CV does not show it.
-8. Paste this answer and click **Submit answer**:
-   > At Brightleaf I deployed our FastAPI models with Docker on Google Cloud Run. AWS is new for me, but the concepts map directly: I would use ECS with Fargate for the container and CloudWatch for monitoring. In my first month I would deploy our RAG API there and complete the AWS ML Specialty learning path.
-9. Show the **score, rubric bars, missing points and the stronger answer** (with `[placeholders]` instead of invented facts).
-
-## Conclusion
-
-The project demonstrates the full GenAI application pipeline: **documents → preprocessing → token-aware chunking → embeddings → FAISS → semantic retrieval → grounded prompts → LLM → validated structured outputs → useful UI**. It keeps the LLM where it adds value (language, personalisation, coaching) and keeps scores deterministic and explainable. It is tested (102 tests) and evaluated, and it is honest about its limits: it shows its sources, labels fallback results and states that the score is an estimate.
+**Short version:**
+1. Dashboard: Data Engineer → Germany → AWS.
+2. Coach: **Load sample documents** → **Analyze match**.
+3. Show the score, the missing AWS, and **31.1 % of ML Engineer postings ask for AWS**.
+4. Generate a skill-gap question, answer it, and show the feedback.

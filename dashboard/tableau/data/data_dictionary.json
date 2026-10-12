@@ -1,0 +1,57 @@
+{
+  "insights_ml_confusion_matrix.csv": {
+    "rows": 49,
+    "bytes": 2147,
+    "description": "Phase 6 selected model; pct_of_true_role = recall row %."
+  },
+  "insights_ml_feature_importance.csv": {
+    "rows": 59,
+    "bytes": 1395,
+    "description": "Phase 6 permutation importance (drop in macro-F1)."
+  },
+  "insights_ml_model_comparison.csv": {
+    "rows": 5,
+    "bytes": 281,
+    "description": "Phase 6 test-set metrics (company-grouped split)."
+  },
+  "insights_salary_model.csv": {
+    "rows": 8,
+    "bytes": 476,
+    "description": "Phase 4 OLS on log salary (US 2023), % differences with 95% CI."
+  },
+  "insights_senior_skill_odds_ratios.csv": {
+    "rows": 71,
+    "bytes": 3801,
+    "description": "Phase 4 Cochran-Mantel-Haenszel odds ratios (senior vs non-senior within role)."
+  },
+  "live_jobs_2026.csv": {
+    "rows": 3026,
+    "bytes": 1062897,
+    "description": "Arbeitnow API snapshot 2026-10-08, one row per posting, no description text; url = link back to the source."
+  },
+  "live_skill_demand_2026.csv": {
+    "rows": 21681,
+    "bytes": 1472793,
+    "description": "Arbeitnow snapshot. Dense: skill x job_family x experience_level x remote x description_language. Same share formula."
+  },
+  "ref_overview_2023.csv": {
+    "rows": 3850,
+    "bytes": 289885,
+    "description": "data_jobs 2023. Grain: role_family x seniority x country_group x remote x month. Measures are additive counts/sums: avg salary = SUM(salary_sum)/SUM(postings_with_salary); avg skills = SUM(total_skills_listed)/SUM(postings_with_skill_data)."
+  },
+  "ref_salary_by_role_2023.csv": {
+    "rows": 10,
+    "bytes": 582,
+    "description": "data_jobs 2023. Salary percentiles (medians are not additive, so computed in SQL); groups with >= 30 published salaries."
+  },
+  "ref_skill_demand_2023.csv": {
+    "rows": 79560,
+    "bytes": 5843642,
+    "description": "data_jobs 2023. Dense: skill x role_family x seniority x country_group x remote. Share = SUM(postings_with_skill)/SUM(postings_in_group). Keep [skill] on the view or filtered."
+  },
+  "ref_skill_trend_2023.csv": {
+    "rows": 10836,
+    "bytes": 548643,
+    "description": "data_jobs 2023. Dense: skill (>=1,000 postings) x role_family x month. Same share formula."
+  }
+}

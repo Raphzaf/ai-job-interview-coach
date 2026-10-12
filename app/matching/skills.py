@@ -168,7 +168,18 @@ def _alias_pattern(alias: str) -> str:
     # "C++", "C#" and "Node.js" would never match. The trailing look-ahead also
     # accepts a sentence-ending period ("...and Python.") and "/" separators
     # ("FastAPI/Flask"), but rejects "R&D".
-    return rf"(?<![\w+#.-]){re.escape(alias)}(?![\w+#&]|-\w|\.\w)"
+    pattern = rf"(?<![\w+#.-]){re.escape(alias)}(?![\w+#&]|-\w|\.\w)"
+    return pattern + ALIAS_GUARDS.get(alias, "")
+
+
+# Extra look-aheads for aliases that are also common English words. Measured
+# on the Arbeitnow API snapshot: "Go" matched phrases like "Go deeper" or
+# "Go Above & Beyond". The language is kept when "Go" is followed by
+# punctuation/end of text or by a word typical of a programming context.
+ALIAS_GUARDS: dict[str, str] = {
+    "Go": r"(?!\s+(?!(?i:developer|developers|backend|engineer|engineers|programming|language|code|services?|"
+          r"microservices|and|or|is|in|on|for|with|experience|skills|to|as|at|every|day)\b)[A-Za-z])",
+}
 
 
 @lru_cache

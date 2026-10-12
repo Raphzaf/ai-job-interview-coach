@@ -214,6 +214,8 @@ function renderAnalysis(r) {
     ? m.missing_skills.map((s) => `<span class="chip ${s.importance === "required" ? "chip-missing" : "chip-preferred"}" title="${s.importance}">${escapeHtml(s.name)}</span>`).join("")
     : '<span class="empty">No missing skill detected.</span>';
 
+  renderMarket(r.market);
+
   setBadge($("insights-badge"), r.insights_generated_by);
   renderWarnings($("analysis-warnings"), r.warnings);
   $("insights-summary").innerHTML = withCitations(r.insights.summary);
@@ -240,6 +242,34 @@ function renderAnalysis(r) {
     ["Vector index", `${p.index_type}, ${p.index_size} vectors`],
     ["LLM", p.llm],
   ].map(([k, v]) => `<div><strong>${escapeHtml(k)}</strong>${escapeHtml(v)}</div>`).join("");
+}
+
+function renderMarket(mk) {
+  show($("market"), Boolean(mk));
+  if (!mk) return;
+  if (!mk.available) {
+    $("market-role").textContent = "";
+    $("market-missing").innerHTML = '<span class="empty">Not available for this job.</span>';
+    $("market-top").innerHTML = "";
+    $("market-note").textContent = mk.note;
+    return;
+  }
+  $("market-role").textContent = `· ${mk.role_family} · ${mk.postings.toLocaleString()} postings (2023)`;
+  const row = (d, mark = "") => ({
+    label: `${mark}${d.skill}`, pct: d.share, value: `${d.share.toFixed(1)}%`,
+    title: `${d.postings_with_skill.toLocaleString()} of ${mk.postings.toLocaleString()} ${mk.role_family} postings`,
+  });
+  if (mk.missing_skill_demand.length) {
+    bars($("market-missing"), mk.missing_skill_demand.map((d) => row(d)));
+  } else {
+    $("market-missing").innerHTML = '<span class="empty">No missing skill tracked in the market data.</span>';
+  }
+  if (mk.untracked_missing_skills.length) {
+    $("market-missing").insertAdjacentHTML("beforeend",
+      `<p class="hint">Not tracked in the market data: ${mk.untracked_missing_skills.map(escapeHtml).join(", ")}</p>`);
+  }
+  bars($("market-top"), mk.top_skills.map((d) => row(d, d.in_cv ? "✓ " : "✗ ")));
+  $("market-note").textContent = `${mk.note} Source: ${mk.source}.`;
 }
 
 // ---------------------------------------------------------------- step 3: interview

@@ -15,6 +15,7 @@ from app.core.sessions import SessionStore
 from app.document_processing.processor import DocumentProcessor
 from app.document_processing.tokenizer import ApproximateTokenCounter, TokenCounter, build_token_counter
 from app.embeddings.service import EmbeddingService, build_embedding_service
+from app.market_context import MarketContextService
 from app.rag.llm import LLMProvider, build_llm_provider
 from app.rag.pipeline import CoachPipeline
 
@@ -46,6 +47,7 @@ def build_container(
         embedder=embedder,
         llm=provider,  # type: ignore[arg-type]
         sessions=SessionStore(),
+        market=MarketContextService.load() if settings.market_context_enabled else None,
     )
     return Container(settings=settings, pipeline=pipeline)
 

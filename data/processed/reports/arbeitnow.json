@@ -1,0 +1,863 @@
+{
+  "snapshot": "20261008T112121Z",
+  "manifest": {
+    "source": "Arbeitnow Job Board API",
+    "url": "https://www.arbeitnow.com/api/job-board-api",
+    "terms": "Free public API; do not abuse; link back to arbeitnow.com; Arbeitnow terms of service apply.",
+    "started_at_utc": "2026-10-08T11:21:21.702881+00:00",
+    "finished_at_utc": "2026-10-08T11:22:30.672424+00:00",
+    "request_delay_seconds": 2.0,
+    "stop_reason": "no next link (last page)",
+    "total_jobs": 3180,
+    "total_invalid": 0
+  },
+  "raw_profile": {
+    "name": "arbeitnow_raw",
+    "rows": 3180,
+    "columns": 10,
+    "duplicate_rows": 75,
+    "memory_mb": 64.4,
+    "column_profiles": {
+      "slug": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3028
+      },
+      "company_name": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1346
+      },
+      "title": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2781
+      },
+      "description": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3010
+      },
+      "remote": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 9.37
+      },
+      "url": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3028
+      },
+      "tags": {
+        "dtype": "object",
+        "missing": 0,
+        "missing_pct": 0.0
+      },
+      "job_types": {
+        "dtype": "object",
+        "missing": 0,
+        "missing_pct": 0.0
+      },
+      "location": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 665
+      },
+      "created_at": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1465,
+        "stats": {
+          "mean": 1791219442.7968554,
+          "std": 185936.79140463436,
+          "min": 1790851651.0,
+          "25%": 1791038406.0,
+          "50%": 1791284954.0,
+          "75%": 1791378412.5,
+          "max": 1791457346.0
+        }
+      }
+    }
+  },
+  "cleaning_steps": [
+    {
+      "step": "load",
+      "rows_before": 3180,
+      "rows_after": 3180,
+      "rows_removed": 0,
+      "note": "3180 job records from 20261008T112121Z"
+    },
+    {
+      "step": "drop exact duplicates",
+      "rows_before": 3180,
+      "rows_after": 3105,
+      "rows_removed": 75,
+      "note": "identical content returned on two pages during pagination"
+    },
+    {
+      "step": "deduplicate by slug",
+      "rows_before": 3105,
+      "rows_after": 3028,
+      "rows_removed": 77,
+      "note": "same posting id with edited fields: keep the last fetched version"
+    },
+    {
+      "step": "drop empty/near-empty descriptions",
+      "rows_before": 3028,
+      "rows_after": 3026,
+      "rows_removed": 2,
+      "note": "fewer than 50 characters after HTML removal"
+    }
+  ],
+  "processed_profile": {
+    "name": "arbeitnow_jobs",
+    "rows": 3026,
+    "columns": 37,
+    "duplicate_rows": 0,
+    "memory_mb": 4.4,
+    "column_profiles": {
+      "job_id": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3026
+      },
+      "source": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1
+      },
+      "snapshot_id": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1
+      },
+      "slug": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3026
+      },
+      "url": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3026
+      },
+      "title": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2778
+      },
+      "company_name": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1345
+      },
+      "location": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 665
+      },
+      "city": {
+        "dtype": "str",
+        "missing": 61,
+        "missing_pct": 2.02,
+        "unique": 563
+      },
+      "location_missing": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 2.02
+      },
+      "remote": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 9.65
+      },
+      "posted_at": {
+        "dtype": "datetime64[s, UTC]",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 1465
+      },
+      "posted_date": {
+        "dtype": "object",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 8
+      },
+      "posted_weekday": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 7
+      },
+      "job_family": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 11
+      },
+      "is_tech": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 27.36
+      },
+      "experience_level": {
+        "dtype": "str",
+        "missing": 1410,
+        "missing_pct": 46.6,
+        "unique": 5
+      },
+      "experience_level_ambiguous": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 3.01
+      },
+      "seniority_from_title": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3
+      },
+      "schedule": {
+        "dtype": "str",
+        "missing": 1483,
+        "missing_pct": 49.01,
+        "unique": 3
+      },
+      "contract_type": {
+        "dtype": "str",
+        "missing": 2145,
+        "missing_pct": 70.89,
+        "unique": 3
+      },
+      "probable_repost": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 2.15
+      },
+      "description_language": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 3
+      },
+      "description_chars": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2307,
+        "stats": {
+          "mean": 4466.588896232651,
+          "std": 2533.0924685211,
+          "min": 55.0,
+          "25%": 2949.25,
+          "50%": 4007.0,
+          "75%": 5274.75,
+          "max": 33852.0
+        }
+      },
+      "description_words": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 964,
+        "stats": {
+          "mean": 582.0029742233972,
+          "std": 281.9866469924776,
+          "min": 9.0,
+          "25%": 386.0,
+          "50%": 528.5,
+          "75%": 725.0,
+          "max": 2330.0
+        }
+      },
+      "skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 26,
+        "stats": {
+          "mean": 3.670522141440846,
+          "std": 3.6886473399272757,
+          "min": 0.0,
+          "25%": 1.0,
+          "50%": 2.0,
+          "75%": 5.0,
+          "max": 35.0
+        }
+      },
+      "tech_skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 21,
+        "stats": {
+          "mean": 1.5733641771315268,
+          "std": 2.8904066546048615,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 2.0,
+          "max": 29.0
+        }
+      },
+      "soft_skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 6,
+        "stats": {
+          "mean": 0.9051553205551883,
+          "std": 1.2092999924482422,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 2.0,
+          "max": 5.0
+        }
+      },
+      "programming_language_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 8,
+        "stats": {
+          "mean": 0.33013879709187044,
+          "std": 0.7977636804341922,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 0.0,
+          "max": 9.0
+        }
+      },
+      "cloud_devops_skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 9,
+        "stats": {
+          "mean": 0.391606080634501,
+          "std": 1.129462213058343,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 0.0,
+          "max": 8.0
+        }
+      },
+      "ai_ml_skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 11,
+        "stats": {
+          "mean": 0.232650363516193,
+          "std": 0.7975611884264211,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 0.0,
+          "max": 12.0
+        }
+      },
+      "data_skill_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 10,
+        "stats": {
+          "mean": 0.359881031064111,
+          "std": 0.885342452709112,
+          "min": 0.0,
+          "25%": 0.0,
+          "50%": 0.0,
+          "75%": 0.0,
+          "max": 9.0
+        }
+      },
+      "requires_english": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 62.62
+      },
+      "requires_german": {
+        "dtype": "bool",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 2,
+        "true_pct": 18.27
+      },
+      "tag_count": {
+        "dtype": "int64",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 29,
+        "stats": {
+          "mean": 1.9401850627891606,
+          "std": 3.005459137452623,
+          "min": 0.0,
+          "25%": 1.0,
+          "50%": 1.0,
+          "75%": 2.0,
+          "max": 63.0
+        }
+      },
+      "tags": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 900
+      },
+      "job_types_raw": {
+        "dtype": "str",
+        "missing": 0,
+        "missing_pct": 0.0,
+        "unique": 158
+      }
+    }
+  },
+  "distributions": {
+    "job_family": [
+      {
+        "value": "Software & IT",
+        "count": 522,
+        "pct": 17.25
+      },
+      {
+        "value": "Management & Consulting",
+        "count": 465,
+        "pct": 15.37
+      },
+      {
+        "value": "Sales & Business Development",
+        "count": 338,
+        "pct": 11.17
+      },
+      {
+        "value": "Engineering & Technical",
+        "count": 323,
+        "pct": 10.67
+      },
+      {
+        "value": "Marketing & Communication",
+        "count": 313,
+        "pct": 10.34
+      },
+      {
+        "value": "Data & AI",
+        "count": 306,
+        "pct": 10.11
+      },
+      {
+        "value": "Other",
+        "count": 280,
+        "pct": 9.25
+      },
+      {
+        "value": "Finance & Accounting",
+        "count": 244,
+        "pct": 8.06
+      },
+      {
+        "value": "Operations & Logistics",
+        "count": 98,
+        "pct": 3.24
+      },
+      {
+        "value": "HR & Recruiting",
+        "count": 91,
+        "pct": 3.01
+      },
+      {
+        "value": "Customer Service",
+        "count": 46,
+        "pct": 1.52
+      }
+    ],
+    "experience_level": [
+      {
+        "value": null,
+        "count": 1410,
+        "pct": 46.6
+      },
+      {
+        "value": "experienced",
+        "count": 912,
+        "pct": 30.14
+      },
+      {
+        "value": "student_intern",
+        "count": 252,
+        "pct": 8.33
+      },
+      {
+        "value": "entry",
+        "count": 233,
+        "pct": 7.7
+      },
+      {
+        "value": "mid",
+        "count": 132,
+        "pct": 4.36
+      },
+      {
+        "value": "lead_manager",
+        "count": 87,
+        "pct": 2.88
+      }
+    ],
+    "seniority_from_title": [
+      {
+        "value": "unspecified",
+        "count": 1654,
+        "pct": 54.66
+      },
+      {
+        "value": "senior",
+        "count": 930,
+        "pct": 30.73
+      },
+      {
+        "value": "junior",
+        "count": 442,
+        "pct": 14.61
+      }
+    ],
+    "schedule": [
+      {
+        "value": null,
+        "count": 1483,
+        "pct": 49.01
+      },
+      {
+        "value": "full_time",
+        "count": 1311,
+        "pct": 43.32
+      },
+      {
+        "value": "part_time",
+        "count": 168,
+        "pct": 5.55
+      },
+      {
+        "value": "full_or_part_time",
+        "count": 64,
+        "pct": 2.12
+      }
+    ],
+    "contract_type": [
+      {
+        "value": null,
+        "count": 2145,
+        "pct": 70.89
+      },
+      {
+        "value": "permanent",
+        "count": 753,
+        "pct": 24.88
+      },
+      {
+        "value": "freelance",
+        "count": 67,
+        "pct": 2.21
+      },
+      {
+        "value": "fixed_term",
+        "count": 61,
+        "pct": 2.02
+      }
+    ],
+    "description_language": [
+      {
+        "value": "de",
+        "count": 1721,
+        "pct": 56.87
+      },
+      {
+        "value": "en",
+        "count": 1199,
+        "pct": 39.62
+      },
+      {
+        "value": "unknown",
+        "count": 106,
+        "pct": 3.5
+      }
+    ],
+    "remote": [
+      {
+        "value": "False",
+        "count": 2734,
+        "pct": 90.35
+      },
+      {
+        "value": "True",
+        "count": 292,
+        "pct": 9.65
+      }
+    ],
+    "city": [
+      {
+        "value": "Berlin",
+        "count": 613,
+        "pct": 20.26
+      },
+      {
+        "value": "Munich",
+        "count": 361,
+        "pct": 11.93
+      },
+      {
+        "value": "Hamburg",
+        "count": 184,
+        "pct": 6.08
+      },
+      {
+        "value": "London",
+        "count": 82,
+        "pct": 2.71
+      },
+      {
+        "value": "Frankfurt",
+        "count": 80,
+        "pct": 2.64
+      },
+      {
+        "value": "Cologne",
+        "count": 80,
+        "pct": 2.64
+      },
+      {
+        "value": "Remote",
+        "count": 68,
+        "pct": 2.25
+      },
+      {
+        "value": null,
+        "count": 61,
+        "pct": 2.02
+      },
+      {
+        "value": "Düsseldorf",
+        "count": 59,
+        "pct": 1.95
+      },
+      {
+        "value": "Zurich",
+        "count": 51,
+        "pct": 1.69
+      },
+      {
+        "value": "Stuttgart",
+        "count": 49,
+        "pct": 1.62
+      },
+      {
+        "value": "Paris",
+        "count": 37,
+        "pct": 1.22
+      },
+      {
+        "value": "Gräfelfing/Munich",
+        "count": 37,
+        "pct": 1.22
+      },
+      {
+        "value": "Germany",
+        "count": 31,
+        "pct": 1.02
+      },
+      {
+        "value": "Nuremberg",
+        "count": 25,
+        "pct": 0.83
+      }
+    ]
+  },
+  "top_skills": {
+    "denominator_postings": 3026,
+    "skills": [
+      {
+        "skill": "English",
+        "postings": 1895,
+        "share_pct": 62.62
+      },
+      {
+        "skill": "Leadership",
+        "postings": 699,
+        "share_pct": 23.1
+      },
+      {
+        "skill": "Teamwork",
+        "postings": 642,
+        "share_pct": 21.22
+      },
+      {
+        "skill": "Communication",
+        "postings": 633,
+        "share_pct": 20.92
+      },
+      {
+        "skill": "Stakeholder Management",
+        "postings": 572,
+        "share_pct": 18.9
+      },
+      {
+        "skill": "German",
+        "postings": 553,
+        "share_pct": 18.27
+      },
+      {
+        "skill": "Social Media",
+        "postings": 357,
+        "share_pct": 11.8
+      },
+      {
+        "skill": "Python",
+        "postings": 347,
+        "share_pct": 11.47
+      },
+      {
+        "skill": "Testing",
+        "postings": 345,
+        "share_pct": 11.4
+      },
+      {
+        "skill": "CRM",
+        "postings": 286,
+        "share_pct": 9.45
+      },
+      {
+        "skill": "Excel",
+        "postings": 209,
+        "share_pct": 6.91
+      },
+      {
+        "skill": "Problem Solving",
+        "postings": 193,
+        "share_pct": 6.38
+      },
+      {
+        "skill": "LLMs",
+        "postings": 191,
+        "share_pct": 6.31
+      },
+      {
+        "skill": "Machine Learning",
+        "postings": 186,
+        "share_pct": 6.15
+      },
+      {
+        "skill": "Git",
+        "postings": 185,
+        "share_pct": 6.11
+      },
+      {
+        "skill": "CI/CD",
+        "postings": 181,
+        "share_pct": 5.98
+      },
+      {
+        "skill": "Agile",
+        "postings": 166,
+        "share_pct": 5.49
+      },
+      {
+        "skill": "SQL",
+        "postings": 150,
+        "share_pct": 4.96
+      },
+      {
+        "skill": "AWS",
+        "postings": 149,
+        "share_pct": 4.92
+      },
+      {
+        "skill": "TypeScript",
+        "postings": 135,
+        "share_pct": 4.46
+      },
+      {
+        "skill": "Kubernetes",
+        "postings": 133,
+        "share_pct": 4.4
+      },
+      {
+        "skill": "Go",
+        "postings": 126,
+        "share_pct": 4.16
+      },
+      {
+        "skill": "Time Series",
+        "postings": 124,
+        "share_pct": 4.1
+      },
+      {
+        "skill": "Azure",
+        "postings": 119,
+        "share_pct": 3.93
+      },
+      {
+        "skill": "Project Management",
+        "postings": 116,
+        "share_pct": 3.83
+      },
+      {
+        "skill": "Terraform",
+        "postings": 110,
+        "share_pct": 3.64
+      },
+      {
+        "skill": "Docker",
+        "postings": 109,
+        "share_pct": 3.6
+      },
+      {
+        "skill": "React",
+        "postings": 104,
+        "share_pct": 3.44
+      },
+      {
+        "skill": "Java",
+        "postings": 101,
+        "share_pct": 3.34
+      },
+      {
+        "skill": "Linux",
+        "postings": 87,
+        "share_pct": 2.88
+      }
+    ]
+  },
+  "jobs_with_at_least_one_skill": 2638
+}
