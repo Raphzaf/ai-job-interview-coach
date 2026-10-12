@@ -272,10 +272,13 @@ The overall score is a **weighted average of four deterministic signals**. The L
 - A signal that cannot be computed (e.g. no stated years) is marked *not applicable*, and the other weights are re-normalised.
 - Skills come from a curated taxonomy (99 skills with aliases), with handling of alternatives ("PyTorch **or** TensorFlow") and implications (`PostgreSQL → SQL`).
 - Cosine values are rescaled with anchors calibrated on the 3×3 evaluation set.
+- **Out-of-domain jobs.** Soft skills (communication, leadership...) count half as much as job-specific skills, both in the skill signal and as evidence for a requirement. The skill signal's weight shrinks when the job lists fewer than 3 weighted skills. Years of experience are credited in proportion to requirement coverage (fully from 70 %).
+
+  These rules were added after an audit found an ML engineer CV scoring 58.8 % against a nurse job, because "Communication" was the only skill the nurse job listed. That pair now scores 19 %. The relevant sample pair moves from 87.5 to 85.4, and the 3×3 ranking is unchanged.
 
 > The score estimates how well the **text** of the CV matches the **text** of the job description. It is not a hiring probability. The UI states this next to the score.
 
-**Example** (sample documents): **88 %** = Skills 87 % × 0.40 + Requirements 87 % × 0.35 + Semantic 82 % × 0.15 + Experience 100 % × 0.10. Missing: AWS (required); MLOps, Kubernetes, Terraform (nice to have).
+**Example** (sample documents): **85 %** = Skills 87 % × 0.40 + Requirements 81 % × 0.35 + Semantic 82 % × 0.15 + Experience 100 % × 0.10. Missing: AWS (required); MLOps, Kubernetes, Terraform (nice to have).
 
 ---
 
@@ -314,7 +317,7 @@ The overall score is a **weighted average of four deterministic signals**. The L
 | Vector search | FAISS (`faiss-cpu`) | Exact cosine similarity |
 | LLM | `openai` SDK, any OpenAI-compatible endpoint (validated with Gemini) | Insights, questions, feedback |
 | UI | HTML + CSS + vanilla JavaScript | No build step |
-| Quality | pytest | 165 automated tests |
+| Quality | pytest | 191 automated tests |
 | Packaging | Docker, Docker Compose | Coach image + optional PostgreSQL |
 
 ## Project Structure
@@ -351,7 +354,7 @@ ai-job-interview-coach/
 ├── models/role_classifier.joblib # Trained classifier (4 MB)
 ├── reports/figures/              # Statistics and ML figures
 ├── evaluation/                   # GenAI evaluation (data, script, results)
-├── tests/                        # 165 tests
+├── tests/                        # 191 tests
 ├── scripts/                      # Sample documents, local PostgreSQL, notebook builders
 ├── docs/                         # Phase documentation, demo script, screenshots
 ├── demo_day/                     # Demo Day material
@@ -399,7 +402,7 @@ cp .env.example .env    # add your LLM settings
 docker compose up --build
 ```
 
-`docker compose up` starts the coach only. PostgreSQL is an optional service in the `db` profile (see below). The image uses CPU-only PyTorch and includes the embedding model, so the container needs no internet access except to call the LLM API.
+`docker compose up` starts the coach only. PostgreSQL is an optional service in the `db` profile (see below). The image uses CPU-only PyTorch and includes the embedding model, so the container needs no internet access except to call the LLM API. The image installs the exact package versions verified on 2026-10-12 (`constraints.txt`, torch pinned in the `Dockerfile`), so a later rebuild produces the same environment.
 
 **Deploying online:** one command publishes the coach as a free Hugging Face Space (Docker). See [`deploy/huggingface/README.md`](deploy/huggingface/README.md).
 
@@ -443,7 +446,7 @@ All configuration lives in `.env`, which is never committed (see `.env.example`)
 | `LLM_MODEL` | `gpt-4o-mini` | Model name for the provider |
 | `LLM_API_KEY` | *(empty)* | API key. If empty (and not a local server), the coach runs in offline mode |
 | `LLM_BASE_URL` | *(empty = OpenAI)* | OpenAI-compatible endpoint URL |
-| `LLM_TEMPERATURE` / `LLM_TIMEOUT_SECONDS` | `0.3` / `60` | Generation settings |
+| `LLM_TEMPERATURE` / `LLM_TIMEOUT_SECONDS` | `0.3` / `30` | Generation settings. The timeout bounds each LLM call (connection: 5 s); with one SDK retry, an unreachable provider falls back to offline mode in about 10 s, a hanging one in about 60 s |
 | `LLM_FALLBACK_TO_OFFLINE` | `true` | Use the offline generator (labelled) when the LLM fails |
 | `EMBEDDING_PROVIDER` / `EMBEDDING_MODEL` | `sentence_transformers` / `all-MiniLM-L6-v2` | `hashing` is for tests only |
 | `CHUNK_MAX_TOKENS` / `CHUNK_OVERLAP_TOKENS` | `200` / `30` | Chunking (must stay below the 256-token model limit) |
@@ -498,7 +501,7 @@ Abridged `/api/analyze` response (sample documents):
 
 ```json
 {
-  "match": {"overall_score": 87.5, "missing_skills": [{"name": "AWS", "importance": "required"}, "..."]},
+  "match": {"overall_score": 85.4, "missing_skills": [{"name": "AWS", "importance": "required"}, "..."]},
   "market": {
     "available": true, "role_family": "Machine Learning Engineer", "postings": 12164,
     "missing_skill_demand": [{"skill": "AWS", "share": 31.1, "postings_with_skill": 3779, "in_cv": false}, "..."],
@@ -514,37 +517,46 @@ Abridged `/api/analyze` response (sample documents):
 pytest
 ```
 
-**165 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
+**191 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
 
 | File | Covers |
 |---|---|
 | `test_document_processing.py`, `test_chunking.py` | Cleaning, technical tokens, PDF/DOCX/TXT, scanned/invalid files, token counting, sections, budgets, overlap |
 | `test_embeddings.py`, `test_retrieval.py` | Normalisation, cache, FAISS ordering, metadata, filters, balanced retrieval |
-| `test_matching.py` | Skills, aliases, false positives, alternatives, implications, requirements, years, weights, determinism |
+| `test_matching.py` | Skills, aliases, false positives, alternatives, implications, requirements, years, weights, determinism, out-of-domain jobs (nurse, chef), jobs with few skills, incomplete job ads |
 | `test_rag.py`, `test_api.py` | JSON extraction/validation/repair, prompts and grounding, planner, full flow with mocked LLM, fallback, HTTP errors |
 | `test_market.py` | API pagination, schema checks, checksums, HTML/language/skill parsing, cleaning, profiling, skill shares |
 | `test_database.py` | Loader counts, idempotence, rollback, read-only role, constraints, parameterised queries, dense dashboard exports |
 | `test_statistics.py` | Each test recovers a planted effect and holds under the null; effect-size labels |
 | `test_ml.py` | Shared feature builder, company-grouped split, stratified subsampling, learnable signal |
 | `test_market_context.py` | JSON reproducible from the validated extract, figures equal the dashboard's, role detection, no figures outside covered roles, score unchanged, market facts reach the LLM |
-| `test_deploy.py` | Hugging Face Space content, Space card validity (port, description length), secret handling (mocked Hub API) |
+| `test_deploy.py` | Hugging Face Space content, Space card validity (port, description length), secret handling (mocked Hub API), every dependency pinned for the Docker build |
+| `test_llm_robustness.py` | Provider errors told apart (invalid key reported as HTTP 400, JSON-mode rejection, quota, network, timeout, server), client timeouts, prompt injection in the CV, job ad and answer (wrapped as untrusted data; format changes rejected) |
 
 ## Evaluation
 
 ```bash
 python -m evaluation.run_evaluation --offline   # no API calls
 python -m evaluation.run_evaluation             # uses the LLM configured in .env
+python -m evaluation.run_evaluation --output results_llm_<date>   # keep earlier result files
 ```
 
-**Dataset:** 3 fictional CVs × 3 fictional job descriptions (`evaluation/data/`). **Reports:** [`evaluation/results_llm.md`](evaluation/results_llm.md) (Gemini `gemini-flash-latest`) and [`evaluation/results_offline.md`](evaluation/results_offline.md).
+**Dataset:** 3 fictional CVs × 3 fictional job descriptions (`evaluation/data/`).
+
+**Reports:**
+- [`evaluation/results_offline.md`](evaluation/results_offline.md): deterministic parts, current code;
+- [`evaluation/results_llm_2026-10-12.md`](evaluation/results_llm_2026-10-12.md): Gemini `gemini-flash-latest`, run after the market context (Phase 8), the scoring fix for out-of-domain jobs and the prompt-injection safeguards, 13 LLM calls;
+- [`evaluation/results_llm.md`](evaluation/results_llm.md): the earlier run of 2026-10-08, kept for comparison.
+
+The table shows the 2026-10-12 run, with the 2026-10-08 values in brackets where they differ.
 
 | What | Success criterion | Result |
 |---|---|---|
 | **Retrieval relevance** (12 labelled queries) | Relevant chunk in top-3 | **hit@1 67 %, hit@3 92 %, MRR 0.81** |
-| **Matching consistency** (3×3 matrix + repeat) | Matching pair is best in every row and column; deterministic | **Yes / Yes**: matching pairs average **95.1** vs mismatched **36.8** |
+| **Matching consistency** (3×3 matrix + repeat) | Matching pair is best in every row and column; deterministic | **Yes / Yes**: matching pairs average **94.3** vs mismatched **31.8** (95.1 vs 36.8 before the out-of-domain fix) |
 | **Structured output validity** | No invalid output reaches the user | **13/13 valid on first try** |
-| **Question relevance** (6 questions) | Category respected, personalised, varied | Category 100 %, job reference 83 %, CV reference 100 %, all unique |
-| **Answer evaluation consistency** | Strong > average > off-topic; small spread | **LLM: 8.1 > 2.2 > 0.2**, max spread 0.2 points |
+| **Question relevance** (6 questions) | Category respected, personalised, varied | Category 100 %, job reference 83 %, CV reference 83 % (100 %), all unique. The behavioral question references neither by keyword, so it misses both lexical checks |
+| **Answer evaluation consistency** | Strong > average > off-topic; small spread | **LLM: 8.0 > 2.65 > 0.1** (8.1 > 2.2 > 0.2), max spread 0.4 points (0.2) |
 
 **Known limitations of this evaluation:**
 - a handful of fictional documents;
@@ -580,6 +592,8 @@ Problems actually met while building the project:
 **Coach:**
 - The score estimates document fit, not a hiring probability.
 - RAG reduces but does not eliminate hallucinations, which is why sources are shown.
+- **Prompt injection.** CV, job and answer text are wrapped as untrusted data, and the prompts tell the model never to follow instructions found in them. In one live test, Gemini ignored an injected instruction. This reduces the risk but does not eliminate it.
+- **Keyword claims.** Skills are detected from the CV text, so listing a skill counts as having it: adding "AWS, Kubernetes" to a CV raises its score. The score measures what the CV claims, not what the candidate can do.
 - The offline mode is a heuristic. There is no OCR. Sessions are in memory. The coach is English only.
 
 **Privacy and licences:**

@@ -62,7 +62,7 @@ The key design decision: **the LLM never decides the match score.** The score is
 | Overall semantic similarity | 0.15 |
 | Years of experience | 0.10 |
 
-It is deterministic and testable: in my evaluation, matching CV/job pairs scored **95.1** on average and mismatched pairs **36.8**.
+It is deterministic and testable: in my evaluation, matching CV/job pairs scored **94.3** on average and mismatched pairs **31.8**.
 
 One surprise: raw cosine similarity is not a percentage. Unrelated professional texts still scored 0.2 to 0.4 with MiniLM, so I calibrated explicit rescaling anchors on an evaluation matrix and documented them.
 
@@ -89,6 +89,6 @@ When the coach finds a gap, it detects the job's role family from the title and 
 2. **Report effect sizes, not p-values,** whenever your dataset is large.
 3. **Split by group** (company, user, patient) whenever rows are not independent.
 4. **Carry denominators with your aggregates.** Most dashboard errors are averaged percentages.
-5. **Write the test before trusting the number.** The project has 165 automated tests, including one that checks that the figures shown in the coach equal the figures in the dashboard.
+5. **Write the test before trusting the number.** The project has 191 automated tests, including one that checks that the figures shown in the coach equal the figures in the dashboard.
 
 The code, the notebooks and the full documentation are on GitHub: <https://github.com/Raphzaf/ai-job-interview-coach>.

@@ -1,6 +1,6 @@
 # Evaluation results
 
-- Date: 2026-10-08 09:10
+- Date: 2026-10-12 17:12
 - Embedding model: `sentence-transformers/all-MiniLM-L6-v2`
 - Generator: `offline mode (no LLM configured)`
 
@@ -33,13 +33,13 @@ Overall match score for every CV (rows) against every job (columns):
 
 | CV \ Job | job_ml_engineer | job_backend_developer | job_marketing_manager |
 |---|---|---|---|
-| cv_ml_engineer | 87.5 | 61.7 | 41.7 |
-| cv_backend_developer | 52.0 | 98.8 | 23.5 |
-| cv_marketing_coordinator | 25.5 | 16.5 | 99.0 |
+| cv_ml_engineer | 85.4 | 60.9 | 36.2 |
+| cv_backend_developer | 50.2 | 98.8 | 17.5 |
+| cv_marketing_coordinator | 16.8 | 9.2 | 98.7 |
 
 - Matching pair is the best job for every CV: **True**
 - Matching pair is the best CV for every job: **True**
-- Mean score of matching pairs: **95.1**, mismatched pairs: **36.8**
+- Mean score of matching pairs: **94.3**, mismatched pairs: **31.8**
 - Identical score on a repeated run (determinism): **True**
 
 ## 3. Output structure validity

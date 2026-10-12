@@ -314,6 +314,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--offline", action="store_true", help="Do not call the LLM; use the offline generator.")
     parser.add_argument("--repeats", type=int, default=2, help="Repeated evaluations per graded answer.")
+    parser.add_argument("--output", help="Result file name in evaluation/ (default: results_llm or results_offline). "
+                                         "Use a new name to keep earlier results, e.g. results_llm_2026-10-12.")
     args = parser.parse_args()
 
     settings = Settings(llm_fallback_to_offline=True, log_level="WARNING")
@@ -342,7 +344,7 @@ def main() -> None:
         "first_try": stats.first_try, "repaired": stats.repaired, "failed": stats.failed,
         "by_schema": stats.calls_by_schema,
     }
-    name = "results_llm" if pipeline.llm else "results_offline"
+    name = args.output or ("results_llm" if pipeline.llm else "results_offline")
     out_dir = ROOT / "evaluation"
     (out_dir / f"{name}.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
     (out_dir / f"{name}.md").write_text(render_markdown(results), encoding="utf-8")

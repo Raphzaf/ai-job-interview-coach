@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SPACE_CARD = Path(__file__).with_name("space_card.md")
 
 # Files and folders copied into the Space (the coach only: no data pipeline, no PostgreSQL).
-SPACE_FILES = ["Dockerfile", "requirements.txt", ".dockerignore"]
+SPACE_FILES = ["Dockerfile", "requirements.txt", "constraints.txt", ".dockerignore"]
 SPACE_DIRS = ["app", "data/examples"]
 
 DEFAULT_LLM_VARIABLES = {
