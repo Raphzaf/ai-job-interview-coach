@@ -1,0 +1,110 @@
+{
+  "question": "Which posting characteristics are associated with the advertised annual salary (United States, 2023)?",
+  "data": "data_jobs 2023, United States, postings with an annual salary and extracted skills; n = 15,417; roles with < 100 salaries excluded: {'Cloud Engineer': 19}",
+  "model": "log_salary ~ C(role_family, Treatment('Data Analyst')) + is_senior + work_from_home + skill_count  (OLS, HC3 robust standard errors)",
+  "h0": "Each coefficient = 0 (no association with log salary, holding the other terms constant).",
+  "h1": "Coefficient != 0.",
+  "assumptions": {
+    "log_salary_skewness": -0.12,
+    "residual_skewness": 0.06,
+    "residual_excess_kurtosis": 1.123,
+    "breusch_pagan_p": 1.0914934040096896e-53,
+    "note": "Breusch-Pagan tests constant residual variance; HC3 standard errors are used either way. Residual skewness/kurtosis checks approximate normality (inference relies mostly on the large n). VIF < 5 indicates no problematic multicollinearity.",
+    "vif": {
+      "C(role_family, Treatment('Data Analyst'))[T.Business Analyst]": 1.06,
+      "C(role_family, Treatment('Data Analyst'))[T.Data Engineer]": 1.54,
+      "C(role_family, Treatment('Data Analyst'))[T.Data Scientist]": 1.41,
+      "C(role_family, Treatment('Data Analyst'))[T.Machine Learning Engineer]": 1.02,
+      "C(role_family, Treatment('Data Analyst'))[T.Software Engineer]": 1.02,
+      "is_senior": 1.02,
+      "work_from_home": 1.0,
+      "skill_count": 1.13
+    }
+  },
+  "n": 15417,
+  "r_squared": 0.2613,
+  "adj_r_squared": 0.2609,
+  "f_pvalue": 0.0,
+  "coefficients": [
+    {
+      "term": "role: Business Analyst",
+      "coef": 0.0311,
+      "pct_effect": 3.16,
+      "ci95_pct": [
+        -0.03,
+        6.46
+      ],
+      "p_value": 0.05213573126273223
+    },
+    {
+      "term": "role: Data Engineer",
+      "coef": 0.3321,
+      "pct_effect": 39.38,
+      "ci95_pct": [
+        37.59,
+        41.19
+      ],
+      "p_value": 0.0
+    },
+    {
+      "term": "role: Data Scientist",
+      "coef": 0.3591,
+      "pct_effect": 43.2,
+      "ci95_pct": [
+        41.42,
+        45.01
+      ],
+      "p_value": 0.0
+    },
+    {
+      "term": "role: Machine Learning Engineer",
+      "coef": 0.4755,
+      "pct_effect": 60.88,
+      "ci95_pct": [
+        50.87,
+        71.55
+      ],
+      "p_value": 2.198113980950239e-47
+    },
+    {
+      "term": "role: Software Engineer",
+      "coef": 0.3636,
+      "pct_effect": 43.85,
+      "ci95_pct": [
+        35.6,
+        52.6
+      ],
+      "p_value": 2.1642116781404474e-33
+    },
+    {
+      "term": "is_senior",
+      "coef": 0.1584,
+      "pct_effect": 17.16,
+      "ci95_pct": [
+        15.92,
+        18.42
+      ],
+      "p_value": 1.0182595658895706e-180
+    },
+    {
+      "term": "work_from_home",
+      "coef": 0.0262,
+      "pct_effect": 2.66,
+      "ci95_pct": [
+        1.39,
+        3.93
+      ],
+      "p_value": 3.2949458529919437e-05
+    },
+    {
+      "term": "skill_count",
+      "coef": 0.0029,
+      "pct_effect": 0.29,
+      "ci95_pct": [
+        0.16,
+        0.43
+      ],
+      "p_value": 1.7441640124440008e-05
+    }
+  ]
+}

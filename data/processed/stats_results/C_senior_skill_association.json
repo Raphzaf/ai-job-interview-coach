@@ -1,0 +1,1147 @@
+{
+  "question": "Which skills appear disproportionately often in senior postings, within the same role family?",
+  "data": "data_jobs 2023, 572,553 postings with skills in Data Analyst, Data Engineer, Data Scientist; skills present in >= 5,000 of them",
+  "h0": "For a given skill, the odds of mentioning it are the same for senior and non-senior postings (common OR = 1 across role strata).",
+  "h1": "Common odds ratio != 1.",
+  "test": "Cochran-Mantel-Haenszel test (stratified by role family) per skill; Benjamini-Hochberg FDR at 5%",
+  "assumptions": "Independent postings; large stratum counts (min_postings filter). Breslow-Day homogeneity p-value reported: a small value means the association differs between role families, so the pooled odds ratio is an average, to be read with the per-role shares.",
+  "effect_size": "Mantel-Haenszel pooled odds ratio with 95% CI (OR > 1: more frequent in senior postings)",
+  "results": [
+    {
+      "skill": "looker",
+      "postings_with_skill": 18185,
+      "senior_share_pct": 4.84,
+      "non_senior_share_pct": 2.83,
+      "mh_odds_ratio": 1.844,
+      "or_ci95": [
+        1.782,
+        1.908
+      ],
+      "cmh_statistic": 1288.97,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "redshift",
+      "postings_with_skill": 31442,
+      "senior_share_pct": 8.53,
+      "non_senior_share_pct": 4.86,
+      "mh_odds_ratio": 1.65,
+      "or_ci95": [
+        1.607,
+        1.695
+      ],
+      "cmh_statistic": 1381.36,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Snowflake",
+      "postings_with_skill": 51483,
+      "senior_share_pct": 13.16,
+      "non_senior_share_pct": 8.12,
+      "mh_odds_ratio": 1.589,
+      "or_ci95": [
+        1.555,
+        1.624
+      ],
+      "cmh_statistic": 1773.24,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Airflow",
+      "postings_with_skill": 42054,
+      "senior_share_pct": 10.84,
+      "non_senior_share_pct": 6.62,
+      "mh_odds_ratio": 1.536,
+      "or_ci95": [
+        1.499,
+        1.573
+      ],
+      "cmh_statistic": 1239.81,
+      "p_value": 0.0,
+      "homogeneity_p": 2.9400692547199014e-08,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Terraform",
+      "postings_with_skill": 14941,
+      "senior_share_pct": 3.94,
+      "non_senior_share_pct": 2.33,
+      "mh_odds_ratio": 1.491,
+      "or_ci95": [
+        1.435,
+        1.548
+      ],
+      "cmh_statistic": 428.4,
+      "p_value": 0.0,
+      "homogeneity_p": 0.07133302964962251,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "AWS",
+      "postings_with_skill": 126133,
+      "senior_share_pct": 29.32,
+      "non_senior_share_pct": 20.51,
+      "mh_odds_ratio": 1.465,
+      "or_ci95": [
+        1.441,
+        1.489
+      ],
+      "cmh_statistic": 2097.48,
+      "p_value": 0.0,
+      "homogeneity_p": 1.3748355508491628e-06,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "dynamodb",
+      "postings_with_skill": 5938,
+      "senior_share_pct": 1.53,
+      "non_senior_share_pct": 0.93,
+      "mh_odds_ratio": 1.434,
+      "or_ci95": [
+        1.352,
+        1.522
+      ],
+      "cmh_statistic": 142.8,
+      "p_value": 0.0,
+      "homogeneity_p": 2.3458023967748431e-07,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Kafka",
+      "postings_with_skill": 44594,
+      "senior_share_pct": 10.94,
+      "non_senior_share_pct": 7.13,
+      "mh_odds_ratio": 1.412,
+      "or_ci95": [
+        1.379,
+        1.447
+      ],
+      "cmh_statistic": 786.91,
+      "p_value": 0.0,
+      "homogeneity_p": 2.652322805829499e-11,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "BigQuery",
+      "postings_with_skill": 22102,
+      "senior_share_pct": 5.21,
+      "non_senior_share_pct": 3.58,
+      "mh_odds_ratio": 1.383,
+      "or_ci95": [
+        1.339,
+        1.428
+      ],
+      "cmh_statistic": 392.37,
+      "p_value": 0.0,
+      "homogeneity_p": 4.942781517414119e-09,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Kubernetes",
+      "postings_with_skill": 26510,
+      "senior_share_pct": 6.5,
+      "non_senior_share_pct": 4.24,
+      "mh_odds_ratio": 1.381,
+      "or_ci95": [
+        1.341,
+        1.422
+      ],
+      "cmh_statistic": 460.69,
+      "p_value": 0.0,
+      "homogeneity_p": 0.16313818810191727,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "cassandra",
+      "postings_with_skill": 11322,
+      "senior_share_pct": 2.79,
+      "non_senior_share_pct": 1.81,
+      "mh_odds_ratio": 1.362,
+      "or_ci95": [
+        1.303,
+        1.423
+      ],
+      "cmh_statistic": 189.61,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Spark",
+      "postings_with_skill": 124435,
+      "senior_share_pct": 27.9,
+      "non_senior_share_pct": 20.45,
+      "mh_odds_ratio": 1.348,
+      "or_ci95": [
+        1.325,
+        1.37
+      ],
+      "cmh_statistic": 1253.0,
+      "p_value": 0.0,
+      "homogeneity_p": 2.0095036745715333e-14,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "PyTorch",
+      "postings_with_skill": 22198,
+      "senior_share_pct": 4.97,
+      "non_senior_share_pct": 3.65,
+      "mh_odds_ratio": 1.321,
+      "or_ci95": [
+        1.277,
+        1.366
+      ],
+      "cmh_statistic": 262.87,
+      "p_value": 0.0,
+      "homogeneity_p": 6.856182288572654e-12,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Go",
+      "postings_with_skill": 33139,
+      "senior_share_pct": 7.15,
+      "non_senior_share_pct": 5.5,
+      "mh_odds_ratio": 1.303,
+      "or_ci95": [
+        1.268,
+        1.339
+      ],
+      "cmh_statistic": 360.62,
+      "p_value": 0.0,
+      "homogeneity_p": 0.009928492019209978,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Python",
+      "postings_with_skill": 344404,
+      "senior_share_pct": 66.8,
+      "non_senior_share_pct": 58.77,
+      "mh_odds_ratio": 1.301,
+      "or_ci95": [
+        1.282,
+        1.321
+      ],
+      "cmh_statistic": 1158.09,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Scala",
+      "postings_with_skill": 52843,
+      "senior_share_pct": 12.11,
+      "non_senior_share_pct": 8.63,
+      "mh_odds_ratio": 1.291,
+      "or_ci95": [
+        1.262,
+        1.32
+      ],
+      "cmh_statistic": 504.31,
+      "p_value": 0.0,
+      "homogeneity_p": 4.856445268264231e-06,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "SQL",
+      "postings_with_skill": 350168,
+      "senior_share_pct": 66.03,
+      "non_senior_share_pct": 60.15,
+      "mh_odds_ratio": 1.271,
+      "or_ci95": [
+        1.252,
+        1.289
+      ],
+      "cmh_statistic": 1051.09,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "NoSQL",
+      "postings_with_skill": 40879,
+      "senior_share_pct": 9.2,
+      "non_senior_share_pct": 6.71,
+      "mh_odds_ratio": 1.255,
+      "or_ci95": [
+        1.224,
+        1.287
+      ],
+      "cmh_statistic": 316.54,
+      "p_value": 0.0,
+      "homogeneity_p": 2.220446049250313e-16,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "GCP",
+      "postings_with_skill": 43921,
+      "senior_share_pct": 9.78,
+      "non_senior_share_pct": 7.23,
+      "mh_odds_ratio": 1.253,
+      "or_ci95": [
+        1.223,
+        1.284
+      ],
+      "cmh_statistic": 338.46,
+      "p_value": 0.0,
+      "homogeneity_p": 4.569700173817637e-11,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Databricks",
+      "postings_with_skill": 50122,
+      "senior_share_pct": 11.15,
+      "non_senior_share_pct": 8.26,
+      "mh_odds_ratio": 1.244,
+      "or_ci95": [
+        1.216,
+        1.273
+      ],
+      "cmh_statistic": 351.65,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "MongoDB",
+      "postings_with_skill": 19283,
+      "senior_share_pct": 4.33,
+      "non_senior_share_pct": 3.17,
+      "mh_odds_ratio": 1.24,
+      "or_ci95": [
+        1.197,
+        1.284
+      ],
+      "cmh_statistic": 143.59,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "scikit-learn",
+      "postings_with_skill": 17670,
+      "senior_share_pct": 3.78,
+      "non_senior_share_pct": 2.94,
+      "mh_odds_ratio": 1.235,
+      "or_ci95": [
+        1.19,
+        1.283
+      ],
+      "cmh_statistic": 120.71,
+      "p_value": 0.0,
+      "homogeneity_p": 5.551115123125783e-16,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "TensorFlow",
+      "postings_with_skill": 29609,
+      "senior_share_pct": 6.27,
+      "non_senior_share_pct": 4.94,
+      "mh_odds_ratio": 1.229,
+      "or_ci95": [
+        1.192,
+        1.267
+      ],
+      "cmh_statistic": 178.56,
+      "p_value": 0.0,
+      "homogeneity_p": 3.586003713340613e-05,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "express",
+      "postings_with_skill": 5929,
+      "senior_share_pct": 1.2,
+      "non_senior_share_pct": 1.0,
+      "mh_odds_ratio": 1.226,
+      "or_ci95": [
+        1.149,
+        1.307
+      ],
+      "cmh_statistic": 38.41,
+      "p_value": 5.739551056649361e-10,
+      "homogeneity_p": 0.02653493866930068,
+      "q_value_bh": 9.476933140048945e-10,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "alteryx",
+      "postings_with_skill": 11008,
+      "senior_share_pct": 2.11,
+      "non_senior_share_pct": 1.88,
+      "mh_odds_ratio": 1.221,
+      "or_ci95": [
+        1.164,
+        1.282
+      ],
+      "cmh_statistic": 66.45,
+      "p_value": 3.3306690738754696e-16,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 5.911937606128959e-16,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Docker",
+      "postings_with_skill": 31246,
+      "senior_share_pct": 6.9,
+      "non_senior_share_pct": 5.16,
+      "mh_odds_ratio": 1.206,
+      "or_ci95": [
+        1.173,
+        1.241
+      ],
+      "cmh_statistic": 170.18,
+      "p_value": 0.0,
+      "homogeneity_p": 0.4164652968320378,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "flow",
+      "postings_with_skill": 26935,
+      "senior_share_pct": 5.46,
+      "non_senior_share_pct": 4.55,
+      "mh_odds_ratio": 1.201,
+      "or_ci95": [
+        1.164,
+        1.238
+      ],
+      "cmh_statistic": 135.63,
+      "p_value": 0.0,
+      "homogeneity_p": 0.001086634555904964,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "MySQL",
+      "postings_with_skill": 22149,
+      "senior_share_pct": 4.71,
+      "non_senior_share_pct": 3.69,
+      "mh_odds_ratio": 1.195,
+      "or_ci95": [
+        1.155,
+        1.235
+      ],
+      "cmh_statistic": 108.17,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Elasticsearch",
+      "postings_with_skill": 8091,
+      "senior_share_pct": 1.77,
+      "non_senior_share_pct": 1.34,
+      "mh_odds_ratio": 1.18,
+      "or_ci95": [
+        1.118,
+        1.245
+      ],
+      "cmh_statistic": 36.22,
+      "p_value": 1.7653422057506418e-09,
+      "homogeneity_p": 0.018861390669637768,
+      "q_value_bh": 2.785317702406568e-09,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Azure",
+      "postings_with_skill": 117109,
+      "senior_share_pct": 24.31,
+      "non_senior_share_pct": 19.65,
+      "mh_odds_ratio": 1.178,
+      "or_ci95": [
+        1.158,
+        1.198
+      ],
+      "cmh_statistic": 356.37,
+      "p_value": 0.0,
+      "homogeneity_p": 2.710665025773551e-11,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Tableau",
+      "postings_with_skill": 115186,
+      "senior_share_pct": 20.92,
+      "non_senior_share_pct": 19.95,
+      "mh_odds_ratio": 1.176,
+      "or_ci95": [
+        1.155,
+        1.196
+      ],
+      "cmh_statistic": 329.48,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Bash",
+      "postings_with_skill": 22334,
+      "senior_share_pct": 4.82,
+      "non_senior_share_pct": 3.71,
+      "mh_odds_ratio": 1.173,
+      "or_ci95": [
+        1.135,
+        1.213
+      ],
+      "cmh_statistic": 88.03,
+      "p_value": 0.0,
+      "homogeneity_p": 4.5488321998021775e-09,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "jupyter",
+      "postings_with_skill": 8740,
+      "senior_share_pct": 1.79,
+      "non_senior_share_pct": 1.47,
+      "mh_odds_ratio": 1.162,
+      "or_ci95": [
+        1.102,
+        1.225
+      ],
+      "cmh_statistic": 31.12,
+      "p_value": 2.431079193510044e-08,
+      "homogeneity_p": 4.0130898604218146e-11,
+      "q_value_bh": 3.59597130706694e-08,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "hadoop",
+      "postings_with_skill": 60838,
+      "senior_share_pct": 12.54,
+      "non_senior_share_pct": 10.23,
+      "mh_odds_ratio": 1.129,
+      "or_ci95": [
+        1.105,
+        1.154
+      ],
+      "cmh_statistic": 123.36,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "gdpr",
+      "postings_with_skill": 6152,
+      "senior_share_pct": 1.17,
+      "non_senior_share_pct": 1.05,
+      "mh_odds_ratio": 1.126,
+      "or_ci95": [
+        1.056,
+        1.202
+      ],
+      "cmh_statistic": 12.78,
+      "p_value": 0.0003496555497393139,
+      "homogeneity_p": 2.335313165069408e-09,
+      "q_value_bh": 0.0004355358602016015,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "jira",
+      "postings_with_skill": 19031,
+      "senior_share_pct": 3.67,
+      "non_senior_share_pct": 3.25,
+      "mh_odds_ratio": 1.114,
+      "or_ci95": [
+        1.074,
+        1.156
+      ],
+      "cmh_statistic": 32.78,
+      "p_value": 1.0319698096061813e-08,
+      "homogeneity_p": 8.104628079763643e-15,
+      "q_value_bh": 1.592822967000845e-08,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Git",
+      "postings_with_skill": 60103,
+      "senior_share_pct": 12.13,
+      "non_senior_share_pct": 10.16,
+      "mh_odds_ratio": 1.101,
+      "or_ci95": [
+        1.077,
+        1.125
+      ],
+      "cmh_statistic": 75.98,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "React",
+      "postings_with_skill": 5197,
+      "senior_share_pct": 1.02,
+      "non_senior_share_pct": 0.88,
+      "mh_odds_ratio": 1.083,
+      "or_ci95": [
+        1.01,
+        1.161
+      ],
+      "cmh_statistic": 4.96,
+      "p_value": 0.025882062614898116,
+      "homogeneity_p": 2.0826810054330736e-08,
+      "q_value_bh": 0.028712913213402597,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Java",
+      "postings_with_skill": 70977,
+      "senior_share_pct": 14.22,
+      "non_senior_share_pct": 12.02,
+      "mh_odds_ratio": 1.081,
+      "or_ci95": [
+        1.059,
+        1.104
+      ],
+      "cmh_statistic": 55.34,
+      "p_value": 1.0114131754335176e-13,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 1.7514715964824328e-13,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Pandas",
+      "postings_with_skill": 29527,
+      "senior_share_pct": 5.69,
+      "non_senior_share_pct": 5.05,
+      "mh_odds_ratio": 1.077,
+      "or_ci95": [
+        1.044,
+        1.11
+      ],
+      "cmh_statistic": 22.68,
+      "p_value": 1.914653661838628e-06,
+      "homogeneity_p": 1.4109662225259e-06,
+      "q_value_bh": 2.6142386536642803e-06,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "PostgreSQL",
+      "postings_with_skill": 17437,
+      "senior_share_pct": 3.46,
+      "non_senior_share_pct": 2.96,
+      "mh_odds_ratio": 1.065,
+      "or_ci95": [
+        1.025,
+        1.106
+      ],
+      "cmh_statistic": 10.14,
+      "p_value": 0.0014483299512548786,
+      "homogeneity_p": 0.0040264499953839294,
+      "q_value_bh": 0.0017729556299844204,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "NumPy",
+      "postings_with_skill": 18555,
+      "senior_share_pct": 3.53,
+      "non_senior_share_pct": 3.18,
+      "mh_odds_ratio": 1.063,
+      "or_ci95": [
+        1.023,
+        1.104
+      ],
+      "cmh_statistic": 9.79,
+      "p_value": 0.0017527610126503168,
+      "homogeneity_p": 0.06297090114849924,
+      "q_value_bh": 0.002109254777935127,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "sql server",
+      "postings_with_skill": 35938,
+      "senior_share_pct": 6.79,
+      "non_senior_share_pct": 6.17,
+      "mh_odds_ratio": 1.062,
+      "or_ci95": [
+        1.033,
+        1.092
+      ],
+      "cmh_statistic": 18.34,
+      "p_value": 1.8468146019245957e-05,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 2.4740346554084207e-05,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "sas",
+      "postings_with_skill": 39113,
+      "senior_share_pct": 6.75,
+      "non_senior_share_pct": 6.85,
+      "mh_odds_ratio": 1.058,
+      "or_ci95": [
+        1.029,
+        1.087
+      ],
+      "cmh_statistic": 15.82,
+      "p_value": 6.969289642777543e-05,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 9.163325271059362e-05,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "R",
+      "postings_with_skill": 123550,
+      "senior_share_pct": 21.78,
+      "non_senior_share_pct": 21.54,
+      "mh_odds_ratio": 1.046,
+      "or_ci95": [
+        1.028,
+        1.065
+      ],
+      "cmh_statistic": 25.17,
+      "p_value": 5.248793517598216e-07,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 7.453286794989467e-07,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "ssis",
+      "postings_with_skill": 17226,
+      "senior_share_pct": 3.31,
+      "non_senior_share_pct": 2.95,
+      "mh_odds_ratio": 1.046,
+      "or_ci95": [
+        1.006,
+        1.088
+      ],
+      "cmh_statistic": 5.03,
+      "p_value": 0.02486058478078912,
+      "homogeneity_p": 2.5025537198075654e-12,
+      "q_value_bh": 0.0280174844354925,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "confluence",
+      "postings_with_skill": 8718,
+      "senior_share_pct": 1.62,
+      "non_senior_share_pct": 1.5,
+      "mh_odds_ratio": 1.043,
+      "or_ci95": [
+        0.987,
+        1.102
+      ],
+      "cmh_statistic": 2.22,
+      "p_value": 0.1364734863903242,
+      "homogeneity_p": 6.452392394529216e-05,
+      "q_value_bh": 0.14462115721959728,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "oracle",
+      "postings_with_skill": 39257,
+      "senior_share_pct": 7.19,
+      "non_senior_share_pct": 6.79,
+      "mh_odds_ratio": 1.041,
+      "or_ci95": [
+        1.013,
+        1.069
+      ],
+      "cmh_statistic": 8.53,
+      "p_value": 0.0034985765251149825,
+      "homogeneity_p": 6.565740284791843e-09,
+      "q_value_bh": 0.004072113660379734,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "ssrs",
+      "postings_with_skill": 8109,
+      "senior_share_pct": 1.44,
+      "non_senior_share_pct": 1.41,
+      "mh_odds_ratio": 1.032,
+      "or_ci95": [
+        0.974,
+        1.094
+      ],
+      "cmh_statistic": 1.14,
+      "p_value": 0.2857254385377457,
+      "homogeneity_p": 4.484266291626682e-10,
+      "q_value_bh": 0.29833097259088154,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "windows",
+      "postings_with_skill": 8768,
+      "senior_share_pct": 1.57,
+      "non_senior_share_pct": 1.52,
+      "mh_odds_ratio": 1.001,
+      "or_ci95": [
+        0.947,
+        1.058
+      ],
+      "cmh_statistic": 0.0,
+      "p_value": 0.9790036404133645,
+      "homogeneity_p": 2.99989101337772e-08,
+      "q_value_bh": 0.9790036404133645,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "dax",
+      "postings_with_skill": 7748,
+      "senior_share_pct": 1.27,
+      "non_senior_share_pct": 1.37,
+      "mh_odds_ratio": 0.987,
+      "or_ci95": [
+        0.929,
+        1.049
+      ],
+      "cmh_statistic": 0.16,
+      "p_value": 0.6921773662524797,
+      "homogeneity_p": 0.1576148723961509,
+      "q_value_bh": 0.7020656143418008,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "Data Visualization",
+      "postings_with_skill": 11409,
+      "senior_share_pct": 2.0,
+      "non_senior_share_pct": 1.99,
+      "mh_odds_ratio": 0.98,
+      "or_ci95": [
+        0.932,
+        1.029
+      ],
+      "cmh_statistic": 0.65,
+      "p_value": 0.4186887996752452,
+      "homogeneity_p": 5.2200663869239605e-06,
+      "q_value_bh": 0.4308247069122088,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "CI/CD",
+      "postings_with_skill": 15377,
+      "senior_share_pct": 2.89,
+      "non_senior_share_pct": 2.64,
+      "mh_odds_ratio": 0.958,
+      "or_ci95": [
+        0.919,
+        0.999
+      ],
+      "cmh_statistic": 3.95,
+      "p_value": 0.04686526117979972,
+      "homogeneity_p": 0.023471449036749914,
+      "q_value_bh": 0.051191285288704313,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "qlik",
+      "postings_with_skill": 15371,
+      "senior_share_pct": 2.45,
+      "non_senior_share_pct": 2.73,
+      "mh_odds_ratio": 0.94,
+      "or_ci95": [
+        0.899,
+        0.982
+      ],
+      "cmh_statistic": 7.64,
+      "p_value": 0.0057226714570729476,
+      "homogeneity_p": 1.3202772208842362e-12,
+      "q_value_bh": 0.006553381829873859,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "powerpoint",
+      "postings_with_skill": 23184,
+      "senior_share_pct": 3.34,
+      "non_senior_share_pct": 4.2,
+      "mh_odds_ratio": 0.93,
+      "or_ci95": [
+        0.895,
+        0.966
+      ],
+      "cmh_statistic": 13.81,
+      "p_value": 0.0002019940458773961,
+      "homogeneity_p": 2.5875881548564905e-08,
+      "q_value_bh": 0.0002599144813529456,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "powershell",
+      "postings_with_skill": 5271,
+      "senior_share_pct": 0.94,
+      "non_senior_share_pct": 0.92,
+      "mh_odds_ratio": 0.93,
+      "or_ci95": [
+        0.866,
+        0.999
+      ],
+      "cmh_statistic": 3.82,
+      "p_value": 0.05066445247900342,
+      "homogeneity_p": 0.0010334651963117558,
+      "q_value_bh": 0.05450266857589762,
+      "significant_fdr_5pct": false
+    },
+    {
+      "skill": "c",
+      "postings_with_skill": 12681,
+      "senior_share_pct": 2.09,
+      "non_senior_share_pct": 2.24,
+      "mh_odds_ratio": 0.928,
+      "or_ci95": [
+        0.885,
+        0.973
+      ],
+      "cmh_statistic": 9.38,
+      "p_value": 0.0021919673279693352,
+      "homogeneity_p": 3.891048050430612e-08,
+      "q_value_bh": 0.0025938280047637136,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Linux",
+      "postings_with_skill": 29431,
+      "senior_share_pct": 5.24,
+      "non_senior_share_pct": 5.12,
+      "mh_odds_ratio": 0.926,
+      "or_ci95": [
+        0.898,
+        0.955
+      ],
+      "cmh_statistic": 23.46,
+      "p_value": 1.272838909494034e-06,
+      "homogeneity_p": 0.0018314511891597274,
+      "q_value_bh": 1.771991423021106e-06,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "C#",
+      "postings_with_skill": 12678,
+      "senior_share_pct": 2.21,
+      "non_senior_share_pct": 2.22,
+      "mh_odds_ratio": 0.915,
+      "or_ci95": [
+        0.873,
+        0.959
+      ],
+      "cmh_statistic": 13.78,
+      "p_value": 0.00020500297120795707,
+      "homogeneity_p": 0.0016482966249277142,
+      "q_value_bh": 0.0002599144813529456,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Power BI",
+      "postings_with_skill": 86896,
+      "senior_share_pct": 13.14,
+      "non_senior_share_pct": 15.6,
+      "mh_odds_ratio": 0.894,
+      "or_ci95": [
+        0.876,
+        0.912
+      ],
+      "cmh_statistic": 115.78,
+      "p_value": 0.0,
+      "homogeneity_p": 1.354472090042691e-14,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "sap",
+      "postings_with_skill": 23914,
+      "senior_share_pct": 3.43,
+      "non_senior_share_pct": 4.33,
+      "mh_odds_ratio": 0.85,
+      "or_ci95": [
+        0.819,
+        0.882
+      ],
+      "cmh_statistic": 73.14,
+      "p_value": 0.0,
+      "homogeneity_p": 0.02331510733200748,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "spss",
+      "postings_with_skill": 9738,
+      "senior_share_pct": 1.32,
+      "non_senior_share_pct": 1.78,
+      "mh_odds_ratio": 0.833,
+      "or_ci95": [
+        0.785,
+        0.884
+      ],
+      "cmh_statistic": 36.8,
+      "p_value": 1.3068061077703419e-09,
+      "homogeneity_p": 8.172446989829218e-05,
+      "q_value_bh": 2.1087098557203247e-09,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "HTML/CSS",
+      "postings_with_skill": 6288,
+      "senior_share_pct": 0.92,
+      "non_senior_share_pct": 1.13,
+      "mh_odds_ratio": 0.831,
+      "or_ci95": [
+        0.775,
+        0.892
+      ],
+      "cmh_statistic": 26.18,
+      "p_value": 3.1134375599872754e-07,
+      "homogeneity_p": 4.8072987607672424e-05,
+      "q_value_bh": 4.511307484879522e-07,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "sharepoint",
+      "postings_with_skill": 7201,
+      "senior_share_pct": 0.95,
+      "non_senior_share_pct": 1.32,
+      "mh_odds_ratio": 0.818,
+      "or_ci95": [
+        0.763,
+        0.876
+      ],
+      "cmh_statistic": 32.41,
+      "p_value": 1.2473347910102461e-08,
+      "homogeneity_p": 2.5816015991608765e-12,
+      "q_value_bh": 1.8842717055686697e-08,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "word",
+      "postings_with_skill": 25386,
+      "senior_share_pct": 3.35,
+      "non_senior_share_pct": 4.66,
+      "mh_odds_ratio": 0.8,
+      "or_ci95": [
+        0.77,
+        0.83
+      ],
+      "cmh_statistic": 136.24,
+      "p_value": 0.0,
+      "homogeneity_p": 0.000503172555345599,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "outlook",
+      "postings_with_skill": 7262,
+      "senior_share_pct": 0.94,
+      "non_senior_share_pct": 1.34,
+      "mh_odds_ratio": 0.798,
+      "or_ci95": [
+        0.744,
+        0.855
+      ],
+      "cmh_statistic": 40.49,
+      "p_value": 1.9785451055298608e-10,
+      "homogeneity_p": 0.026869669173430588,
+      "q_value_bh": 3.3446833926814315e-10,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "JavaScript",
+      "postings_with_skill": 18255,
+      "senior_share_pct": 2.67,
+      "non_senior_share_pct": 3.3,
+      "mh_odds_ratio": 0.791,
+      "or_ci95": [
+        0.758,
+        0.825
+      ],
+      "cmh_statistic": 120.12,
+      "p_value": 0.0,
+      "homogeneity_p": 1.8527866533002424e-05,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "C++",
+      "postings_with_skill": 16585,
+      "senior_share_pct": 2.41,
+      "non_senior_share_pct": 3.0,
+      "mh_odds_ratio": 0.75,
+      "or_ci95": [
+        0.718,
+        0.784
+      ],
+      "cmh_statistic": 162.86,
+      "p_value": 0.0,
+      "homogeneity_p": 4.295395734543739e-06,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "Excel",
+      "postings_with_skill": 105842,
+      "senior_share_pct": 13.22,
+      "non_senior_share_pct": 19.58,
+      "mh_odds_ratio": 0.729,
+      "or_ci95": [
+        0.714,
+        0.745
+      ],
+      "cmh_statistic": 853.07,
+      "p_value": 0.0,
+      "homogeneity_p": 1.3566925360919413e-13,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "matlab",
+      "postings_with_skill": 11069,
+      "senior_share_pct": 1.46,
+      "non_senior_share_pct": 2.03,
+      "mh_odds_ratio": 0.708,
+      "or_ci95": [
+        0.67,
+        0.749
+      ],
+      "cmh_statistic": 145.63,
+      "p_value": 0.0,
+      "homogeneity_p": 0.3277010741864912,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    },
+    {
+      "skill": "vba",
+      "postings_with_skill": 10977,
+      "senior_share_pct": 1.24,
+      "non_senior_share_pct": 2.06,
+      "mh_odds_ratio": 0.706,
+      "or_ci95": [
+        0.664,
+        0.749
+      ],
+      "cmh_statistic": 130.45,
+      "p_value": 0.0,
+      "homogeneity_p": 0.0,
+      "q_value_bh": 0.0,
+      "significant_fdr_5pct": true
+    }
+  ]
+}

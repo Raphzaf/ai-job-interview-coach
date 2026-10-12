@@ -1,3 +1,6 @@
 -r requirements.txt
 pytest>=8.0                  # Test runner
 reportlab>=4.0               # Only used by scripts/make_sample_documents.py to build the sample PDF
+nbformat>=5.9                # Build the analysis notebooks
+nbclient>=0.10               # Execute notebooks so saved outputs are real
+ipykernel>=6.29              # Kernel used by nbclient

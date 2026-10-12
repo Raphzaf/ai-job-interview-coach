@@ -1,0 +1,87 @@
+{
+  "question": "Do postings for more experienced profiles list more skills? (live snapshot, employer-stated level)",
+  "data": "Arbeitnow API snapshot, 1,616 postings with an employer-stated experience level",
+  "h0": "Skill-count distributions are identical across experience levels.",
+  "h1": "At least one level differs (Kruskal-Wallis); monotonic association with level (Spearman).",
+  "test": "Kruskal-Wallis H test + Spearman rank correlation; overall and within description language",
+  "assumptions": "Independent postings; ordinal outcome, skewed counts (rank tests). Possible confounder: share of English descriptions by level (the skill taxonomy detects more skills in English).",
+  "effect_size": "epsilon-squared for Kruskal-Wallis (~0.01 small, ~0.08 medium, ~0.26 large); Spearman rho",
+  "english_description_share_pct": {
+    "student_intern": 23.41,
+    "entry": 17.6,
+    "mid": 28.79,
+    "experienced": 31.69,
+    "lead_manager": 33.33
+  },
+  "results": [
+    {
+      "subset": "all languages",
+      "n": 1616,
+      "medians": {
+        "student_intern": 2.0,
+        "entry": 1.0,
+        "mid": 2.0,
+        "experienced": 3.0,
+        "lead_manager": 2.0
+      },
+      "means": {
+        "student_intern": 2.68,
+        "entry": 2.26,
+        "mid": 2.78,
+        "experienced": 4.03,
+        "lead_manager": 2.9
+      },
+      "kruskal_H": 53.392,
+      "p_value": 7.054206638781164e-11,
+      "epsilon_squared": 0.0331,
+      "spearman_rho": 0.133,
+      "spearman_p": 8.088745649578562e-08
+    },
+    {
+      "subset": "English descriptions",
+      "n": 456,
+      "medians": {
+        "student_intern": 5.0,
+        "entry": 4.0,
+        "mid": 5.0,
+        "experienced": 7.0,
+        "lead_manager": 4.0
+      },
+      "means": {
+        "student_intern": 5.64,
+        "entry": 5.66,
+        "mid": 5.5,
+        "experienced": 7.7,
+        "lead_manager": 5.1
+      },
+      "kruskal_H": 40.418,
+      "p_value": 3.546223633916043e-08,
+      "epsilon_squared": 0.0888,
+      "spearman_rho": 0.1591,
+      "spearman_p": 0.0006513719385882457
+    },
+    {
+      "subset": "German descriptions",
+      "n": 1066,
+      "medians": {
+        "student_intern": 1.0,
+        "entry": 1.0,
+        "mid": 1.0,
+        "experienced": 1.0,
+        "lead_manager": 1.0
+      },
+      "means": {
+        "student_intern": 1.76,
+        "entry": 1.52,
+        "mid": 2.06,
+        "experienced": 2.41,
+        "lead_manager": 1.8
+      },
+      "kruskal_H": 11.203,
+      "p_value": 0.024377072871246477,
+      "epsilon_squared": 0.0105,
+      "spearman_rho": 0.0669,
+      "spearman_p": 0.028960448810216175
+    }
+  ]
+}

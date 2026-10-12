@@ -1,0 +1,12 @@
+job_family,sum,count,share,lo,hi
+Finance & Accounting,11,244,4.508,2.536,7.891
+Engineering & Technical,18,323,5.573,3.554,8.636
+Sales & Business Development,21,338,6.213,4.099,9.311
+Other,19,280,6.786,4.387,10.354
+HR & Recruiting,7,91,7.692,3.776,15.036
+Operations & Logistics,8,98,8.163,4.194,15.288
+Customer Service,4,46,8.696,3.434,20.325
+Management & Consulting,45,465,9.677,7.311,12.704
+Data & AI,32,306,10.458,7.505,14.39
+Software & IT,64,522,12.261,9.719,15.353
+Marketing & Communication,63,313,20.128,16.06,24.92

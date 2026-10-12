@@ -1,0 +1,14 @@
+{
+  "generated_in_seconds": 86.7,
+  "reference_rows": 784897,
+  "live_rows": 3026,
+  "figures": [
+    "A_skill_count_by_seniority.png",
+    "B_remote_by_family_live.png",
+    "B_remote_by_role_reference.png",
+    "C_senior_skill_odds_ratios.png",
+    "D_salary_model.png",
+    "E_experience_level_skills.png",
+    "F_feature_correlations.png"
+  ]
+}
