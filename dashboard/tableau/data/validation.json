@@ -90,6 +90,176 @@
     "ok": true
   },
   {
+    "check": "live jobs: remote postings",
+    "actual": 292,
+    "expected": 292,
+    "ok": true
+  },
+  {
+    "check": "shared filter values: ref_overview_2023 / ref_skill_demand_2023 / role_family",
+    "actual": [
+      "Business Analyst",
+      "Cloud Engineer",
+      "Data Analyst",
+      "Data Engineer",
+      "Data Scientist",
+      "Machine Learning Engineer",
+      "Software Engineer"
+    ],
+    "expected": [
+      "Business Analyst",
+      "Cloud Engineer",
+      "Data Analyst",
+      "Data Engineer",
+      "Data Scientist",
+      "Machine Learning Engineer",
+      "Software Engineer"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: ref_overview_2023 / ref_skill_demand_2023 / seniority",
+    "actual": [
+      "Non-senior",
+      "Senior"
+    ],
+    "expected": [
+      "Non-senior",
+      "Senior"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: ref_overview_2023 / ref_skill_demand_2023 / country_group",
+    "actual": [
+      "Australia",
+      "Canada",
+      "France",
+      "Germany",
+      "India",
+      "Italy",
+      "Mexico",
+      "Netherlands",
+      "Other countries",
+      "Poland",
+      "Portugal",
+      "Singapore",
+      "South Africa",
+      "Spain",
+      "United Kingdom",
+      "United States",
+      "Unknown"
+    ],
+    "expected": [
+      "Australia",
+      "Canada",
+      "France",
+      "Germany",
+      "India",
+      "Italy",
+      "Mexico",
+      "Netherlands",
+      "Other countries",
+      "Poland",
+      "Portugal",
+      "Singapore",
+      "South Africa",
+      "Spain",
+      "United Kingdom",
+      "United States",
+      "Unknown"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: ref_overview_2023 / ref_skill_demand_2023 / remote",
+    "actual": [
+      "On-site / hybrid",
+      "Remote"
+    ],
+    "expected": [
+      "On-site / hybrid",
+      "Remote"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: live_jobs_2026 / live_skill_demand_2026 / job_family",
+    "actual": [
+      "Customer Service",
+      "Data & AI",
+      "Engineering & Technical",
+      "Finance & Accounting",
+      "HR & Recruiting",
+      "Management & Consulting",
+      "Marketing & Communication",
+      "Operations & Logistics",
+      "Other",
+      "Sales & Business Development",
+      "Software & IT"
+    ],
+    "expected": [
+      "Customer Service",
+      "Data & AI",
+      "Engineering & Technical",
+      "Finance & Accounting",
+      "HR & Recruiting",
+      "Management & Consulting",
+      "Marketing & Communication",
+      "Operations & Logistics",
+      "Other",
+      "Sales & Business Development",
+      "Software & IT"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: live_jobs_2026 / live_skill_demand_2026 / experience_level",
+    "actual": [
+      "entry",
+      "experienced",
+      "lead_manager",
+      "mid",
+      "not stated",
+      "student_intern"
+    ],
+    "expected": [
+      "entry",
+      "experienced",
+      "lead_manager",
+      "mid",
+      "not stated",
+      "student_intern"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: live_jobs_2026 / live_skill_demand_2026 / remote",
+    "actual": [
+      "On-site / hybrid",
+      "Remote"
+    ],
+    "expected": [
+      "On-site / hybrid",
+      "Remote"
+    ],
+    "ok": true
+  },
+  {
+    "check": "shared filter values: live_jobs_2026 / live_skill_demand_2026 / description_language",
+    "actual": [
+      "de",
+      "en",
+      "unknown"
+    ],
+    "expected": [
+      "de",
+      "en",
+      "unknown"
+    ],
+    "ok": true
+  },
+  {
     "check": "salary medians equal Phase-3 SQL results",
     "actual": {
       "Business Analyst / Non-senior": 85000.0,

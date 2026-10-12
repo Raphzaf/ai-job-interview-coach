@@ -129,7 +129,7 @@ The two sources are **analysed separately and never compared over time**. Their 
    - 15 analytical queries with saved results.
 4. **Statistics** (SciPy, statsmodels): see below.
 5. **Machine learning** (scikit-learn): see below.
-6. **Dashboard extracts:** 11 CSV files built in SQL. They are dense, with per-row denominators, so every share stays correct under any Tableau filter. 16/16 validation checks pass against the database.
+6. **Dashboard extracts:** 11 CSV files built in SQL. They are dense, with per-row denominators, so every share stays correct under any Tableau filter. 25/25 validation checks pass against the database (counts, shares and the values shared by dashboard filters).
 
 ### Statistical results (`data/processed/stats_results/`)
 
@@ -317,7 +317,7 @@ The overall score is a **weighted average of four deterministic signals**. The L
 | Vector search | FAISS (`faiss-cpu`) | Exact cosine similarity |
 | LLM | `openai` SDK, any OpenAI-compatible endpoint (validated with Gemini) | Insights, questions, feedback |
 | UI | HTML + CSS + vanilla JavaScript | No build step |
-| Quality | pytest | 191 automated tests |
+| Quality | pytest | 195 automated tests |
 | Packaging | Docker, Docker Compose | Coach image + optional PostgreSQL |
 
 ## Project Structure
@@ -354,7 +354,7 @@ ai-job-interview-coach/
 ├── models/role_classifier.joblib # Trained classifier (4 MB)
 ├── reports/figures/              # Statistics and ML figures
 ├── evaluation/                   # GenAI evaluation (data, script, results)
-├── tests/                        # 191 tests
+├── tests/                        # 195 tests
 ├── scripts/                      # Sample documents, local PostgreSQL, notebook builders
 ├── docs/                         # Phase documentation, demo script, screenshots
 ├── demo_day/                     # Demo Day material
@@ -430,7 +430,7 @@ python scripts/build_stats_notebook.py      # re-executes notebooks/statistical_
 python scripts/build_ml_notebook.py         # re-executes notebooks/ml_analysis.ipynb
 
 # 4. Dashboard and coach
-python -m market.dashboard.export           # Tableau CSVs + 16 validation checks
+python -m market.dashboard.export           # Tableau CSVs + 25 validation checks
 python -m market.coach_context              # coach market-context JSON
 ```
 
@@ -517,7 +517,7 @@ Abridged `/api/analyze` response (sample documents):
 pytest
 ```
 
-**191 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
+**195 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
 
 | File | Covers |
 |---|---|
@@ -530,6 +530,7 @@ pytest
 | `test_statistics.py` | Each test recovers a planted effect and holds under the null; effect-size labels |
 | `test_ml.py` | Shared feature builder, company-grouped split, stratified subsampling, learnable signal |
 | `test_market_context.py` | JSON reproducible from the validated extract, figures equal the dashboard's, role detection, no figures outside covered roles, score unchanged, market facts reach the LLM |
+| `test_dashboard_files.py` | Shipped Tableau files: fields shared by dashboard filters hold identical values in each source, consistent Remote labels, documented expected values match the files |
 | `test_deploy.py` | Hugging Face Space content, Space card validity (port, description length), secret handling (mocked Hub API), every dependency pinned for the Docker build |
 | `test_llm_robustness.py` | Provider errors told apart (invalid key reported as HTTP 400, JSON-mode rejection, quota, network, timeout, server), client timeouts, prompt injection in the CV, job ad and answer (wrapped as untrusted data; format changes rejected) |
 

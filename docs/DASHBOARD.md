@@ -9,8 +9,8 @@
 
 | Deliverable | File | Status |
 |---|---|---|
-| Data files (11 CSV, 9.2 MB) | `dashboard/tableau/data/` | ✅ generated from PostgreSQL by `python -m market.dashboard.export` |
-| Validation (16 checks against the database) | `dashboard/tableau/data/validation.json` | ✅ all pass |
+| Data files (11 CSV, 9.3 MB) | `dashboard/tableau/data/` | ✅ generated from PostgreSQL by `python -m market.dashboard.export` |
+| Validation (25 checks against the database, incl. identical values for shared filters) | `dashboard/tableau/data/validation.json` | ✅ all pass |
 | Data dictionary | `dashboard/tableau/data/data_dictionary.json` | ✅ |
 | Expected values to check the build | `dashboard/tableau/EXPECTED_VALUES.md` | ✅ |
 | Step-by-step build guide | `dashboard/TABLEAU_BUILD_GUIDE.md` | ✅ |
@@ -134,6 +134,6 @@ No filters; used in the 15–20 min presentation mode.
 
 ## 6. Limitations
 
-- **Pre-aggregated extracts.** There is no job-level 2023 table in the dashboard, so arbitrary combinations outside the extract grains (e.g. skill × schedule) are not possible. This keeps the files small enough to share (9.2 MB) and keeps every ratio correct.
+- **Pre-aggregated extracts.** There is no job-level 2023 table in the dashboard, so arbitrary combinations outside the extract grains (e.g. skill × schedule) are not possible. This keeps the files small enough to share (9.3 MB) and keeps every ratio correct.
 - **Static snapshot.** The dashboard does not refresh. Re-running the pipeline and `market.dashboard.export`, then republishing, updates it.
 - **Tableau Public** makes the workbook and its data public. Only public, licensed data is included: Apache-2.0 reference data, plus Arbeitnow postings with links back; no description text.

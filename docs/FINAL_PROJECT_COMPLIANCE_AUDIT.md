@@ -24,7 +24,7 @@
 | Pretrained embeddings, transformer inference, tokenization | DONE | `app/embeddings/`, `app/document_processing/tokenizer.py` |
 | Vector search (FAISS) + RAG + LLM + structured outputs | DONE | `app/retrieval/`, `app/rag/`; evaluation in `evaluation/` |
 | Integration of the data layer into the application | DONE | `app/market_context/` (Phase 8), `tests/test_market_context.py` |
-| Automated tests | DONE | 191 tests passing (`pytest`) |
+| Automated tests | DONE | 195 tests passing (`pytest`) |
 | Documentation | DONE | `README.md`, `docs/*.md` |
 | Docker / reproducibility | DONE | `Dockerfile`, `docker-compose.yml` (coach + optional `db` profile); reproduction commands in the README |
 
