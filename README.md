@@ -314,7 +314,7 @@ The overall score is a **weighted average of four deterministic signals**. The L
 | Vector search | FAISS (`faiss-cpu`) | Exact cosine similarity |
 | LLM | `openai` SDK, any OpenAI-compatible endpoint (validated with Gemini) | Insights, questions, feedback |
 | UI | HTML + CSS + vanilla JavaScript | No build step |
-| Quality | pytest | 159 automated tests |
+| Quality | pytest | 165 automated tests |
 | Packaging | Docker, Docker Compose | Coach image + optional PostgreSQL |
 
 ## Project Structure
@@ -351,7 +351,7 @@ ai-job-interview-coach/
 ├── models/role_classifier.joblib # Trained classifier (4 MB)
 ├── reports/figures/              # Statistics and ML figures
 ├── evaluation/                   # GenAI evaluation (data, script, results)
-├── tests/                        # 159 tests
+├── tests/                        # 165 tests
 ├── scripts/                      # Sample documents, local PostgreSQL, notebook builders
 ├── docs/                         # Phase documentation, demo script, screenshots
 ├── demo_day/                     # Demo Day material
@@ -400,6 +400,8 @@ docker compose up --build
 ```
 
 `docker compose up` starts the coach only. PostgreSQL is an optional service in the `db` profile (see below). The image uses CPU-only PyTorch and includes the embedding model, so the container needs no internet access except to call the LLM API.
+
+**Deploying online:** one command publishes the coach as a free Hugging Face Space (Docker). See [`deploy/huggingface/README.md`](deploy/huggingface/README.md).
 
 ## Reproducing the Data Pipeline
 
@@ -512,7 +514,7 @@ Abridged `/api/analyze` response (sample documents):
 pytest
 ```
 
-**159 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
+**165 tests, all passing.** They never download a model or call an API: they use a deterministic `HashingEmbedder`, an approximate token counter and a scripted `FakeLLM`. The database tests start a **real temporary PostgreSQL server** when the PostgreSQL binaries are installed, and are skipped otherwise.
 
 | File | Covers |
 |---|---|
@@ -525,6 +527,7 @@ pytest
 | `test_statistics.py` | Each test recovers a planted effect and holds under the null; effect-size labels |
 | `test_ml.py` | Shared feature builder, company-grouped split, stratified subsampling, learnable signal |
 | `test_market_context.py` | JSON reproducible from the validated extract, figures equal the dashboard's, role detection, no figures outside covered roles, score unchanged, market facts reach the LLM |
+| `test_deploy.py` | Hugging Face Space content, Space card validity (port, description length), secret handling (mocked Hub API) |
 
 ## Evaluation
 
