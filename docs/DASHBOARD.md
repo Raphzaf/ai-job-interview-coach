@@ -2,10 +2,9 @@
 
 **Platform:** Tableau Public (free, published with a public link).
 
-**Status: data prepared and validated; workbook build and publication are a MANUAL STEP (you).**
-- **Why manual:** Tableau Public is a desktop/web application tied to your account. It cannot be built, opened or verified from this coding environment.
-- **What's ready:** the data files, their validation, this specification, a click-by-click guide and the expected values to check your build against.
-- **What doesn't exist yet:** screenshots and a link to a dashboard that doesn't exist yet are deliberately not provided.
+**Status: published.** <https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview>
+- **Published scope:** Dashboard 1 (2023 overview) and Dashboard 3 (live 2026 snapshot). Dashboards 2 and 4 below remain optional designs and are not in the published workbook.
+- **How it was built:** manually in Tableau Public Desktop, following the build guide; the numbers were checked against the expected values, unfiltered and filtered.
 
 | Deliverable | File | Status |
 |---|---|---|
@@ -14,8 +13,8 @@
 | Data dictionary | `dashboard/tableau/data/data_dictionary.json` | ✅ |
 | Expected values to check the build | `dashboard/tableau/EXPECTED_VALUES.md` | ✅ |
 | Step-by-step build guide | `dashboard/TABLEAU_BUILD_GUIDE.md` | ✅ |
-| Tableau workbook + public link | n/a | ⏳ **manual step** |
-| Screenshots for the deck | `demo_day/screenshots/` | ⏳ after publication |
+| Tableau workbook + public link | [Tableau Public](https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview) | ✅ D1 + D3 published |
+| Screenshots for the deck | `demo_day/screenshots/` | ✅ 3 screenshots |
 
 ## 1. Purpose and audience
 

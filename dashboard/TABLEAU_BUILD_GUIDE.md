@@ -159,7 +159,7 @@ If a number differs:
    - [ ] the D3 URL action opens a posting;
    - [ ] titles, subtitles and footers are readable at 1366 × 900.
 4. Copy the link and send it to me. I will add it to the README, the deck and the portfolio entry.
-4. Take screenshots: D1 unfiltered; D1 with Data Engineer + Germany; D2 with AWS; D3. Save them as PNG in `demo_day/screenshots/` with these names:
+5. Take screenshots: D1 unfiltered; D1 with Data Engineer + Germany; D2 with AWS; D3. Save them as PNG in `demo_day/screenshots/` with these names:
    - `dashboard_overview.png`
    - `dashboard_filtered_de_germany.png`
    - `dashboard_skill_aws.png`

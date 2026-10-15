@@ -51,7 +51,7 @@ Insert them after 0:40 (data) or after 2:00 (behind the scenes).
 
 | Duration | Screen | Content |
 |---|---|---|
-| +25 s | Dashboard 2, skill = **AWS** | "Is AWS a senior skill? Statistically, yes: a Cochran-Mantel-Haenszel test within each role gives an odds ratio of 1.47 for senior postings. The effect is real but moderate, and I report effect sizes, not just p-values." |
+| +25 s | Figure `reports/figures/stats/C_senior_skill_odds_ratios.png` | "Is AWS a senior skill? Statistically, yes: a Cochran-Mantel-Haenszel test within each role gives an odds ratio of 1.47 for senior postings. The effect is real but moderate, and I report effect sizes, not just p-values." |
 | +25 s | Figure `reports/figures/ml/ML_confusion_matrix.png` | "Can skills predict a role? A gradient-boosting classifier reaches a macro-F1 of 0.39 against 0.14 for a random baseline. Skills carry real information, but Data Analyst, Engineer and Scientist overlap heavily, which is itself an insight." |
 | +20 s | Coach → **Under the hood** and **Sources** panels | "Everything the AI says is grounded: sources are numbered, outputs are validated JSON, and if the LLM fails the app falls back to a labelled offline mode. The project has 195 automated tests." |
 

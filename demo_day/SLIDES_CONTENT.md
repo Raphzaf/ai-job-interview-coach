@@ -72,7 +72,7 @@ If the screenshot is too dense, add 5 short bullets next to it:
 | Deployed link | [ ] Hugging Face Space URL after deployment (`deploy/huggingface/README.md`) |
 | Portfolio link | [ ] your portfolio page (content: `demo_day/portfolio/portfolio_entry.md`) |
 | Technical article link | [ ] Medium/LinkedIn/dev.to article (draft: `docs/TECHNICAL_ARTICLE.md`) |
-| Dashboard (extra) | [ ] Tableau Public link |
+| Dashboard (extra) | https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview |
 
 ---
 
@@ -94,7 +94,7 @@ The template shows a timeline grid with "Feature X / Y / Z". Suggested rows, pas
 | Job-market data pipeline + PostgreSQL + SQL | ✅ Done (week 1–2) |
 | Statistics + ML classifier | ✅ Done (week 2) |
 | Market context inside the coach | ✅ Done (week 2) |
-| Tableau Public dashboard | [ ] mark it done once published |
+| Tableau Public dashboard | ✅ Done (week 3) |
 | Deployment (Hugging Face Space) | [ ] mark it done once live |
 | **Next:** scheduled data refresh, multilingual support, adaptive interview difficulty | Planned |
 
@@ -146,7 +146,7 @@ Suggested:
 
 ### B4: Dashboard
 
-[ ] Two real screenshots of the published Tableau dashboard (Dashboard 1 with filters, Dashboard 2 with a skill selected). Check the numbers against `dashboard/tableau/EXPECTED_VALUES.md` before capturing.
+Real screenshots of the published dashboard, numbers checked against `dashboard/tableau/EXPECTED_VALUES.md`: `demo_day/screenshots/dashboard_overview.png`, `dashboard_filtered_de_germany.png` (Data Engineer + Germany) and `dashboard_live.png`.
 
 ---
 
