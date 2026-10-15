@@ -101,7 +101,7 @@ flowchart LR
 
 ## Layer 1: Job-market data analytics
 
-Detailed documentation per phase: [Data pipeline](docs/DATA_PIPELINE.md) · [Database](docs/DATABASE.md) · [Statistics](docs/STATISTICAL_ANALYSIS.md) · [Machine learning](docs/MACHINE_LEARNING.md) · [Dashboard](docs/DASHBOARD.md).
+Detailed documentation per phase: [Data pipeline](docs/DATA_PIPELINE.md) · [Database](docs/DATABASE.md) · [Statistics](docs/STATISTICAL_ANALYSIS.md) · [Machine learning](docs/MACHINE_LEARNING.md) · [Dashboard](docs/DASHBOARD.md) · [Scope application vs delivered project](docs/SCOPE_COMPLIANCE.md).
 
 ### Data sources
 
