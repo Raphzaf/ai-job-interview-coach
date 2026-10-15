@@ -20,7 +20,7 @@
 | PostgreSQL + SQL | DONE | `sql/`, `market/db/`; 4,478,391 rows; 15 queries with results in `data/processed/sql_results/`; tests on a real temporary server |
 | Statistical analysis | DONE | `market/stats/`, `notebooks/statistical_analysis.ipynb`, `docs/STATISTICAL_ANALYSIS.md` |
 | scikit-learn ML | DONE | `market/ml/`, `models/role_classifier.joblib`, `notebooks/ml_analysis.ipynb`, `docs/MACHINE_LEARNING.md` |
-| Interactive dashboard (Tableau / Power BI) | **MANUAL** | Data, validation, spec and build guide are ready in `dashboard/`. The workbook must be built and published in Tableau Public. |
+| Interactive dashboard (Tableau / Power BI) | DONE | Published on [Tableau Public](https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview): 2023 overview + live 2026 snapshot, with cross-source filters; screenshots in `demo_day/screenshots/` |
 | Pretrained embeddings, transformer inference, tokenization | DONE | `app/embeddings/`, `app/document_processing/tokenizer.py` |
 | Vector search (FAISS) + RAG + LLM + structured outputs | DONE | `app/retrieval/`, `app/rag/`; evaluation in `evaluation/` |
 | Integration of the data layer into the application | DONE | `app/market_context/` (Phase 8), `tests/test_market_context.py` |

@@ -171,14 +171,17 @@ The executed notebook is [`notebooks/ml_analysis.ipynb`](notebooks/ml_analysis.i
 
 ### Interactive dashboard (Tableau Public)
 
-- **What's ready:** the data files (`dashboard/tableau/data/`, 11 CSV + data dictionary + validation), a click-by-click [build guide](dashboard/TABLEAU_BUILD_GUIDE.md), the [design specification](docs/DASHBOARD.md) and the [expected values](dashboard/tableau/EXPECTED_VALUES.md) to check the build against.
-- **What it contains:** 4 dashboards:
-  1. 2023 market overview;
-  2. skills, seniority and salary;
-  3. live 2026 snapshot;
-  4. model results.
-- **Filters:** role, seniority, country, remote and skill.
-- **Publication:** the workbook is built and published manually in Tableau Public, which cannot be automated from code. **Public link:** *to be added after publication.*
+**Public link:** <https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview>
+
+- **What it contains:** 2 published dashboards:
+  1. *2023 market overview* (784,897 postings): KPI tiles, top 15 skills, postings by role and seniority, by month and by country; filters on role family and country apply to every chart, including the skill chart (a different data source, linked by blend relationships).
+  2. *Live 2026 snapshot* (3,026 Arbeitnow postings): KPI tiles, top 15 skills, postings by job family, and the list of postings with a link back to each original ad; filter on job family.
+- **Checked against the data:** every number shown was compared with [`EXPECTED_VALUES.md`](dashboard/tableau/EXPECTED_VALUES.md), unfiltered and filtered (e.g. Data Engineer + Germany: 8,713 postings, Python 66.1 %, SQL 57.6 %).
+- **Built from:** the data files in `dashboard/tableau/data/` (11 CSV + data dictionary + 25 validation checks), the [build guide](dashboard/TABLEAU_BUILD_GUIDE.md) and the [design specification](docs/DASHBOARD.md). The guide also describes two optional dashboards (skills/seniority/salary and model results) that are not part of the published workbook.
+
+| 2023 overview | Filtered: Data Engineer + Germany | Live 2026 |
+|---|---|---|
+| ![Dashboard overview](demo_day/screenshots/dashboard_overview.png) | ![Filtered dashboard](demo_day/screenshots/dashboard_filtered_de_germany.png) | ![Live dashboard](demo_day/screenshots/dashboard_live.png) |
 
 ---
 
