@@ -61,6 +61,12 @@
 
 Selected: **HistGradientBoostingClassifier**, which has the highest cross-validated macro-F1.
 
+### Overfitting, loss function and regularization
+
+- **Loss functions:** logistic regression and histogram gradient boosting both minimise the multinomial cross-entropy (log loss), the scikit-learn default for these classifiers. The decision tree splits on Gini impurity.
+- **Regularization:** logistic regression uses an L2 penalty whose strength C was chosen by cross-validation (C = 0.01, strong regularization). The tree models are limited by depth and minimum leaf size (decision tree) or by the number of leaves, the learning rate and a fixed 200 iterations (gradient boosting).
+- **Overfitting checks:** model selection uses cross-validation on the training set only, and the test set contains only companies never seen in training. The selected model's cross-validated macro-F1 (0.388) and its test macro-F1 (0.393) are close, so the choice did not overfit the validation folds.
+
 ## 4. Results (test set: 132,728 postings from unseen companies)
 
 | Model | Accuracy | Balanced accuracy | **Macro-F1** | Weighted F1 |
