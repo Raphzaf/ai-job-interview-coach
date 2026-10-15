@@ -4,11 +4,13 @@
 
 Final project, Data Science & Generative AI Bootcamp.
 
+**Live app:** <https://ai-job-interview-coach-291756431151.europe-west1.run.app/> · **Dashboard:** [Tableau Public](https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview)
+
 | Match analysis with market context | Interview practice & feedback |
 |---|---|
 | ![Match analysis](docs/screenshots/analysis-with-market.png) | ![Interview feedback](docs/screenshots/interview-feedback.png) |
 
-*Screenshots taken with the fictional sample documents and Gemini (`gemini-flash-latest`) as LLM.*
+*Screenshots taken on the live app (Google Cloud Run, 2026-10-15) with the fictional sample documents and Gemini (`gemini-flash-latest`) as LLM.*
 
 ---
 
@@ -407,7 +409,7 @@ docker compose up --build
 
 `docker compose up` starts the coach only. PostgreSQL is an optional service in the `db` profile (see below). The image uses CPU-only PyTorch and includes the embedding model, so the container needs no internet access except to call the LLM API. The image installs the exact package versions verified on 2026-10-12 (`constraints.txt`, torch pinned in the `Dockerfile`), so a later rebuild produces the same environment.
 
-**Deploying online:** one command publishes the coach as a free Hugging Face Space (Docker). See [`deploy/huggingface/README.md`](deploy/huggingface/README.md).
+**Deploying online:** the coach runs on Google Cloud Run: <https://ai-job-interview-coach-291756431151.europe-west1.run.app/>. Steps in [`deploy/cloudrun/README.md`](deploy/cloudrun/README.md). The [Hugging Face kit](deploy/huggingface/README.md) still works, but Docker Spaces now require a paid Hugging Face plan.
 
 ## Reproducing the Data Pipeline
 

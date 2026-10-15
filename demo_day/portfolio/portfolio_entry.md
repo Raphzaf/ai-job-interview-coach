@@ -35,7 +35,7 @@ Python · pandas · NumPy · PostgreSQL · SQL · SciPy · statsmodels · scikit
 ## Links
 
 - GitHub: https://github.com/Raphzaf/ai-job-interview-coach
-- [ ] Live demo (Hugging Face Space)
+- Live demo: https://ai-job-interview-coach-291756431151.europe-west1.run.app/
 - [ ] 2-minute video
 - Tableau Public dashboard: https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview
 - [ ] Technical article
