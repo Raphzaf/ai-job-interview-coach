@@ -27,6 +27,7 @@ The template asks for a screenshot of a Trello board showing the feature list. T
 | Role-family classifier (scikit-learn, macro-F1 0.393) | Stats/ML |
 | Tableau data extracts + 25 validation checks | Data |
 | Build and publish the Tableau Public dashboard | Data |
+| Deploy the coach (Google Cloud Run) | Delivery |
 | CV/job extraction, cleaning, token-aware chunking | GenAI |
 | Embeddings (MiniLM) + FAISS semantic search | GenAI |
 | RAG pipeline with sources + validated JSON outputs | GenAI |
@@ -44,7 +45,6 @@ Move each card to *Done* once it is finished:
 
 | Card | Label |
 |---|---|
-| Deploy the coach (Hugging Face Space) | Delivery |
 | Record the 2-minute demo video | Delivery |
 | Slides from the official template | Delivery |
 | Technical article + portfolio entry | Delivery |

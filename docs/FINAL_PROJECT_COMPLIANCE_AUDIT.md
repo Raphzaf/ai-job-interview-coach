@@ -36,7 +36,7 @@
 | Trello screenshot (feature list) | **MANUAL** | Board content: `demo_day/TRELLO_BOARD.md` |
 | GitHub link | DONE | https://github.com/Raphzaf/ai-job-interview-coach |
 | 2-minute video | **MANUAL** | Script and checklist: `demo_day/DEMO_SCRIPT.md` |
-| Deployed link | **MANUAL** | Hugging Face Space ready to push: `deploy/huggingface/` (app verified in a container on 2026-10-12) |
+| Deployed link | DONE | Google Cloud Run: https://ai-job-interview-coach-291756431151.europe-west1.run.app/ (health check and a full sample analysis with Gemini verified on 2026-10-15); steps in `deploy/cloudrun/` |
 | Portfolio link | **MANUAL** | Content: `demo_day/portfolio/portfolio_entry.md` |
 | Technical article link | **MANUAL** | Draft: `docs/TECHNICAL_ARTICLE.md` |
 | CV, LinkedIn, job tracker links | **MANUAL** | Personal |

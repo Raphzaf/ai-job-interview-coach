@@ -69,7 +69,7 @@ If the screenshot is too dense, add 5 short bullets next to it:
 |---|---|
 | GitHub | https://github.com/Raphzaf/ai-job-interview-coach |
 | 2-min video | [ ] unlisted YouTube/Loom link (script: `demo_day/DEMO_SCRIPT.md`) |
-| Deployed link | [ ] Hugging Face Space URL after deployment (`deploy/huggingface/README.md`) |
+| Deployed link | https://ai-job-interview-coach-291756431151.europe-west1.run.app/ |
 | Portfolio link | [ ] your portfolio page (content: `demo_day/portfolio/portfolio_entry.md`) |
 | Technical article link | [ ] Medium/LinkedIn/dev.to article (draft: `docs/TECHNICAL_ARTICLE.md`) |
 | Dashboard (extra) | https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview |
@@ -95,7 +95,7 @@ The template shows a timeline grid with "Feature X / Y / Z". Suggested rows, pas
 | Statistics + ML classifier | ✅ Done (week 2) |
 | Market context inside the coach | ✅ Done (week 2) |
 | Tableau Public dashboard | ✅ Done (week 3) |
-| Deployment (Hugging Face Space) | [ ] mark it done once live |
+| Deployment (Google Cloud Run) | ✅ Done (week 3) |
 | **Next:** scheduled data refresh, multilingual support, adaptive interview difficulty | Planned |
 
 [ ] Adjust the week labels to your real calendar. The Git history shows the first commit on 2026-10-08.

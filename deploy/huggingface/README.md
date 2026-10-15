@@ -1,5 +1,7 @@
 # Deploying the coach on Hugging Face Spaces
 
+> **Update (2026-10):** Hugging Face now requires a paid plan (PRO) to create Docker Spaces. The live app runs on Google Cloud Run instead: see [`../cloudrun/README.md`](../cloudrun/README.md). This kit still works with a PRO account.
+
 **Why Hugging Face Spaces:**
 - The coach loads PyTorch + sentence-transformers, so it needs about 1 GB of RAM.
 - Free tiers of most hosts (512 MB) are too small. The free "CPU basic" Space hardware (2 vCPU, 16 GB RAM) runs the project's own `Dockerfile` unchanged.
