@@ -80,36 +80,36 @@ Use this version for a 3–4 minute video. Open beforehand: the deck, the [Table
 
 ---
 
-## Demo Day: presentation with a live demo (run sheet)
+## Demo Day talk: 3 minutes, 7 slides, 40-second live demo
 
-The deck has a **Live demo** slide (slide 6) with the app's URL and a QR code, so the audience can open the app on their phones.
+The deck's first 7 slides are the talk; everything after the "Appendix" slide is for questions.
 
-**15 minutes before:**
-- [ ] Open the [live app](https://ai-job-interview-coach-291756431151.europe-west1.run.app/) and run one analysis: the first request after a quiet period takes 30–60 s (Cloud Run starts the container and loads the model).
-- [ ] Check the badge top-right shows `LLM: gemini-flash-latest`.
-- [ ] Open the [Tableau dashboard](https://public.tableau.com/app/profile/raphael.zafran/viz/AIJobMarketInterviewCoachMarketDashboards/D1-Overview) in a second tab, no filters.
-- [ ] Deck in presenter mode; demo answer (above) in the clipboard; browser zoom 125 %; notifications off; phone hotspot ready if the Wi-Fi is weak.
+**10 minutes before:**
+- [ ] Open the [live app](https://ai-job-interview-coach-291756431151.europe-west1.run.app/) and run one analysis to wake it up (the first request after a quiet period takes 30–60 s). Then **reload the page** so it is empty again.
+- [ ] Badge top-right: `LLM: gemini-flash-latest`. Browser zoom 125 %, notifications off.
+- [ ] Deck in presenter mode on slide 1; the app in the next browser tab.
 
-**Running order (about 5 minutes; cut the optional parts to fit the slot):**
-
-| Slides | Time | What happens |
+| Slide | Time | Say this |
 |---|---|---|
-| 1–2 Title, overview | 0:30 | The problem and the two layers |
-| 3–5 Stack, how it works, features | 1:00 | Retrieve first, then generate; the score is computed, not generated |
-| 6 Live demo → switch to the browser | 2:30 | **1.** Load sample documents → Analyze: 85/100 and its breakdown. **2.** Missing AWS, asked in 31.1 % of 12,164 ML Engineer postings. **3.** Start interview → Skill gap → New question → paste the answer → Submit: score, rubric, stronger answer with sources. *Optional (20 s):* Tableau D1, Data Engineer + Germany |
-| 7 Evaluation | 0:30 | 92 % hit@3, 3/3 matching, 13/13 valid JSON, scores ordered strong > average > off-topic |
-| 8–9 Links, next step | 0:30 | Close |
-| 10–13 Backup | Q&A | Data, statistics, classifier, dashboards |
+| **1** Title | 0:00–0:15 | "Hi, I'm Raphael. This is the AI Job Market & Interview Coach: a tool that takes you from what the job market wants to a personalised mock interview, in one click." |
+| **2** Job seekers prepare blindly | 0:15–0:35 | "When we apply for a job, we prepare blindly. We don't really know what the market wants, how our CV fits *this* job, or what the recruiter will ask. I built one tool that answers all three." |
+| **3** Two layers | 0:35–1:00 | "It has two layers. First, market data: I collected almost 788,000 job postings, cleaned them with pandas, stored them in PostgreSQL, analysed them with statistics and machine learning, and published a Tableau dashboard. Second, the AI coach: you give it a CV and a job, and in one click you get an explained score, your missing skills, and a mock interview." |
+| **4** How I built it | 1:00–1:30 | "The app reads both documents, cuts them into small chunks with a Hugging Face tokenizer, turns each chunk into a vector with a MiniLM model and stores them in FAISS. Before the AI says anything, it retrieves the most relevant passages; only then does Gemini write the answer, and the answer is checked before it is shown. That's RAG: retrieve first, then generate. It all runs in Docker on Google Cloud Run." |
+| **5** Let's try it → **switch to the app** | 1:30–2:10 | *Click* **Load sample documents**, then **Analyze match**. "A sample CV against a Machine Learning Engineer job." *(While it loads, ~10 s)* "It's reading, chunking and searching both documents right now." *(Result)* "85 out of 100, and every part of the score is explained. AWS is missing, and the coach tells me that 31 % of Machine Learning Engineer postings ask for it." *Click* **Start interview practice**. "And the interview starts with a question built from my CV and this job. I can answer it and get a score and a stronger answer; you can try that yourselves in a minute." |
+| **6** It works, and it is measured | 2:10–2:35 | *Back to the deck.* "It's measured, not just demoed: on test questions, the right passage is in the top 3 in 92 % of cases, every AI answer came back in a valid format, and the project has 195 automated tests. And the score is computed, not generated: the same CV and the same job always give the same score." |
+| **7** App is live. Enjoy. | 2:35–2:50 | "The app is live right now. Scan the code, paste your own CV and a job you like, and see your match. The code is on GitHub and the dashboard on Tableau Public. Thank you, and enjoy!" |
+
+About 2:50 spoken, leaving margin for the live demo to run long. The demo only waits for the AI twice (analysis, first question); submitting an answer is left to the audience.
 
 **If something goes wrong:**
-- **The app is slow to open:** keep talking over slide 4 ("How it works") for 30 s; it is the cold start, not an error.
-- **"LLM unavailable: offline fallback" appears:** say so; it is the designed fallback (same retrieval and score, simpler wording) and shows the app does not crash.
-- **No internet:** show `docs/screenshots/` (analysis, market context, interview feedback) and `demo_day/screenshots/` (dashboards).
+- **The app is slow:** keep talking ("it's reading and searching both documents"); it is the cold start, not an error.
+- **"LLM unavailable: offline fallback" appears:** say "this is the built-in fallback: same retrieval and score, simpler wording", and continue.
+- **No internet:** go to the Appendix and show the dashboard slide, or `docs/screenshots/`.
 
 **Likely questions (answers checked against the project):**
 - *Is the score generated by the LLM?* No. It is computed: skills 40 %, requirements 35 %, semantic similarity 15 %, experience 10 %. The LLM only writes the explanations, questions and feedback.
 - *How do you know the RAG works?* 12 labelled retrieval queries (hit@3 92 %, MRR 0.81), a 3 × 3 CV/job matrix, and answer-scoring checks; see `evaluation/`.
-- *Why MiniLM and FAISS?* Small enough to run on a CPU in the container (384-dimension vectors); exact inner-product search is instant for two documents.
+- *Why MiniLM and FAISS?* Small enough to run on a CPU in the container (384-dimension vectors); exact search is instant for two documents.
 - *What about a job outside tech?* Out-of-domain pairs score low: the marketing CV gets 16.8 on the ML Engineer job.
 - *Privacy?* Documents are processed in memory, not stored, and sent to the LLM provider only to generate the text. Use the sample or fictional CVs.
 
